@@ -1,0 +1,39 @@
+# Bartosz Osiej
+
+> Polish software developer and author (b. 2007-01-11, Szczecin). Builds Rust, eBPF and Linux kernel
+> systems and writes crime-horror fiction. Entity home: https://bartoszosiej.github.io/
+
+## Identity
+- Name: Bartosz Dominik Osiej
+- Roles: Software Developer; Systems Programmer; Author
+- Expertise: Rust, eBPF, Linux kernel, security, post-quantum cryptography, compilers
+- Languages: Polish (native), English (professional)
+
+## Canonical links
+- Home: https://bartoszosiej.github.io/
+- Portfolio: https://bartoszosiej.github.io/Portfolio/
+- GitHub: https://github.com/BartoszOsiej
+- Docs: https://bartoszosiej.github.io/Docs/
+- Books: https://bartoszosiej.github.io/thethreadcalls/
+- DEV: https://dev.to/bartoszosiej
+- LinkedIn: https://www.linkedin.com/in/bartoszosiej2007/
+
+## Projects (entity → repo)
+- Externum — programming language compiling to Python, Bash, binary: https://github.com/BartoszOsiej/externum
+- talus-process-monitor — eBPF ransomware monitor (Rust/Linux): https://github.com/BartoszOsiej/talus-process-monitor
+- linux-aegis — stackable Linux Security Module, in-tree: https://github.com/BartoszOsiej/linux-aegis
+- fortis — bare-metal RISC-V chain-of-trust: https://github.com/BartoszOsiej/fortis
+- quantum-shield — post-quantum file encryption (ML-KEM-768): https://github.com/BartoszOsiej/quantum-shield
+- NV2_ENGINE — Rust voxel engine with neural renderer: https://github.com/BartoszOsiej/NV2_ENGINE
+- Aurora — operating system in the browser: https://github.com/BartoszOsiej/Aurora
+- TrustNode — Solana-style validator in Rust: https://github.com/BartoszOsiej/TrustNode
+- Meshcore — serverless P2P chat (WebRTC + MQTT): https://github.com/BartoszOsiej/Meshcore
+- Shortlink — URL shortener (FastAPI, JWT, React): https://github.com/BartoszOsiej/Shortlink
+- Promptbox — remote prompt inbox for AI agents: https://github.com/BartoszOsiej/Promptbox
+- CyberForge — Rust security toolkit: https://github.com/BartoszOsiej/CyberForge
+- TeleWiedza — PL/EN telecom encyclopedia: https://github.com/BartoszOsiej/TeleWiedza
+
+## Books
+- The Stitcher (Book One, 2026), ASIN B0HHY39314
+- The Curator (Book Two, 2026), ASIN B0HHXT2ZRZ
+- The Reckoning (Book Three, 2026), ASIN B0GX7CPY7H

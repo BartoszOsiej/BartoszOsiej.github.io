@@ -1,0 +1,108 @@
+# Bartosz Osiej — Full Profile
+
+> Polish software developer and author (b. 2007-01-11, Szczecin). Builds Rust, eBPF and Linux kernel
+> systems and writes crime-horror fiction. Entity home: https://bartoszosiej.github.io/
+
+## Structured entity statement (S-P-O)
+- (Bartosz Osiej) — (instance of) — (human)
+- (Bartosz Osiej) — (occupation) — (software developer)
+- (Bartosz Osiej) — (occupation) — (writer)
+- (Bartosz Osiej) — (author of) — (The Stitcher Trilogy)
+- (Bartosz Osiej) — (knows language) — (Polish, English)
+- (The Stitcher Trilogy) — (has part) — (The Stitcher, The Curator, The Reckoning)
+
+## Identity
+- Name: Bartosz Dominik Osiej
+- Aliases: BartoszOsiej, bartoszosiej
+- Birth: 2007-01-11, Szczecin, Poland
+- Nationality: Polish
+- Roles: Software Developer; Systems Programmer; Author
+- Expertise: Rust, eBPF, Linux kernel module development (LSM), security engineering, post-quantum cryptography (ML-KEM-768), compilers, voxel rendering
+- Languages: Polish (native), English (professional)
+
+## Canonical links
+- Home: https://bartoszosiej.github.io/
+- Portfolio: https://bartoszosiej.github.io/Portfolio/
+- GitHub: https://github.com/BartoszOsiej
+- Docs: https://bartoszosiej.github.io/Docs/
+- Books: https://bartoszosiej.github.io/thethreadcalls/
+- DEV: https://dev.to/bartoszosiej
+- LinkedIn: https://www.linkedin.com/in/bartoszosiej2007/
+- Amazon author page: https://www.amazon.com/stores/Bartosz-Osiej/author/B0HJ7N8BXQ
+
+## Projects
+
+### externum
+Programming language compiling the same source to Python, Bash and native binaries. Typed AST, ownership and traits, 192-test suite, browser REPL (Pyodide). Language: Python. License: MIT.
+Repo: https://github.com/BartoszOsiej/externum
+
+### talus-process-monitor
+eBPF process/ransomware monitor for Linux. Kernel execve/openat tracing through Aya, per-CPU perf buffers, sliding-window behavioural alerts, FrankenTUI front end. Language: Rust. License: MIT.
+Repo: https://github.com/BartoszOsiej/talus-process-monitor
+
+### linux-aegis
+Stackable Linux Security Module compiled in-tree against upstream. Four feature-flagged layers; CI applies patch set, builds and boots in QEMU on a minimal initramfs. Language: C. License: MIT.
+Repo: https://github.com/BartoszOsiej/linux-aegis
+
+### fortis
+Bare-metal RISC-V chain-of-trust measuring boot integrity with real SHA-256 and ML-KEM-768 post-quantum primitives, no OS. Language: Rust. License: MIT.
+Repo: https://github.com/BartoszOsiej/fortis
+
+### quantum-shield
+Post-quantum file encryption CLI. ML-KEM-768 KEM + HKDF + AES-256-GCM AEAD. NIST FIPS 203 oriented, fuzz-tested. Language: Rust. License: MIT.
+Repo: https://github.com/BartoszOsiej/quantum-shield
+
+### NV2_ENGINE
+Rust voxel engine (wgpu) with MLP neural renderer for terrain/lighting approximation, multiplayer, ECS gameplay, content pipeline. Language: Rust.
+Repo: https://github.com/BartoszOsiej/NV2_ENGINE
+
+### Aurora
+Operating system in the browser: kernel, window manager, filesystem, 8 apps, procedural audio, zero dependencies. Languages: Rust, TypeScript.
+Repo: https://github.com/BartoszOsiej/Aurora
+
+### TrustNode
+Solana-style validator in Rust: Proof-of-History clock, Tower BFT, Sealevel parallel execution, Turbine erasure, CRDS gossip, JSON-RPC.
+Repo: https://github.com/BartoszOsiej/TrustNode
+
+### Meshcore
+Serverless peer-to-peer chat over WebRTC data channels with MQTT signaling. Zero dependencies, npm package.
+Repo: https://github.com/BartoszOsiej/Meshcore
+
+### CyberForge
+Four Rust security tools: port scanner, web scanner, hash cracker, packet analyzer. Tokio async, each published on crates.io.
+Repo: https://github.com/BartoszOsiej/CyberForge
+
+### Shortlink
+URL shortener: FastAPI backend, JWT auth, click tracking, React dashboard, Docker.
+Repo: https://github.com/BartoszOsiej/Shortlink
+
+### Promptbox
+Remote prompt inbox for AI agents: mobile-first, zero backend, GitHub Pages.
+Repo: https://github.com/BartoszOsiej/Promptbox
+
+### TeleWiedza
+Bilingual PL/EN telecom encyclopedia: networking, 5G, fiber, security, certifications. Docusaurus.
+Repo: https://github.com/BartoszOsiej/TeleWiedza
+
+## Books
+
+### The Stitcher Trilogy
+A series of three dark literary horror novels about obsession, silk, and the thin line between art and madness: detective Marcus Delgado discovers a room full of dolls made from human skin and becomes obsessed with the craft of their creation.
+
+#### The Stitcher (Book One, 2026)
+A Chicago detective finds Mrs. Harlow surrounded by dolls sewn from human skin — and falls into the obsession herself. Slow-burn crime horror.
+- ASIN: B0HHY39314 — https://www.amazon.com/dp/B0HHY39314
+
+#### The Curator (Book Two, 2026)
+Pia Redfern inherits a museum collection of impossible, beating shells — and the curator who loves them too much.
+- ASIN: B0HHXT2ZRZ — https://www.amazon.com/dp/B0HHXT2ZRZ
+
+#### The Reckoning (Book Three, 2026)
+The thread fraying. The ending of the trilogy.
+- ASIN: B0GX7CPY7H — https://www.amazon.com/dp/B0GX7CPY7H
+
+Site: https://bartoszosiej.github.io/thethreadcalls/
+Genre: Dark literary horror / psychological thriller
+
+## Series tagline
+"The thread is fraying. Someone is cutting it."
