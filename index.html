@@ -43,25 +43,8 @@
 <!-- FRAMEWORKS: PRODUCTIVE CDNs, NO BUILD -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        void: '#050505',
-        rust: '#F15A24',
-        blood: '#DA2C38',
-        slate2: '#4A5262',
-        bone: '#E8E6E3'
-      },
-      fontFamily: {
-        mono: ['"Space Mono"', '"JetBrains Mono"', 'monospace']
-      }
-    }
-  }
-}
-</script>
+<!-- STATIC UTILITIES (replaces Tailwind Play CDN — no runtime JS, fast LCP) -->
+<link rel="stylesheet" href="css/root.css">
 
 <style>
 /* ─── BRUTAL CORE ─── */
