@@ -1,7 +1,6 @@
 # Bartosz Osiej
 
-> Polish software developer and author (b. 2007-01-11, Szczecin). Builds Rust, eBPF and Linux kernel
-> systems and writes crime-horror fiction. Entity home: https://bartoszosiej.github.io/
+> Polish software developer and author (b. 2007-01-11, Szczecin). Builds Rust, eBPF and Linux kernel systems and writes crime-horror fiction. Entity home.
 
 ## Identity
 - Name: Bartosz Dominik Osiej
@@ -10,30 +9,33 @@
 - Languages: Polish (native), English (professional)
 
 ## Canonical links
-- Home: https://bartoszosiej.github.io/
-- Portfolio: https://bartoszosiej.github.io/Portfolio/
-- GitHub: https://github.com/BartoszOsiej
-- Docs: https://bartoszosiej.github.io/Docs/
-- Books: https://bartoszosiej.github.io/thethreadcalls/
-- DEV: https://dev.to/bartoszosiej
-- LinkedIn: https://www.linkedin.com/in/bartoszosiej2007/
+- [Home](https://bartoszosiej.github.io/)
+- [Portfolio](https://bartoszosiej.github.io/Portfolio/)
+- [GitHub](https://github.com/BartoszOsiej)
+- [Docs](https://bartoszosiej.github.io/Docs/)
+- [Books — The Stitcher site](https://bartoszosiej.github.io/thethreadcalls/)
+- [DEV](https://dev.to/bartoszosiej)
+- [LinkedIn](https://www.linkedin.com/in/bartoszosiej2007/)
 
 ## Projects (entity → repo)
-- Externum — programming language compiling to Python, Bash, binary: https://github.com/BartoszOsiej/externum
-- talus-process-monitor — eBPF ransomware monitor (Rust/Linux): https://github.com/BartoszOsiej/talus-process-monitor
-- linux-aegis — stackable Linux Security Module, in-tree: https://github.com/BartoszOsiej/linux-aegis
-- fortis — bare-metal RISC-V chain-of-trust: https://github.com/BartoszOsiej/fortis
-- quantum-shield — post-quantum file encryption (ML-KEM-768): https://github.com/BartoszOsiej/quantum-shield
-- NV2_ENGINE — Rust voxel engine with neural renderer: https://github.com/BartoszOsiej/NV2_ENGINE
-- Aurora — operating system in the browser: https://github.com/BartoszOsiej/Aurora
-- TrustNode — Solana-style validator in Rust: https://github.com/BartoszOsiej/TrustNode
-- Meshcore — serverless P2P chat (WebRTC + MQTT): https://github.com/BartoszOsiej/Meshcore
-- Shortlink — URL shortener (FastAPI, JWT, React): https://github.com/BartoszOsiej/Shortlink
-- Promptbox — remote prompt inbox for AI agents: https://github.com/BartoszOsiej/Promptbox
-- CyberForge — Rust security toolkit: https://github.com/BartoszOsiej/CyberForge
-- TeleWiedza — PL/EN telecom encyclopedia: https://github.com/BartoszOsiej/TeleWiedza
+- [Externum](https://github.com/BartoszOsiej/externum) — programming language compiling to Python, Bash, binary
+- [talus-process-monitor](https://github.com/BartoszOsiej/talus-process-monitor) — eBPF ransomware monitor (Rust/Linux)
+- [linux-aegis](https://github.com/BartoszOsiej/linux-aegis) — stackable Linux Security Module, in-tree
+- [fortis](https://github.com/BartoszOsiej/fortis) — bare-metal RISC-V chain-of-trust
+- [quantum-shield](https://github.com/BartoszOsiej/quantum-shield) — post-quantum file encryption (ML-KEM-768)
+- [NV2_ENGINE](https://github.com/BartoszOsiej/NV2_ENGINE) — Rust voxel engine with neural renderer
+- [Aurora](https://github.com/BartoszOsiej/Aurora) — operating system in the browser
+- [TrustNode](https://github.com/BartoszOsiej/TrustNode) — Solana-style validator in Rust
+- [Meshcore](https://github.com/BartoszOsiej/Meshcore) — serverless P2P chat (WebRTC + MQTT)
+- [Shortlink](https://github.com/BartoszOsiej/Shortlink) — URL shortener (FastAPI, JWT, React)
+- [Promptbox](https://github.com/BartoszOsiej/Promptbox) — remote prompt inbox for AI agents
+- [CyberForge](https://github.com/BartoszOsiej/CyberForge) — Rust security toolkit
+- [TeleWiedza](https://github.com/BartoszOsiej/TeleWiedza) — PL/EN telecom encyclopedia
 
 ## Books
-- The Stitcher (Book One, 2026), ASIN B0HHY39314
-- The Curator (Book Two, 2026), ASIN B0HHXT2ZRZ
-- The Reckoning (Book Three, 2026), ASIN B0GX7CPY7H
+- [The Stitcher](https://www.amazon.com/dp/B0HHY39314) — Book One, 2026, ASIN B0HHY39314
+- [The Curator](https://www.amazon.com/dp/B0HHXT2ZRZ) — Book Two, 2026, ASIN B0HHXT2ZRZ
+- [The Reckoning](https://www.amazon.com/dp/B0GX7CPY7H) — Book Three, 2026, ASIN B0GX7CPY7H
+
+## Full document
+- [llms-full.txt](https://bartoszosiej.github.io/llms-full.txt) — complete text of this entity home page
