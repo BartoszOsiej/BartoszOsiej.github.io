@@ -26,364 +26,377 @@
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#06060b;--card:#0d0d14;--card2:#111119;--fg:#e8e6e3;
-  --muted:#6b6878;--dim:#3d3a47;
-  --red:#9c1e1a;--red-glow:#ff2a1e;--red-dim:#5a100d;
-  --cyan:#00e5c7;--purple:#a855f7;--blue:#3b82f6;
-  --border:#1a1a24;--border-glow:#2a2a3a;
+  --bg:#0a0a0d;--fg:#e8e6e3;--muted:#9491a0;--dim:#5d5a68;
+  --line:#1e1d26;--line-2:#26242f;
+  --accent:#c41e24;--accent-soft:rgba(196,30,36,.09);
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif;overflow-x:hidden}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
+a{color:inherit}
+::selection{background:rgba(196,30,36,.35);color:#fff}
 
-/* ── PARTICLE CANVAS ── */
-#particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+/* background dressing — grid + faint glows, all CSS, no canvas */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 30%,transparent 100%);
+          mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 30%,transparent 100%)}
+.bg::before,.bg::after{content:'';position:fixed;border-radius:50%;filter:blur(120px)}
+.bg::before{width:44vw;height:44vw;top:-16vw;left:50%;transform:translateX(-50%);background:rgba(196,30,36,.07)}
+.bg::after{width:36vw;height:36vw;bottom:-14vw;right:-6vw;background:rgba(59,80,140,.06)}
 
-/* ── SCROLL INDICATOR ── */
-.scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--red),var(--cyan));z-index:9999;transition:width 0.1s linear}
-
-/* ── GLOW CURSOR ── */
-.cursor-glow{position:fixed;width:600px;height:600px;border-radius:50%;pointer-events:none;z-index:0;
-  background:radial-gradient(circle,rgba(156,30,26,0.06) 0%,transparent 70%);
-  transform:translate(-50%,-50%);transition:left .3s ease,top .3s ease}
-
-/* ── NAV ── */
-nav{position:fixed;top:0;width:100%;z-index:1000;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;
-  background:rgba(6,6,11,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-nav .logo{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--red);letter-spacing:2px;text-transform:uppercase}
-nav .links{display:flex;gap:24px}
-nav .links a{color:var(--muted);text-decoration:none;font-size:13px;font-family:'JetBrains Mono',monospace;transition:color .2s}
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
+  padding:0 28px;height:56px;background:rgba(10,10,13,.72);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.brand{font-weight:600;font-size:15px;letter-spacing:-.01em;text-decoration:none}
+.brand i{color:var(--accent);font-style:normal;margin-right:6px;font-weight:500}
+.brand b{font-weight:600}
+nav .links{display:flex;align-items:center;gap:22px}
+nav .links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .15s}
 nav .links a:hover{color:var(--fg)}
+nav .links .icon{color:var(--muted);display:inline-flex;transition:color .15s}
+nav .links .icon:hover{color:var(--fg)}
 
-/* ── HERO ── */
-.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;z-index:1}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(156,30,26,0.08) 0%,transparent 100%);pointer-events:none}
-.avatar-wrap{position:relative;margin-bottom:28px}
-.avatar{width:120px;height:120px;border-radius:50%;border:2px solid var(--border);object-fit:cover;transition:border-color .4s,box-shadow .4s}
-.avatar:hover{border-color:var(--red);box-shadow:0 0 40px rgba(156,30,26,0.4)}
-.avatar-ring{position:absolute;inset:-6px;border-radius:50%;border:1px solid var(--dim);animation:spin 20s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.hero h1{font-size:clamp(42px,7vw,80px);font-weight:700;letter-spacing:-2px;line-height:1;margin-bottom:8px;
-  background:linear-gradient(135deg,var(--fg) 0%,var(--fg) 60%,var(--red-glow) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero .subtitle{font-family:'JetBrains Mono',monospace;font-size:clamp(13px,1.5vw,16px);color:var(--muted);letter-spacing:1px;margin-bottom:32px}
-.hero .subtitle .cursor{display:inline-block;width:2px;height:1em;background:var(--red);margin-left:2px;animation:blink 1s step-end infinite;vertical-align:text-bottom}
-@keyframes blink{50%{opacity:0}}
-.hero .desc{max-width:560px;color:var(--muted);font-size:17px;line-height:1.7}
-.hero .desc strong{color:var(--fg)}
+/* layout */
+main{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 28px}
+section{padding:96px 0 8px}
 
-/* ── SECTION ── */
-section{position:relative;z-index:1;padding:80px 24px;max-width:1100px;margin:0 auto}
-.section-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--red);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
-.section-title{font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-1px;margin-bottom:40px;line-height:1.15}
+/* hero */
+.hero{padding-top:172px;min-height:92vh;display:flex;flex-direction:column;justify-content:center}
+.eyebrow{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:20px}
+.eyebrow .punct{color:var(--accent)}
+.hero h1{font-family:var(--sans);font-weight:600;font-size:clamp(44px,8vw,72px);letter-spacing:-.03em;line-height:1.02;margin-bottom:22px}
+.hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.hero .lede{max-width:520px;font-size:clamp(16px,2vw,18px);color:var(--muted);line-height:1.7;margin-bottom:34px}
+.hero .lede b{color:var(--fg);font-weight:500}
+.cta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:64px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:14px;text-decoration:none;padding:10px 18px;border-radius:8px;
+  border:1px solid var(--line-2);color:var(--fg);transition:border-color .15s,color .15s;font-weight:500}
+.btn svg{width:15px;height:15px;transition:transform .15s}
+.btn:hover{border-color:var(--accent);color:#fff}
+.btn:hover svg{transform:translate(2px,-2px)}
+.btn-solid{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-solid:hover{border-color:var(--accent)}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.status .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* ── STATS ── */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:12px;overflow:hidden;margin-bottom:80px}
-.stat{background:var(--card);padding:32px 24px;text-align:center}
-.stat-num{font-size:clamp(32px,4vw,48px);font-weight:700;letter-spacing:-1px}
-.stat-num.red{color:var(--red-glow)}
-.stat-num.cyan{color:var(--cyan)}
-.stat-num.purple{color:var(--purple)}
-.stat-num.blue{color:var(--blue)}
-.stat-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px;text-transform:uppercase}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{padding:22px 8px 20px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat-num{font-size:26px;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat-label{font-size:12px;color:var(--muted);margin-top:2px}
+.stat-sublabel{display:block;font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:2px}
 
-/* ── PROJECT CARDS ── */
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
-.p-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;text-decoration:none;color:var(--fg);
-  transition:transform .25s,border-color .25s,box-shadow .4s;position:relative;overflow:hidden}
-.p-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .4s;
-  background:linear-gradient(135deg,rgba(156,30,26,0.05) 0%,rgba(0,229,199,0.03) 100%)}
-.p-card:hover{transform:translateY(-4px);border-color:var(--border-glow);box-shadow:0 12px 48px rgba(0,0,0,0.5)}
-.p-card:hover::before{opacity:1}
-.p-card .p-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;position:relative;z-index:1}
-.p-card .p-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.p-card .p-arrow{color:var(--dim);font-size:14px;transition:color .2s}
-.p-card:hover .p-arrow{color:var(--fg)}
-.p-card h3{font-size:16px;font-weight:600;margin-bottom:6px;position:relative;z-index:1}
-.p-card .p-desc{font-size:13px;color:var(--muted);line-height:1.5;position:relative;z-index:1}
-.p-card .p-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;position:relative;z-index:1}
-.p-card .p-tag{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,0.04);color:var(--dim);border:1px solid var(--border)}
-.p-card:hover .p-tag{border-color:var(--border-glow);color:var(--muted)}
-.p-icon.red-i{background:rgba(156,30,26,0.15);color:var(--red-glow)}
-.p-icon.cyan-i{background:rgba(0,229,199,0.1);color:var(--cyan)}
-.p-icon.purple-i{background:rgba(168,85,247,0.1);color:var(--purple)}
-.p-icon.blue-i{background:rgba(59,130,246,0.1);color:var(--blue)}
+/* section headers */
+.s-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;gap:16px;flex-wrap:wrap}
+.s-kicker{font-family:var(--mono);font-size:12px;color:var(--accent);margin-bottom:10px}
+.s-head h2{font-size:clamp(26px,3.6vw,36px);font-weight:500;letter-spacing:-.02em;line-height:1.1}
+.s-head h2 em{font-family:var(--serif);font-style:italic;font-weight:400}
+.s-link{font-size:13px;color:var(--muted);text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;transition:color .15s}
+.s-link svg{width:14px;height:14px}
+.s-link:hover{color:var(--fg)}
 
-/* ── BOOKS ── */
-.books-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.book-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px 24px;text-decoration:none;color:var(--fg);transition:all .3s;position:relative;overflow:hidden}
-.book-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--red-glow));transform:scaleX(0);transform-origin:left;transition:transform .4s}
-.book-card:hover{transform:translateY(-3px);border-color:var(--red-dim);box-shadow:0 8px 32px rgba(156,30,26,0.15)}
-.book-card:hover::after{transform:scaleX(1)}
-.book-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--red);letter-spacing:2px;margin-bottom:12px}
-.book-card h3{font-size:20px;font-weight:600;margin-bottom:8px}
-.book-card .blurb{font-size:13px;color:var(--muted);line-height:1.6}
-.book-card .asin{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);margin-top:16px;display:block}
+/* projects */
+.grid-proj{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.p-card{display:block;position:relative;text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:20px 18px;
+  background:rgba(255,255,255,.012);transition:border-color .15s,transform .15s,background .15s}
+.p-card:hover{border-color:var(--line-2);background:var(--accent-soft);transform:translateY(-2px)}
+.p-card .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.icon{width:32px;height:32px;border-radius:8px;border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:color .15s,border-color .15s}
+.p-card:hover .icon{color:var(--fg);border-color:var(--accent)}
+.icon svg{width:16px;height:16px}
+.card-arrow{color:var(--dim);opacity:0;transform:translate(-2px,2px);transition:opacity .15s,transform .15s,color .15s}
+.p-card:hover .card-arrow{opacity:1;transform:none;color:var(--fg)}
+.p-card h3{font-size:15px;font-weight:500;margin-bottom:6px;letter-spacing:-.01em}
+.p-card p{font-size:12.5px;color:var(--muted);line-height:1.55}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tag{font-family:var(--mono);font-size:10px;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:2px 7px;transition:color .15s,border-color .15s}
+.p-card:hover .tag{color:var(--muted);border-color:var(--line-2)}
 
-/* ── LINKS BAR ── */
-.links-bar{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-.link-card{display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--card);border:1px solid var(--border);border-radius:10px;
-  text-decoration:none;color:var(--fg);transition:all .2s;font-size:14px}
-.link-card:hover{border-color:var(--border-glow);background:var(--card2)}
-.link-card .l-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;
-  background:rgba(156,30,26,0.1);color:var(--red-glow)}
+/* books */
+.books{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.book{display:block;text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:26px 22px;position:relative;overflow:hidden;transition:border-color .15s,transform .15s}
+.book::before{content:'';position:absolute;top:0;left:0;bottom:0;width:2px;background:var(--accent);transform:scaleY(0);transform-origin:top;transition:transform .2s}
+.book:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.book:hover::before{transform:scaleY(1)}
+.book-num{font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:16px}
+.book:hover .book-num{color:var(--accent)}
+.book h3{font-family:var(--serif);font-weight:400;font-size:24px;margin-bottom:10px;letter-spacing:.01em}
+.book p{font-size:13px;color:var(--muted);line-height:1.6}
+.book .meta{display:flex;justify-content:space-between;align-items:center;margin-top:20px;font-family:var(--mono);font-size:10px;color:var(--dim)}
+.book:hover .meta{color:var(--muted)}
+.tagline{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--dim);margin-top:32px}
 
-/* ── FOOTER ── */
-footer{position:relative;z-index:1;padding:48px 24px;text-align:center;border-top:1px solid var(--border);max-width:1100px;margin:0 auto}
-footer p{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim)}
+/* elsewhere */
+.rows{border-top:1px solid var(--line)}
+.row{display:flex;justify-content:space-between;align-items:center;padding:16px 6px;border-bottom:1px solid var(--line);text-decoration:none;transition:background .15s}
+.row:hover{background:rgba(255,255,255,.015)}
+.row .who{display:flex;align-items:center;gap:14px}
+.row .who .icon{color:var(--fg)}
+.row .who .t{font-size:15px;font-weight:500}
+.row .who .s{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.row .meta{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.row:hover .meta{color:var(--muted)}
+.row:hover .go{color:var(--fg);transform:translate(2px,-2px)}
+.go{color:var(--dim);transition:color .15s,transform .15s}
+.go svg{width:15px;height:15px}
+.row .wordmark{font-family:var(--mono);font-weight:500;font-size:13px;letter-spacing:-.02em}
+
+footer{padding:56px 0 80px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--dim)}
 footer a{color:var(--muted);text-decoration:none}
 footer a:hover{color:var(--fg)}
 
-/* ── SCROLL REVEAL ── */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
-.reveal.visible{opacity:1;transform:none}
+/* reveal */
+.reveal{opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
+.reveal.in{opacity:1;transform:none}
 
-/* ── RESPONSIVE ── */
-@media(max-width:768px){
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .books-strip{grid-template-columns:1fr}
-  .projects-grid{grid-template-columns:1fr}
-  .links-bar{grid-template-columns:1fr}
-  nav .links{gap:14px}
-  nav .links a{font-size:11px}
+@media (max-width:820px){
+  .grid-proj,.books,.stats{grid-template-columns:repeat(2,1fr)}
+  .stat{border-bottom:1px solid var(--line)}
+  nav .links .hide-m{display:none}
+}
+@media (max-width:560px){
+  .grid-proj,.books,.stats{grid-template-columns:1fr}
+  .hero{padding-top:140px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
 }
 </style>
 </head>
 <body>
 
-<canvas id="particles"></canvas>
-<div class="cursor-glow" id="glow"></div>
-<div class="scroll-progress" id="progress"></div>
+<div class="bg" aria-hidden="true"></div>
 
 <nav>
-  <div class="logo">Bartosz Osiej</div>
+  <a class="brand" href="/"><i>/</i><b>Bartosz Osiej</b></a>
   <div class="links">
-    <a href="#projects">Projects</a>
-    <a href="#writing">Writing</a>
-    <a href="https://bartoszosiej.github.io/Portfolio/">Portfolio</a>
-    <a href="https://github.com/BartoszOsiej">GitHub</a>
+    <a href="#systems">Systems</a>
+    <a href="#fiction">Fiction</a>
+    <a href="#elsewhere" class="hide-m">Elsewhere</a>
+    <a class="icon" href="https://github.com/BartoszOsiej" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+    </a>
   </div>
 </nav>
 
-<!-- ═══════════ HERO ═══════════ -->
-<section class="hero">
-  <div class="avatar-wrap">
-    <div class="avatar-ring"></div>
-    <img class="avatar" src="img/bartosz-osiej.jpg" alt="Bartosz Osiej">
-  </div>
-  <h1>Bartosz Osiej</h1>
-  <p class="subtitle"><span id="typing"></span><span class="cursor"></span></p>
-  <p class="desc">I build <strong>systems software</strong> in Rust and eBPF — kernel-level tooling, compilers, security, post-quantum cryptography.
-  I also write <strong>crime-horror fiction</strong> about obsession, silk, and the thin line between art and madness.</p>
-</section>
+<main>
 
-<!-- ═══════════ STATS ═══════════ -->
-<section>
-  <div class="stats reveal">
-    <div class="stat">
-      <div class="stat-num red" data-target="22">0</div>
-      <div class="stat-label">Repos</div>
+  <!-- HERO -->
+  <section class="hero">
+    <p class="eyebrow reveal"><span class="punct">//</span>&nbsp;systems engineer&nbsp;·&nbsp;author&nbsp;·&nbsp;szczecin, pl</p>
+    <h1 class="reveal">Bartosz <em>Osiej</em></h1>
+    <p class="lede reveal">I design <b>low-level systems</b> in Rust and eBPF — kernels, compilers, post-quantum crypto. Between commits, I write <b>crime horror</b> about obsession and the threads that bind us.</p>
+    <div class="cta reveal">
+      <a class="btn btn-solid" href="#systems">Explore the work
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
+      <a class="btn" href="https://bartoszosiej.github.io/thethreadcalls/">Read The Stitcher
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
+      <span class="status"><span class="dot"></span>available for work &amp; commissions</span>
     </div>
-    <div class="stat">
-      <div class="stat-num cyan" data-target="8">0</div>
-      <div class="stat-label">Registries</div>
+
+    <div class="stats reveal">
+      <div class="stat"><div class="stat-num" data-n="22">0</div><div class="stat-label">public repositories</div><div class="stat-sublabel">15 with CI/CD</div></div>
+      <div class="stat"><div class="stat-num" data-n="8">0</div><div class="stat-label">release channels</div><div class="stat-sublabel">crates·pypi·npm·ghcr</div></div>
+      <div class="stat"><div class="stat-num" data-n="192">0</div><div class="stat-label">automated tests</div><div class="stat-sublabel">externum·talus·fortis</div></div>
+      <div class="stat"><div class="stat-num" data-n="3">0</div><div class="stat-label">published novels</div><div class="stat-sublabel">the stitcher trilogy</div></div>
     </div>
-    <div class="stat">
-      <div class="stat-num purple" data-target="5">0</div>
-      <div class="stat-label">Platforms</div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="systems">
+    <div class="s-head reveal">
+      <div>
+        <div class="s-kicker">[ 01 — systems ]</div>
+        <h2>Infrastructure, <em>built to ship.</em></h2>
+      </div>
+      <a class="s-link" href="https://github.com/BartoszOsiej">all repositories
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
     </div>
-    <div class="stat">
-      <div class="stat-num blue" data-target="3">0</div>
-      <div class="stat-label">Books</div>
+
+    <div class="grid-proj">
+      <a class="p-card reveal" href="https://github.com/BartoszOsiej/linux-aegis">
+        <div class="top"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.8v5.2c0 4.2-3 8-7 9.5-4-1.5-7-5.3-7-9.5V5.8z"/></svg></span><span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></div>
+        <h3>linux-aegis</h3>
+        <p>Stackable Security Module, compiled in-tree against upstream and booted in QEMU.</p>
+        <div class="tags"><span class="tag">C</span><span class="tag">LSM</span><span class="tag">kernel</span></div>
+      </a>
+      <a class="p-card reveal" href="https://github.com/BartoszOsiej/talus-process-monitor">
+        <div class="top"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span><span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></div>
+        <h3>talus-process-monitor</h3>
+        <p>eBPF ransomware tracker — kernel execve/openat tracing, real-time behavioural alerts.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">eBPF</span><span class="tag">security</span></div>
+      </a>
+      <a class="p-card reveal" href="https://github.com/BartoszOsiej/externum">
+        <div class="top"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span><span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></div>
+        <h3>externum</h3>
+        <p>Language compiling to Python, Bash, and native binary — ownership, traits, 192 tests.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">compiler</span><span class="tag">transpiler</span></div>
+      </a>
+      <a class="p-card reveal" href="https://github.com/BartoszOsiej/fortis">
+        <div class="top"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></div>
+        <h3>fortis</h3>
+        <p>Bare-metal RISC-V chain-of-trust — SHA-256 + ML-KEM-768 measured boot, no OS.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">RISC-V</span><span class="tag">crypto</span></div>
+      </a>
+      <a class="p-card reveal" href="https://github.com/BartoszOsiej/quantum-shield">
+        <div class="top"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><circle cx="12" cy="12" r="2"/></svg></span><span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></div>
+        <h3>quantum-shield</h3>
+        <p>Post-quantum file encryption — ML-KEM-768 + AES-256-GCM, fuzz-tested, NIST oriented.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">PQC</span><span class="tag">cli</span></div>
+      </a>
+      <a class="p-card reveal" href="https://github.com/BartoszOsiej/NV2_ENGINE">
+        <div class="top"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span><span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></div>
+        <h3>NV2_ENGINE</h3>
+        <p>Voxel engine — neural renderer, multiplayer, ECS gameplay, content pipeline.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">wgpu</span><span class="tag">games</span></div>
+      </a>
+      <a class="p-card reveal" href="https://github.com/BartoszOsiej/Aurora">
+        <div class="top"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span><span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></div>
+        <h3>Aurora</h3>
+        <p>Operating system in the browser — kernel, window manager, filesystem, 8 apps.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">TS</span><span class="tag">OS</span></div>
+      </a>
+      <a class="p-card reveal" href="https://github.com/BartoszOsiej/CyberForge">
+        <div class="top"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><line x1="12" y1="2" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="2" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="22" y2="12"/><circle cx="12" cy="12" r="1"/></svg></span><span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></div>
+        <h3>CyberForge</h3>
+        <p>Four Rust security tools — port scanner, web scanner, hash cracker, packet analyzer.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">netsec</span><span class="tag">tokio</span></div>
+      </a>
+      <a class="p-card reveal" href="https://github.com/BartoszOsiej/TrustNode">
+        <div class="top"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></span><span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></div>
+        <h3>TrustNode</h3>
+        <p>Solana-style validator — PoH clock, Tower BFT, parallel execution, Turbine erasure.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">blockchain</span><span class="tag">consensus</span></div>
+      </a>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══════════ PROJECTS ═══════════ -->
-<section id="projects">
-  <div class="section-label reveal">Systemes</div>
-  <h2 class="section-title reveal">Flagship projects</h2>
-  <div class="projects-grid">
+  <!-- BOOKS -->
+  <section id="fiction">
+    <div class="s-head reveal">
+      <div>
+        <div class="s-kicker">[ 02 — fiction ]</div>
+        <h2>The Stitcher <em>Trilogy.</em></h2>
+      </div>
+      <a class="s-link" href="https://bartoszosiej.github.io/thethreadcalls/">book site
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
+    </div>
 
-    <a class="p-card reveal" href="https://github.com/BartoszOsiej/linux-aegis">
-      <div class="p-top"><div class="p-icon red-i">🛡</div><span class="p-arrow">↗</span></div>
-      <h3>linux-aegis</h3>
-      <div class="p-desc">Stackable Linux Security Module. In-tree upstream, four feature-flagged layers, CI + QEMU boot.</div>
-      <div class="p-tags"><span class="p-tag">C</span><span class="p-tag">LSM</span><span class="p-tag">kernel</span></div>
-    </a>
+    <div class="books">
+      <a class="book reveal" href="https://www.amazon.com/dp/B0HHY39314">
+        <div class="book-num">BOOK 01</div>
+        <h3>The Stitcher</h3>
+        <p>A detective finds Mrs. Harlow surrounded by dolls sewn from human skin — and falls into the obsession himself.</p>
+        <div class="meta"><span>ASIN B0HHY39314</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></div>
+      </a>
+      <a class="book reveal" href="https://www.amazon.com/dp/B0HHXT2ZRZ">
+        <div class="book-num">BOOK 02</div>
+        <h3>The Curator</h3>
+        <p>Pia Redfern inherits a museum of impossible, beating shells — and the curator who loves them too much.</p>
+        <div class="meta"><span>ASIN B0HHXT2ZRZ</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></div>
+      </a>
+      <a class="book reveal" href="https://www.amazon.com/dp/B0GX7CPY7H">
+        <div class="book-num">BOOK 03</div>
+        <h3>The Reckoning</h3>
+        <p>The thread fraying. The ending of the trilogy.</p>
+        <div class="meta"><span>ASIN B0GX7CPY7H</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span></div>
+      </a>
+    </div>
+    <p class="tagline reveal">“The thread is fraying. Someone is cutting it.”</p>
+  </section>
 
-    <a class="p-card reveal" href="https://github.com/BartoszOsiej/talus-process-monitor">
-      <div class="p-top"><div class="p-icon cyan-i">⚡</div><span class="p-arrow">↗</span></div>
-      <h3>talus-process-monitor</h3>
-      <div class="p-desc">eBPF ransomware tracker — execve/openat kernel tracing, per-CPU perf buffers, FrankenTUI.</div>
-      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">eBPF</span><span class="p-tag">security</span></div>
-    </a>
+  <!-- ELSEWHERE -->
+  <section id="elsewhere">
+    <div class="s-head reveal">
+      <div>
+        <div class="s-kicker">[ 03 — elsewhere ]</div>
+        <h2>Find me <em>around the web.</em></h2>
+      </div>
+    </div>
 
-    <a class="p-card reveal" href="https://github.com/BartoszOsiej/externum">
-      <div class="p-top"><div class="p-icon purple-i">◈</div><span class="p-arrow">↗</span></div>
-      <h3>externum</h3>
-      <div class="p-desc">Language compiling to Python, Bash, and native binary. 192 tests, ownership, traits, browser REPL.</div>
-      <div class="p-tags"><span class="p-tag">Python</span><span class="p-tag">compiler</span><span class="p-tag">transpiler</span></div>
-    </a>
+    <div class="rows">
+      <a class="row reveal" href="https://github.com/BartoszOsiej">
+        <div class="who"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></span><span><span class="t">GitHub</span><br><span class="s">github.com/BartoszOsiej</span></span></div>
+        <span class="meta">22 repos · source of truth</span>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+      </a>
+      <a class="row reveal" href="https://dev.to/bartoszosiej">
+        <div class="who"><span class="icon wordmark">dev.to</span><span><span class="t">dev.to</span><br><span class="s">bartoszosiej — engineering write-ups</span></span></div>
+        <span class="meta">eBPF · security · compilers</span>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+      </a>
+      <a class="row reveal" href="https://www.linkedin.com/in/bartoszosiej2007/">
+        <div class="who"><span class="icon wordmark">in</span><span><span class="t">LinkedIn</span><br><span class="s">in/bartoszosiej2007</span></span></div>
+        <span class="meta">open to roles</span>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+      </a>
+      <a class="row reveal" href="https://bartoszosiej.github.io/Portfolio/">
+        <div class="who"><span class="icon wordmark">▶</span><span><span class="t">Portfolio</span><br><span class="s">bartoszosiej.github.io/Portfolio/</span></span></div>
+        <span class="meta">projects &amp; notes</span>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+      </a>
+      <a class="row reveal" href="https://bartoszosiej.github.io/thethreadcalls/">
+        <div class="who"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></svg></span><span><span class="t">The Stitcher Trilogy</span><br><span class="s">book page &amp; free chapter</span></span></div>
+        <span class="meta">crime horror · kindle</span>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+      </a>
+      <a class="row reveal" href="mailto:thethreadcalls@outlook.com">
+        <div class="who"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span><span><span class="t">Email</span><br><span class="s">thethreadcalls@outlook.com</span></span></div>
+        <span class="meta">work &amp; media</span>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+      </a>
+    </div>
+  </section>
 
-    <a class="p-card reveal" href="https://github.com/BartoszOsiej/fortis">
-      <div class="p-top"><div class="p-icon red-i">🔐</div><span class="p-arrow">↗</span></div>
-      <h3>fortis</h3>
-      <div class="p-desc">Bare-metal RISC-V chain-of-trust. SHA-256 + ML-KEM-768 post-quantum measured boot, no OS.</div>
-      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">RISC-V</span><span class="p-tag">crypto</span></div>
-    </a>
-
-    <a class="p-card reveal" href="https://github.com/BartoszOsiej/quantum-shield">
-      <div class="p-top"><div class="p-icon cyan-i">🔮</div><span class="p-arrow">↗</span></div>
-      <h3>quantum-shield</h3>
-      <div class="p-desc">Post-quantum file encryption CLI. ML-KEM-768 + AES-256-GCM, fuzz-tested, NIST oriented.</div>
-      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">post-quantum</span><span class="p-tag">encryption</span></div>
-    </a>
-
-    <a class="p-card reveal" href="https://github.com/BartoszOsiej/NV2_ENGINE">
-      <div class="p-top"><div class="p-icon purple-i">🎮</div><span class="p-arrow">↗</span></div>
-      <h3>NV2_ENGINE</h3>
-      <div class="p-desc">Voxel engine — wgpu, MLP neural renderer, multiplayer, ECS gameplay, content pipeline.</div>
-      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">wgpu</span><span class="p-tag">game-engine</span></div>
-    </a>
-
-    <a class="p-card reveal" href="https://github.com/BartoszOsiej/Aurora">
-      <div class="p-top"><div class="p-icon blue-i">◈</div><span class="p-arrow">↗</span></div>
-      <h3>Aurora</h3>
-      <div class="p-desc">Complete OS in the browser — kernel, window manager, filesystem, 8 apps, procedural audio.</div>
-      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">TypeScript</span><span class="p-tag">OS</span></div>
-    </a>
-
-    <a class="p-card reveal" href="https://github.com/BartoszOsiej/CyberForge">
-      <div class="p-top"><div class="p-icon red-i">⚔</div><span class="p-arrow">↗</span></div>
-      <h3>CyberForge</h3>
-      <div class="p-desc">Four Rust security tools — port scanner, web scanner, hash cracker, packet analyzer. Tokio async.</div>
-      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">security</span><span class="p-tag">pentest</span></div>
-    </a>
-
-    <a class="p-card reveal" href="https://github.com/BartoszOsiej/TrustNode">
-      <div class="p-top"><div class="p-icon blue-i">⛓</div><span class="p-arrow">↗</span></div>
-      <h3>TrustNode</h3>
-      <div class="p-desc">Solana-style validator — PoH clock, Tower BFT, Sealevel parallel execution, Turbine erasure.</div>
-      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">blockchain</span><span class="p-tag">consensus</span></div>
-    </a>
-
-  </div>
-</section>
-
-<!-- ═══════════ BOOKS ═══════════ -->
-<section id="writing">
-  <div class="section-label reveal">Fiction</div>
-  <h2 class="section-title reveal">The Stitcher Trilogy</h2>
-  <div class="books-strip">
-    <a class="book-card reveal" href="https://www.amazon.com/dp/B0HHY39314">
-      <div class="book-num">BOOK ONE</div>
-      <h3>The Stitcher</h3>
-      <div class="blurb">A Chicago detective finds Mrs. Harlow surrounded by dolls sewn from human skin — and falls into the obsession herself.</div>
-      <span class="asin">ASIN B0HHY39314</span>
-    </a>
-    <a class="book-card reveal" href="https://www.amazon.com/dp/B0HHXT2ZRZ">
-      <div class="book-num">BOOK TWO</div>
-      <h3>The Curator</h3>
-      <div class="blurb">Pia Redfern inherits a museum collection of impossible, beating shells — and the curator who loves them too much.</div>
-      <span class="asin">ASIN B0HHXT2ZRZ</span>
-    </a>
-    <a class="book-card reveal" href="https://www.amazon.com/dp/B0GX7CPY7H">
-      <div class="book-num">BOOK THREE</div>
-      <h3>The Reckoning</h3>
-      <div class="blurb">The thread fraying. The ending of the trilogy.</div>
-      <span class="asin">ASIN B0GX7CPY7H</span>
-    </a>
-  </div>
-</section>
-
-<!-- ═══════════ LINKS ═══════════ -->
-<section>
-  <div class="section-label reveal">Connect</div>
-  <h2 class="section-title reveal">Find me</h2>
-  <div class="links-bar reveal">
-    <a class="link-card" href="https://github.com/BartoszOsiej"><div class="l-icon">⌘</div>GitHub</a>
-    <a class="link-card" href="https://dev.to/bartoszosiej"><div class="l-icon">◇</div>dev.to</a>
-    <a class="link-card" href="https://www.linkedin.com/in/bartoszosiej2007/"><div class="l-icon">in</div>LinkedIn</a>
-    <a class="link-card" href="https://bartoszosiej.github.io/Portfolio/"><div class="l-icon">▶</div>Portfolio</a>
-    <a class="link-card" href="https://bartoszosiej.github.io/Docs/"><div class="l-icon">☰</div>Docs</a>
-    <a class="link-card" href="https://bartoszosiej.github.io/thethreadcalls/"><div class="l-icon">"@ </div>Books</a>
-    <a class="link-card" href="mailto:thethreadcalls@outlook.com"><div class="l-icon">✉</div>Email</a>
-  </div>
-</section>
+</main>
 
 <footer>
-  <p>Contact: <a href="mailto:thethreadcalls@outlook.com">thethreadcalls@outlook.com</a> · 22 repos, 3 books, no ads, no sponsors.</p>
+  © 2026 Bartosz Osiej · built in the open, shipped for real · <a href="mailto:thethreadcalls@outlook.com">thethreadcalls@outlook.com</a>
 </footer>
 
-<!-- ═══════════ ENGINE ═══════════ -->
 <script>
-// ── Particles ──
 (function(){
-  const c=document.getElementById('particles'),x=c.getContext('2d');
-  let W,H,P=[];
-  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;P=[];for(let i=0;i<80;i++)P.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5})}
-  resize();addEventListener('resize',resize);
-  function draw(){
-    x.clearRect(0,0,W,H);
-    P.forEach(p=>{
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-      x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle='rgba(156,30,26,0.25)';x.fill()
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // scroll reveal
+  const obs=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}
     });
-    for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){
-      const dx=P[i].x-P[j].x,dy=P[i].y-P[j].y,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<140){x.beginPath();x.moveTo(P[i].x,P[i].y);x.lineTo(P[j].x,P[j].y);x.strokeStyle=`rgba(156,30,26,${0.06*(1-d/140)})`;x.stroke()}
-    }
-    requestAnimationFrame(draw)
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+
+  // stat counters (skipped under reduced motion)
+  if(!reduce){
+    var cobs=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting)return;
+        var el=e.target,to=parseInt(el.dataset.n,10),cur=0,dur=650,t0=performance.now();
+        (function step(now){
+          var p=Math.min((now-t0)/dur,1),ease=1-Math.pow(1-p,3);
+          el.textContent=Math.round(to*ease);
+          if(p<1)requestAnimationFrame(step);
+        })(t0);
+        cobs.unobserve(el);
+      });
+    },{threshold:.6});
+    document.querySelectorAll('[data-n]').forEach(function(el){cobs.observe(el)});
   }
-  draw()
-})();
-
-// ── Cursor glow ──
-const glow=document.getElementById('glow');
-document.addEventListener('mousemove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'});
-
-// ── Scroll progress ──
-const prog=document.getElementById('progress');
-addEventListener('scroll',()=>{
-  const h=document.documentElement.scrollHeight-innerHeight;
-  prog.style.width=(scrollY/h*100)+'%'
-});
-
-// ── Scroll reveal ──
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
-},{threshold:0.15});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-// ── Counter animation ──
-const cobs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(!e.isIntersecting)return;
-    const el=e.target,to=+el.dataset.target;
-    let cur=0;const step=Math.ceil(to/40);
-    const iv=setInterval(()=>{cur=Math.min(cur+step,to);el.textContent=cur;if(cur>=to)clearInterval(iv)},30);
-    cobs.unobserve(el)
-  })
-},{threshold:0.5});
-document.querySelectorAll('[data-target]').forEach(el=>cobs.observe(el));
-
-// ── Typing ──
-(function(){
-  const el=document.getElementById('typing');
-  const phrases=['Systems programmer','Rust · eBPF · kernel','Crime-horror author','Security engineer','15+ repos · 8 registries','Compiler architect'];
-  let pi=0,ci=0,del=false;
-  function tick(){
-    const p=phrases[pi];
-    if(!del){ci++;if(ci>p.length){del=true;setTimeout(tick,1800);return}}
-    else{ci--;if(ci<0){ci=0;del=false;pi=(pi+1)%phrases.length;setTimeout(tick,400);return}}
-    el.textContent=p.slice(0,ci);
-    setTimeout(tick,del?45:70)
-  }
-  tick()
 })();
 </script>
 </body>
