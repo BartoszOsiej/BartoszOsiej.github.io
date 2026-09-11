@@ -575,8 +575,7 @@ a{color:inherit}
 </footer>
 
 <!-- ─────── ENGINE ─────── -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
-<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/lucide@latest" defer></script>
 <script>
 (function(){
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -584,21 +583,11 @@ a{color:inherit}
   // lucide icons
   try { lucide.createIcons(); } catch(e){}
 
-  // hero boot sequence
-  if(!reduce && window.anime){
-    anime.timeline({delay:120}).add({
-      targets:'[data-hero]', opacity:[0,1], translateY:[16,0],
-      duration:500, easing:'easeOutQuad', delay:anime.stagger(90)
-    });
-  } else {
-    document.querySelectorAll('[data-hero]').forEach(function(el){ el.style.opacity=1; el.style.transform='none'; });
-  }
-
   // scroll reveal
   var io = new IntersectionObserver(function(es){
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   },{threshold:.12, rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.reveal, [data-hero]').forEach(function(el){ io.observe(el); });
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 
   // chronometer / count-up
   if(!reduce){
