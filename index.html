@@ -18,10 +18,13 @@
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Bartosz Osiej — Systems Engineer & Horror Author">
 <meta property="og:description" content="Rust · eBPF · Linux kernel · compilers · post-quantum crypto by day. The Stitcher Trilogy — crime horror — at night. 22 repos, 3 novels.">
-<meta property="og:image" content="https://bartoszosiej.github.io/img/bartosz-osiej.jpg">
+<meta property="og:image" content="https://bartoszosiej.github.io/img/og.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
 <meta property="og:url" content="https://bartoszosiej.github.io/">
 <meta property="og:site_name" content="Bartosz Osiej">
 <meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Bartosz Osiej — Systems Engineer & Horror Author">
@@ -408,12 +411,12 @@ a{color:inherit}
   </div>
 </div>
 
-<main id="top" class="max-w-6xl mx-auto px-5">
+<main id="top" class="max-w-6xl mx-auto px-5" itemscope itemtype="https://schema.org/Person">
 
   <!-- ─────── HERO ─────── -->
   <section class="pt-28 pb-16 border-b border-[#1c1c24] min-h-[88vh] flex flex-col justify-center">
     <p class="eyebrow text-[12px] pt-[42px]" data-hero>+/ STATUS: OPERATIONAL · SZCZECIN, PL · 19YO_POL_ROOT</p>
-    <h1 class="text-[clamp(40px,9vw,96px)] leading-[.95] font-bold tracking-tight mt-6" data-hero>
+    <h1 itemprop="name" class="text-[clamp(40px,9vw,96px)] leading-[.95] font-bold tracking-tight mt-6" data-hero>
       BARTOSZ<br><span class="text-rust">OSI</span>EJ<span class="blink" aria-hidden="true"></span>
     </h1>
     <div class="mt-8 space-y-1 text-[13px] text-slate2" data-hero>
@@ -440,6 +443,40 @@ a{color:inherit}
     </div>
 
     <div class="blade mt-14"></div>
+  </section>
+
+  <!-- ─────── BIOGRAPHY / FACTS ─────── -->
+  <section id="biography" class="py-12 border-b border-[#1c1c24]" aria-label="biography">
+    <h2 class="eyebrow text-[12px] tracking-widest text-rust uppercase">/ Biography</h2>
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 max-w-4xl">
+      <div>
+        <dl class="space-y-4 text-[13px]">
+          <div class="flex gap-6">
+            <dt class="w-24 shrink-0 text-slate2 tracking-widest text-[11px] uppercase pt-1">Born</dt>
+            <dd><time itemprop="birthDate" datetime="2007-01-11">11 January 2007</time>, <span itemprop="birthPlace">Szczecin, Poland</span></dd>
+          </div>
+          <div class="flex gap-6">
+            <dt class="w-24 shrink-0 text-slate2 tracking-widest text-[11px] uppercase pt-1">Nationality</dt>
+            <dd itemprop="nationality">Polish</dd>
+          </div>
+          <div class="flex gap-6">
+            <dt class="w-24 shrink-0 text-slate2 tracking-widest text-[11px] uppercase pt-1">Occupation</dt>
+            <dd itemprop="jobTitle">Software developer; author</dd>
+          </div>
+          <div class="flex gap-6">
+            <dt class="w-24 shrink-0 text-slate2 tracking-widest text-[11px] uppercase pt-1">Known for</dt>
+            <dd>Rust/eBPF systems software, <cite>The Stitcher Trilogy</cite></dd>
+          </div>
+        </dl>
+      </div>
+      <div>
+        <address class="not-italic text-[13px] text-slate2 space-y-3">
+          <p>// CONTACT:</p>
+          <p><a itemprop="email" href="mailto:thethreadcalls@outlook.com" class="text-bone underline decoration-rust/40 underline-offset-4 hover:text-rust">thethreadcalls@outlook.com</a></p>
+          <p><a itemprop="url" href="https://bartoszosiej.github.io/" class="text-bone underline decoration-rust/40 underline-offset-4 hover:text-rust">bartoszosiej.github.io</a></p>
+        </address>
+      </div>
+    </div>
   </section>
 
   <!-- ─────── CHRONOMETER / STATS ─────── -->
