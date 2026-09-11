@@ -4,8 +4,8 @@
 :root {
   --void: #050505;
   --rust: #F15A24;
-  --blood: #DA2C38;
-  --slate2: #4A5262;
+  --blood: #E04855;
+  --slate2: #8B93A3;
   --bone: #E8E6E3;
   color-scheme: dark;
 }
@@ -195,3 +195,4 @@ a { color: inherit; text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+.underline { text-decoration-line: underline; text-underline-offset: 3px; }
