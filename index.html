@@ -156,6 +156,7 @@ a { color: inherit; text-decoration: none; }
 @keyframes root-ping {
   75%, 100% { transform: scale(2); opacity: 0; }
 }
+.flex { display: flex; }
 .inline-flex { display: inline-flex; }
 .flex-col { display: flex; flex-direction: column; }
 .flex-wrap { flex-wrap: wrap; }
@@ -400,7 +401,7 @@ a{color:inherit}
       <a href="#hub" class="hover:text-bone transition-colors">[03]_HUB</a>
       <a href="#subpages" class="hover:text-bone transition-colors">[04]_SUBPAGES</a>
       <a href="https://github.com/BartoszOsiej" class="hover:text-rust transition-colors" aria-label="GitHub">
-        <svg class="w-4 h-4" aria-hidden="true"><use href="#i-github"/></svg>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
       </a>
     </nav>
     <span class="sm:hidden text-slate2 text-[11px] tracking-widest">RUST+eBPF</span>
@@ -427,10 +428,10 @@ a{color:inherit}
 
     <div class="mt-10 flex flex-wrap items-center gap-4" data-hero>
       <a href="#systems" class="brutal-rust inline-flex items-center gap-2 bg-rust text-void px-6 py-3 text-[13px] font-bold hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none hover:bg-[#ff6a35] transition-all">
-        EXPLORE_WORK <svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg>
+        EXPLORE_WORK <svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg>
       </a>
       <a href="https://bartoszosiej.github.io/thethreadcalls/" class="brutal-blood inline-flex items-center gap-2 border border-blood text-blood px-6 py-3 text-[13px] font-bold hover:bg-blood hover:text-void transition-all">
-        READ_THE_STITCHER <svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg>
+        READ_THE_STITCHER <svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg>
       </a>
       <span class="inline-flex items-center gap-2 text-[11px] tracking-widest text-slate2">
         <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rust opacity-60"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-rust"></span></span>
@@ -471,7 +472,7 @@ a{color:inherit}
         <h2 class="text-3xl md:text-5xl font-bold tracking-tight mt-3">INFRASTRUCTURE,<br><span class="text-rust">BUILT_TO_SHIP.</span></h2>
       </div>
       <a href="https://github.com/BartoszOsiej" class="text-[12px] tracking-widest text-slate2 hover:text-rust transition-colors inline-flex items-center gap-2">
-        ALL_REPOSITORIES <svg class="w-[10px] h-[10px]" aria-hidden="true"><use href="#i-ext"/></svg>
+        ALL_REPOSITORIES <svg class="w-[10px] h-[10px]" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg>
       </a>
     </div>
 
@@ -479,8 +480,8 @@ a{color:inherit}
       <!-- linux-aegis -->
       <a href="https://github.com/BartoszOsiej/linux-aegis" class="p-card glow-rust brutal block p-5 reveal group">
         <div class="flex items-center justify-between">
-          <span class="icon-tile border p-2"><svg class="w-5 h-5" aria-hidden="true"><use href="#i-shield"/></svg></span>
-          <span class="arr"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+          <span class="icon-tile border p-2"><svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg></span>
+          <span class="arr"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
         </div>
         <h3 class="mt-5 text-[15px] font-bold tracking-tight">linux-aegis</h3>
         <p class="mt-2 text-[11px] leading-relaxed text-slate2">Stackable Linux Security Module — in-tree upstream, boots in QEMU.</p>
@@ -491,8 +492,8 @@ a{color:inherit}
       <!-- talus -->
       <a href="https://github.com/BartoszOsiej/talus-process-monitor" class="p-card glow-rust brutal block p-5 reveal group">
         <div class="flex items-center justify-between">
-          <span class="icon-tile border p-2"><svg class="w-5 h-5" aria-hidden="true"><use href="#i-activity"/></svg></span>
-          <span class="arr"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+          <span class="icon-tile border p-2"><svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-activity"/></svg></span>
+          <span class="arr"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
         </div>
         <h3 class="mt-5 text-[15px] font-bold tracking-tight">talus-process-monitor</h3>
         <p class="mt-2 text-[11px] leading-relaxed text-slate2">eBPF ransomware tracker — execve/openat tracing, live alerting.</p>
@@ -503,8 +504,8 @@ a{color:inherit}
       <!-- externum -->
       <a href="https://github.com/BartoszOsiej/externum" class="p-card glow-rust brutal block p-5 reveal group">
         <div class="flex items-center justify-between">
-          <span class="icon-tile border p-2"><svg class="w-5 h-5" aria-hidden="true"><use href="#i-terminal"/></svg></span>
-          <span class="arr"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+          <span class="icon-tile border p-2"><svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-terminal"/></svg></span>
+          <span class="arr"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
         </div>
         <h3 class="mt-5 text-[15px] font-bold tracking-tight">externum</h3>
         <p class="mt-2 text-[11px] leading-relaxed text-slate2">Language compiling to Python, Bash and native binary — 192 tests.</p>
@@ -515,8 +516,8 @@ a{color:inherit}
       <!-- fortis -->
       <a href="https://github.com/BartoszOsiej/fortis" class="p-card glow-rust brutal block p-5 reveal group">
         <div class="flex items-center justify-between">
-          <span class="icon-tile border p-2"><svg class="w-5 h-5" aria-hidden="true"><use href="#i-lock"/></svg></span>
-          <span class="arr"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+          <span class="icon-tile border p-2"><svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lock"/></svg></span>
+          <span class="arr"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
         </div>
         <h3 class="mt-5 text-[15px] font-bold tracking-tight">fortis</h3>
         <p class="mt-2 text-[11px] leading-relaxed text-slate2">Bare-metal RISC-V chain-of-trust — SHA-256 + ML-KEM-768, no OS.</p>
@@ -527,8 +528,8 @@ a{color:inherit}
       <!-- quantum-shield -->
       <a href="https://github.com/BartoszOsiej/quantum-shield" class="p-card glow-rust brutal block p-5 reveal group">
         <div class="flex items-center justify-between">
-          <span class="icon-tile border p-2"><svg class="w-5 h-5" aria-hidden="true"><use href="#i-hexagon"/></svg></span>
-          <span class="arr"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+          <span class="icon-tile border p-2"><svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-hexagon"/></svg></span>
+          <span class="arr"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
         </div>
         <h3 class="mt-5 text-[15px] font-bold tracking-tight">quantum-shield</h3>
         <p class="mt-2 text-[11px] leading-relaxed text-slate2">Post-quantum file encryption — ML-KEM-768 + AES-256-GCM, fuzz-tested.</p>
@@ -539,8 +540,8 @@ a{color:inherit}
       <!-- NV2 -->
       <a href="https://github.com/BartoszOsiej/NV2_ENGINE" class="p-card glow-rust brutal block p-5 reveal group">
         <div class="flex items-center justify-between">
-          <span class="icon-tile border p-2"><svg class="w-5 h-5" aria-hidden="true"><use href="#i-box"/></svg></span>
-          <span class="arr"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+          <span class="icon-tile border p-2"><svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-box"/></svg></span>
+          <span class="arr"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
         </div>
         <h3 class="mt-5 text-[15px] font-bold tracking-tight">NV2_ENGINE</h3>
         <p class="mt-2 text-[11px] leading-relaxed text-slate2">Voxel engine — neural renderer, multiplayer, ECS, content pipeline.</p>
@@ -551,8 +552,8 @@ a{color:inherit}
       <!-- aurora -->
       <a href="https://github.com/BartoszOsiej/Aurora" class="p-card glow-rust brutal block p-5 reveal group">
         <div class="flex items-center justify-between">
-          <span class="icon-tile border p-2"><svg class="w-5 h-5" aria-hidden="true"><use href="#i-monitor"/></svg></span>
-          <span class="arr"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+          <span class="icon-tile border p-2"><svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-monitor"/></svg></span>
+          <span class="arr"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
         </div>
         <h3 class="mt-5 text-[15px] font-bold tracking-tight">Aurora</h3>
         <p class="mt-2 text-[11px] leading-relaxed text-slate2">Operating system in the browser — kernel, WM, fs, 8 apps.</p>
@@ -563,8 +564,8 @@ a{color:inherit}
       <!-- cyberforge -->
       <a href="https://github.com/BartoszOsiej/CyberForge" class="p-card glow-rust brutal block p-5 reveal group">
         <div class="flex items-center justify-between">
-          <span class="icon-tile border p-2"><svg class="w-5 h-5" aria-hidden="true"><use href="#i-crosshair"/></svg></span>
-          <span class="arr"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+          <span class="icon-tile border p-2"><svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-crosshair"/></svg></span>
+          <span class="arr"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
         </div>
         <h3 class="mt-5 text-[15px] font-bold tracking-tight">CyberForge</h3>
         <p class="mt-2 text-[11px] leading-relaxed text-slate2">Four Rust security tools — scanner, hash crack, packet analyze.</p>
@@ -585,7 +586,7 @@ a{color:inherit}
         <h2 class="text-3xl md:text-5xl font-bold tracking-tight mt-3"><span class="text-blood">THE_STITCHER</span><br>TRILOGY.</h2>
       </div>
       <a href="https://bartoszosiej.github.io/thethreadcalls/" class="text-[12px] tracking-widest text-slate2 hover:text-blood transition-colors inline-flex items-center gap-2">
-        BOOK_SITE <svg class="w-[10px] h-[10px]" aria-hidden="true"><use href="#i-ext"/></svg>
+        BOOK_SITE <svg class="w-[10px] h-[10px]" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg>
       </a>
     </div>
 
@@ -596,7 +597,7 @@ a{color:inherit}
       <a href="https://www.amazon.com/dp/B0HHY39314" class="book brutal-blood block p-6 reveal group">
         <div class="flex items-center justify-between">
           <span class="book-no text-[11px] tracking-[.2em] text-slate2 uppercase transition-colors">Book_01</span>
-          <span class="go text-blood"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+          <span class="go text-blood"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
         </div>
         <h3 class="mt-8 text-3xl font-bold tracking-tight text-bone hover:text-blood transition-colors">The Stitcher</h3>
         <p class="mt-4 text-[12px] leading-relaxed text-slate2">A detective finds Mrs. Harlow surrounded by dolls sewn from human skin — and falls into the obsession himself.</p>
@@ -609,7 +610,7 @@ a{color:inherit}
       <a href="https://www.amazon.com/dp/B0HHXT2ZRZ" class="book brutal-blood block p-6 reveal group">
         <div class="flex items-center justify-between">
           <span class="book-no text-[11px] tracking-[.2em] text-slate2 uppercase transition-colors">Book_02</span>
-          <span class="go text-blood"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+          <span class="go text-blood"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
         </div>
         <h3 class="mt-8 text-3xl font-bold tracking-tight text-bone hover:text-blood transition-colors">The Curator</h3>
         <p class="mt-4 text-[12px] leading-relaxed text-slate2">Pia Redfern inherits a museum of impossible, beating shells — and the curator who loves them too much.</p>
@@ -622,7 +623,7 @@ a{color:inherit}
       <a href="https://www.amazon.com/dp/B0GX7CPY7H" class="book brutal-blood block p-6 reveal group">
         <div class="flex items-center justify-between">
           <span class="book-no text-[11px] tracking-[.2em] text-slate2 uppercase transition-colors">Book_03</span>
-          <span class="go text-blood"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+          <span class="go text-blood"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
         </div>
         <h3 class="mt-8 text-3xl font-bold tracking-tight text-bone hover:text-blood transition-colors">The Reckoning</h3>
         <p class="mt-4 text-[12px] leading-relaxed text-slate2">The thread fraying. The ending of the trilogy.</p>
@@ -643,74 +644,74 @@ a{color:inherit}
       <a href="https://github.com/BartoszOsiej" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4">
-          <svg class="w-7 h-7 text-bone" aria-hidden="true"><use href="#i-github"/></svg>
+          <svg class="w-7 h-7 text-bone" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
           <span>
             <span class="block text-[14px] font-bold">GitHub</span>
             <span class="lab block text-[11px]">github.com/BartoszOsiej</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">22_REPOS // SOURCE_OF_TRUTH</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
       <a href="https://dev.to/bartoszosiej" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4">
-          <svg class="w-7 h-7 text-bone" aria-hidden="true"><use href="#i-dev"/></svg>
+          <svg class="w-7 h-7 text-bone" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-dev"/></svg>
           <span>
             <span class="block text-[14px] font-bold">dev.to</span>
             <span class="lab block text-[11px]">bartoszosiej — engineering write-ups</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">eBPF · SECURITY · COMPILERS</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
       <a href="https://www.linkedin.com/in/bartoszosiej2007/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4">
-          <svg class="w-7 h-7 text-bone" aria-hidden="true"><use href="#i-linkedin"/></svg>
+          <svg class="w-7 h-7 text-bone" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-linkedin"/></svg>
           <span>
             <span class="block text-[14px] font-bold">LinkedIn</span>
             <span class="lab block text-[11px]">in/bartoszosiej2007</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">OPEN_TO_ROLES</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
       <a href="https://bartoszosiej.github.io/Portfolio/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4">
-          <svg class="w-6 h-6 text-bone" aria-hidden="true"><use href="#i-layout-grid"/></svg>
+          <svg class="w-6 h-6 text-bone" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-layout-grid"/></svg>
           <span>
             <span class="block text-[14px] font-bold">Portfolio</span>
             <span class="lab block text-[11px]">bartoszosiej.github.io/Portfolio/</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">PROJECTS_&_NOTES</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
       <a href="https://bartoszosiej.github.io/Docs/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4">
-          <svg class="w-6 h-6 text-bone" aria-hidden="true"><use href="#i-book-open"/></svg>
+          <svg class="w-6 h-6 text-bone" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-book-open"/></svg>
           <span>
             <span class="block text-[14px] font-bold">Docs</span>
             <span class="lab block text-[11px]">bartoszosiej.github.io/Docs/</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">ARCHITECTURE_&_QA</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
       <a href="mailto:thethreadcalls@outlook.com" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4">
-          <svg class="w-6 h-6 text-bone" aria-hidden="true"><use href="#i-mail"/></svg>
+          <svg class="w-6 h-6 text-bone" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mail"/></svg>
           <span>
             <span class="block text-[14px] font-bold">Email</span>
             <span class="lab block text-[11px]">thethreadcalls@outlook.com</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">WORK_/_MEDIA</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
     </div>
   </section>
@@ -723,98 +724,98 @@ a{color:inherit}
       <a href="https://bartoszosiej.github.io/Docs/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4 min-w-0">
-          <svg class="w-7 h-7 text-bone shrink-0" aria-hidden="true"><use href="#i-book"/></svg>
+          <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-book"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/Docs</span>
             <span class="lab block text-[11px]">bartoszosiej.github.io/Docs</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">FULL_DOCUMENTATION_MIRROR</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
       <a href="https://bartoszosiej.github.io/externum/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4 min-w-0">
-          <svg class="w-7 h-7 text-bone shrink-0" aria-hidden="true"><use href="#i-cubes"/></svg>
+          <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cubes"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/externum</span>
             <span class="lab block text-[11px]">bartoszosiej.github.io/externum</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">EXTERNUM_LANGUAGE</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
       <a href="https://bartoszosiej.github.io/talus-process-monitor/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4 min-w-0">
-          <svg class="w-7 h-7 text-bone shrink-0" aria-hidden="true"><use href="#i-activity"/></svg>
+          <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-activity"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/talus-process-monitor</span>
             <span class="lab block text-[11px]">bartoszosiej.github.io/talus-process-monitor</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">EBPF_RANSOMWARE_MONITOR</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
       <a href="https://bartoszosiej.github.io/quantum-shield/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4 min-w-0">
-          <svg class="w-7 h-7 text-bone shrink-0" aria-hidden="true"><use href="#i-lock"/></svg>
+          <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lock"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/quantum-shield</span>
             <span class="lab block text-[11px]">bartoszosiej.github.io/quantum-shield</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">POST_QUANTUM_RUST_CRYPTO</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
       <a href="https://bartoszosiej.github.io/NV2_ENGINE/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4 min-w-0">
-          <svg class="w-7 h-7 text-bone shrink-0" aria-hidden="true"><use href="#i-box"/></svg>
+          <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-box"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/NV2_ENGINE</span>
             <span class="lab block text-[11px]">bartoszosiej.github.io/NV2_ENGINE</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">RUST_VOXEL_ENGINE</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
       <a href="https://bartoszosiej.github.io/thethreadcalls/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4 min-w-0">
-          <svg class="w-7 h-7 text-bone shrink-0" aria-hidden="true"><use href="#i-quote"/></svg>
+          <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-quote"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/thethreadcalls</span>
             <span class="lab block text-[11px]">bartoszosiej.github.io/thethreadcalls</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">STITCHER_TRILOGY_BOOKS</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
       <a href="https://bartoszosiej.github.io/linux-aegis/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4 min-w-0">
-          <svg class="w-7 h-7 text-bone shrink-0" aria-hidden="true"><use href="#i-shield"/></svg>
+          <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/linux-aegis</span>
             <span class="lab block text-[11px]">bartoszosiej.github.io/linux-aegis</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">LINUX_SECURITY_MODULE</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
       <a href="https://bartoszosiej.github.io/fortis/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
         <span class="flex items-center gap-4 min-w-0">
-          <svg class="w-7 h-7 text-bone shrink-0" aria-hidden="true"><use href="#i-fingerprint"/></svg>
+          <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-fingerprint"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/fortis</span>
             <span class="lab block text-[11px]">bartoszosiej.github.io/fortis</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">POST_QUANTUM_MEASURED_BOOT</span>
-        <span class="go"><svg class="w-3 h-3" aria-hidden="true"><use href="#i-ext"/></svg></span>
+        <span class="go"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
       </a>
     </div>
   </section>
