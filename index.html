@@ -1,135 +1,390 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bartosz Osiej — Software Developer & Author</title>
-    <meta name="description" content="Bartosz Osiej — Polish software developer (Rust, eBPF, Linux kernel, security, compilers) and author of The Stitcher Trilogy (crime horror).">
-    <meta name="author" content="Bartosz Osiej">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://bartoszosiej.github.io/">
-    <link rel="me" href="https://github.com/BartoszOsiej">
-    <link rel="me" href="https://dev.to/bartoszosiej">
-    <link rel="me" href="https://www.linkedin.com/in/bartoszosiej2007/">
-    <link rel="icon" type="image/png" href="img/bartosz-osiej.jpg">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bartosz Osiej — Software Developer & Author</title>
+<meta name="description" content="Bartosz Osiej — Polish software developer (Rust, eBPF, Linux kernel, security, compilers) and author of The Stitcher Trilogy (crime horror).">
+<meta name="author" content="Bartosz Osiej">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://bartoszosiej.github.io/">
+<link rel="me" href="https://github.com/BartoszOsiej">
+<link rel="me" href="https://dev.to/bartoszosiej">
+<link rel="me" href="https://www.linkedin.com/in/bartoszosiej2007/">
+<link rel="icon" type="image/png" href="img/bartosz-osiej.jpg">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Bartosz Osiej — Software Developer & Author">
+<meta property="og:description" content="Polish software developer (Rust, eBPF, Linux kernel) and author of The Stitcher Trilogy.">
+<meta property="og:image" content="https://bartoszosiej.github.io/img/bartosz-osiej.jpg">
+<meta property="og:url" content="https://bartoszosiej.github.io/">
 
-    <meta property="og:type" content="profile">
-    <meta property="og:title" content="Bartosz Osiej — Software Developer & Author">
-    <meta property="og:description" content="Polish software developer (Rust, eBPF, Linux kernel) and author of The Stitcher Trilogy.">
-    <meta property="og:image" content="https://bartoszosiej.github.io/img/bartosz-osiej.jpg">
-    <meta property="og:url" content="https://bartoszosiej.github.io/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","@id":"https://bartoszosiej.github.io/#person","name":"Bartosz Osiej","givenName":"Bartosz","additionalName":"Dominik","familyName":"Osiej","alternateName":["Bartosz Dominik Osiej","bartoszosiej"],"birthDate":"2007-01-11","birthPlace":{"@type":"Place","name":"Szczecin","address":{"@type":"PostalAddress","addressLocality":"Szczecin","addressCountry":"PL"}},"nationality":{"@type":"Country","name":"Poland"},"jobTitle":["Software Developer","Systems Programmer","Author"],"description":"Polish software developer and author building Rust, eBPF and kernel-level systems, and writing crime-horror fiction.","knowsAbout":["Rust (programming language)","eBPF","Linux kernel","Computer security","Post-quantum cryptography","Compilers","Voxel rendering","Crime horror fiction"],"knowsLanguage":["pl","en"],"url":"https://bartoszosiej.github.io/","mainEntityOfPage":"https://bartoszosiej.github.io/","image":"https://bartoszosiej.github.io/img/bartosz-osiej.jpg","sameAs":["https://github.com/BartoszOsiej","https://dev.to/bartoszosiej","https://www.linkedin.com/in/bartoszosiej2007/","https://bartoszosiej.github.io/Portfolio/","https://bartoszosiej.github.io/Docs/","https://bartoszosiej.github.io/thethreadcalls/","https://www.amazon.com/stores/Bartosz-Osiej/author/B0HJ7N8BXQ"],"worksFor":{"@type":"Organization","name":"Independent"},"hasOccupation":{"@type":"Occupation","name":"Software Developer","occupationalCategory":"15-1252.00","skills":"Rust; eBPF; Linux kernel; C; Python; TypeScript; security engineering"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BookSeries","@id":"https://bartoszosiej.github.io/thethreadcalls/#series","name":"The Stitcher Trilogy","author":{"@id":"https://bartoszosiej.github.io/#person"},"hasPart":[{"@type":"Book","name":"The Stitcher","bookFormat":"https://schema.org/EBook","inLanguage":"en","position":1,"datePublished":"2026-09-05","author":{"@id":"https://bartoszosiej.github.io/#person"},"publisher":{"@type":"Organization","name":"Amazon Kindle Direct Publishing"},"identifier":{"@type":"PropertyValue","propertyID":"ASIN","value":"B0HHY39314"},"url":"https://www.amazon.com/dp/B0HHY39314"},{"@type":"Book","name":"The Curator","bookFormat":"https://schema.org/EBook","inLanguage":"en","position":2,"author":{"@id":"https://bartoszosiej.github.io/#person"},"publisher":{"@type":"Organization","name":"Amazon Kindle Direct Publishing"},"identifier":{"@type":"PropertyValue","propertyID":"ASIN","value":"B0HHXT2ZRZ"},"url":"https://www.amazon.com/dp/B0HHXT2ZRZ"},{"@type":"Book","name":"The Reckoning","bookFormat":"https://schema.org/EBook","inLanguage":"en","position":3,"author":{"@id":"https://bartoszosiej.github.io/#person"},"publisher":{"@type":"Organization","name":"Amazon Kindle Direct Publishing"},"identifier":{"@type":"PropertyValue","propertyID":"ASIN","value":"B0GX7CPY7H"},"url":"https://www.amazon.com/dp/B0GX7CPY7H"}]}
+</script>
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "@id": "https://bartoszosiej.github.io/#person",
-      "name": "Bartosz Osiej",
-      "givenName": "Bartosz",
-      "additionalName": "Dominik",
-      "familyName": "Osiej",
-      "alternateName": ["Bartosz Dominik Osiej", "bartoszosiej"],
-      "birthDate": "2007-01-11",
-      "birthPlace": { "@type": "Place", "name": "Szczecin", "address": { "@type": "PostalAddress", "addressLocality": "Szczecin", "addressCountry": "PL" } },
-      "nationality": { "@type": "Country", "name": "Poland" },
-      "jobTitle": ["Software Developer", "Systems Programmer", "Author"],
-      "description": "Polish software developer and author building Rust, eBPF and kernel-level systems, and writing crime-horror fiction.",
-      "knowsAbout": ["Rust (programming language)", "eBPF", "Linux kernel", "Computer security", "Post-quantum cryptography", "Compilers", "Voxel rendering", "Crime horror fiction"],
-      "knowsLanguage": ["pl", "en"],
-      "url": "https://bartoszosiej.github.io/",
-      "mainEntityOfPage": "https://bartoszosiej.github.io/",
-      "image": "https://bartoszosiej.github.io/img/bartosz-osiej.jpg",
-      "sameAs": [
-        "https://github.com/BartoszOsiej",
-        "https://dev.to/bartoszosiej",
-        "https://www.linkedin.com/in/bartoszosiej2007/",
-        "https://bartoszosiej.github.io/Portfolio/",
-        "https://bartoszosiej.github.io/Docs/",
-        "https://bartoszosiej.github.io/thethreadcalls/",
-        "https://www.amazon.com/stores/Bartosz-Osiej/author/B0HJ7N8BXQ"
-      ],
-      "worksFor": { "@type": "Organization", "name": "Independent" },
-      "hasOccupation": {
-        "@type": "Occupation",
-        "name": "Software Developer",
-        "occupationalCategory": "15-1252.00",
-        "skills": "Rust; eBPF; Linux kernel; C; Python; TypeScript; security engineering"
-      }
-    }
-    </script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BookSeries",
-      "@id": "https://bartoszosiej.github.io/thethreadcalls/#series",
-      "name": "The Stitcher Trilogy",
-      "author": { "@id": "https://bartoszosiej.github.io/#person" },
-      "hasPart": [
-        { "@type": "Book", "name": "The Stitcher", "bookFormat": "https://schema.org/EBook", "inLanguage": "en", "position": 1, "datePublished": "2026-09-05", "author": { "@id": "https://bartoszosiej.github.io/#person" }, "publisher": { "@type": "Organization", "name": "Amazon Kindle Direct Publishing" }, "identifier": { "@type": "PropertyValue", "propertyID": "ASIN", "value": "B0HHY39314" }, "url": "https://www.amazon.com/dp/B0HHY39314" },
-        { "@type": "Book", "name": "The Curator", "bookFormat": "https://schema.org/EBook", "inLanguage": "en", "position": 2, "author": { "@id": "https://bartoszosiej.github.io/#person" }, "publisher": { "@type": "Organization", "name": "Amazon Kindle Direct Publishing" }, "identifier": { "@type": "PropertyValue", "propertyID": "ASIN", "value": "B0HHXT2ZRZ" }, "url": "https://www.amazon.com/dp/B0HHXT2ZRZ" },
-        { "@type": "Book", "name": "The Reckoning", "bookFormat": "https://schema.org/EBook", "inLanguage": "en", "position": 3, "author": { "@id": "https://bartoszosiej.github.io/#person" }, "publisher": { "@type": "Organization", "name": "Amazon Kindle Direct Publishing" }, "identifier": { "@type": "PropertyValue", "propertyID": "ASIN", "value": "B0GX7CPY7H" }, "url": "https://www.amazon.com/dp/B0GX7CPY7H" }
-      ]
-    }
-    </script>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06060b;--card:#0d0d14;--card2:#111119;--fg:#e8e6e3;
+  --muted:#6b6878;--dim:#3d3a47;
+  --red:#9c1e1a;--red-glow:#ff2a1e;--red-dim:#5a100d;
+  --cyan:#00e5c7;--purple:#a855f7;--blue:#3b82f6;
+  --border:#1a1a24;--border-glow:#2a2a3a;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif;overflow-x:hidden}
 
-    <style>
-        :root { --bg:#0e0e11; --card:#17171d; --fg:#e8e6e3; --muted:#9a97a0; --accent:#9c1e1a; --border:#26262e; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background:var(--bg); color:var(--fg); font-family:Georgia,'Times New Roman',serif; line-height:1.6; min-height:100vh; }
-        main { max-width:720px; margin:0 auto; padding:64px 24px 96px; }
-        .avatar { width:96px; height:96px; border-radius:50%; object-fit:cover; border:2px solid var(--accent); }
-        h1 { font-size:40px; margin-top:20px; letter-spacing:-0.5px; }
-        .roles { color:var(--muted); font-family:'Courier New',monospace; font-size:15px; margin:8px 0 32px; }
-        .lede { font-size:18px; margin-bottom:40px; }
-        .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
-        a.card { display:block; text-decoration:none; color:var(--fg); background:var(--card); border:1px solid var(--border); border-radius:8px; padding:16px; transition:border-color .15s; }
-        a.card:hover { border-color:var(--accent); }
-        .card h2 { font-size:16px; margin-bottom:4px; }
-        .card p { color:var(--muted); font-size:13px; }
-        footer { margin-top:48px; color:var(--muted); font-size:13px; font-family:'Courier New',monospace; }
-        footer a { color:var(--fg); }
-    </style>
+/* ── PARTICLE CANVAS ── */
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ── SCROLL INDICATOR ── */
+.scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--red),var(--cyan));z-index:9999;transition:width 0.1s linear}
+
+/* ── GLOW CURSOR ── */
+.cursor-glow{position:fixed;width:600px;height:600px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(156,30,26,0.06) 0%,transparent 70%);
+  transform:translate(-50%,-50%);transition:left .3s ease,top .3s ease}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;width:100%;z-index:1000;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;
+  background:rgba(6,6,11,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+nav .logo{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--red);letter-spacing:2px;text-transform:uppercase}
+nav .links{display:flex;gap:24px}
+nav .links a{color:var(--muted);text-decoration:none;font-size:13px;font-family:'JetBrains Mono',monospace;transition:color .2s}
+nav .links a:hover{color:var(--fg)}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;z-index:1}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(156,30,26,0.08) 0%,transparent 100%);pointer-events:none}
+.avatar-wrap{position:relative;margin-bottom:28px}
+.avatar{width:120px;height:120px;border-radius:50%;border:2px solid var(--border);object-fit:cover;transition:border-color .4s,box-shadow .4s}
+.avatar:hover{border-color:var(--red);box-shadow:0 0 40px rgba(156,30,26,0.4)}
+.avatar-ring{position:absolute;inset:-6px;border-radius:50%;border:1px solid var(--dim);animation:spin 20s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero h1{font-size:clamp(42px,7vw,80px);font-weight:700;letter-spacing:-2px;line-height:1;margin-bottom:8px;
+  background:linear-gradient(135deg,var(--fg) 0%,var(--fg) 60%,var(--red-glow) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero .subtitle{font-family:'JetBrains Mono',monospace;font-size:clamp(13px,1.5vw,16px);color:var(--muted);letter-spacing:1px;margin-bottom:32px}
+.hero .subtitle .cursor{display:inline-block;width:2px;height:1em;background:var(--red);margin-left:2px;animation:blink 1s step-end infinite;vertical-align:text-bottom}
+@keyframes blink{50%{opacity:0}}
+.hero .desc{max-width:560px;color:var(--muted);font-size:17px;line-height:1.7}
+.hero .desc strong{color:var(--fg)}
+
+/* ── SECTION ── */
+section{position:relative;z-index:1;padding:80px 24px;max-width:1100px;margin:0 auto}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--red);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.section-title{font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-1px;margin-bottom:40px;line-height:1.15}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:12px;overflow:hidden;margin-bottom:80px}
+.stat{background:var(--card);padding:32px 24px;text-align:center}
+.stat-num{font-size:clamp(32px,4vw,48px);font-weight:700;letter-spacing:-1px}
+.stat-num.red{color:var(--red-glow)}
+.stat-num.cyan{color:var(--cyan)}
+.stat-num.purple{color:var(--purple)}
+.stat-num.blue{color:var(--blue)}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px;text-transform:uppercase}
+
+/* ── PROJECT CARDS ── */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.p-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;text-decoration:none;color:var(--fg);
+  transition:transform .25s,border-color .25s,box-shadow .4s;position:relative;overflow:hidden}
+.p-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .4s;
+  background:linear-gradient(135deg,rgba(156,30,26,0.05) 0%,rgba(0,229,199,0.03) 100%)}
+.p-card:hover{transform:translateY(-4px);border-color:var(--border-glow);box-shadow:0 12px 48px rgba(0,0,0,0.5)}
+.p-card:hover::before{opacity:1}
+.p-card .p-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;position:relative;z-index:1}
+.p-card .p-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.p-card .p-arrow{color:var(--dim);font-size:14px;transition:color .2s}
+.p-card:hover .p-arrow{color:var(--fg)}
+.p-card h3{font-size:16px;font-weight:600;margin-bottom:6px;position:relative;z-index:1}
+.p-card .p-desc{font-size:13px;color:var(--muted);line-height:1.5;position:relative;z-index:1}
+.p-card .p-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;position:relative;z-index:1}
+.p-card .p-tag{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,0.04);color:var(--dim);border:1px solid var(--border)}
+.p-card:hover .p-tag{border-color:var(--border-glow);color:var(--muted)}
+.p-icon.red-i{background:rgba(156,30,26,0.15);color:var(--red-glow)}
+.p-icon.cyan-i{background:rgba(0,229,199,0.1);color:var(--cyan)}
+.p-icon.purple-i{background:rgba(168,85,247,0.1);color:var(--purple)}
+.p-icon.blue-i{background:rgba(59,130,246,0.1);color:var(--blue)}
+
+/* ── BOOKS ── */
+.books-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.book-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px 24px;text-decoration:none;color:var(--fg);transition:all .3s;position:relative;overflow:hidden}
+.book-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--red-glow));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.book-card:hover{transform:translateY(-3px);border-color:var(--red-dim);box-shadow:0 8px 32px rgba(156,30,26,0.15)}
+.book-card:hover::after{transform:scaleX(1)}
+.book-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--red);letter-spacing:2px;margin-bottom:12px}
+.book-card h3{font-size:20px;font-weight:600;margin-bottom:8px}
+.book-card .blurb{font-size:13px;color:var(--muted);line-height:1.6}
+.book-card .asin{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);margin-top:16px;display:block}
+
+/* ── LINKS BAR ── */
+.links-bar{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.link-card{display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--card);border:1px solid var(--border);border-radius:10px;
+  text-decoration:none;color:var(--fg);transition:all .2s;font-size:14px}
+.link-card:hover{border-color:var(--border-glow);background:var(--card2)}
+.link-card .l-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;
+  background:rgba(156,30,26,0.1);color:var(--red-glow)}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:1;padding:48px 24px;text-align:center;border-top:1px solid var(--border);max-width:1100px;margin:0 auto}
+footer p{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim)}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--fg)}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .books-strip{grid-template-columns:1fr}
+  .projects-grid{grid-template-columns:1fr}
+  .links-bar{grid-template-columns:1fr}
+  nav .links{gap:14px}
+  nav .links a{font-size:11px}
+}
+</style>
 </head>
 <body>
-<main>
+
+<canvas id="particles"></canvas>
+<div class="cursor-glow" id="glow"></div>
+<div class="scroll-progress" id="progress"></div>
+
+<nav>
+  <div class="logo">Bartosz Osiej</div>
+  <div class="links">
+    <a href="#projects">Projects</a>
+    <a href="#writing">Writing</a>
+    <a href="https://bartoszosiej.github.io/Portfolio/">Portfolio</a>
+    <a href="https://github.com/BartoszOsiej">GitHub</a>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="avatar-wrap">
+    <div class="avatar-ring"></div>
     <img class="avatar" src="img/bartosz-osiej.jpg" alt="Bartosz Osiej">
-    <h1>Bartosz Osiej</h1>
-    <p class="roles">SOFTWARE DEVELOPER &middot; RUST &middot; eBPF &middot; AUTHOR</p>
-    <p class="lede">Polish software developer and author. I build Rust, eBPF and Linux
-    kernel systems, and I write crime-horror fiction.</p>
+  </div>
+  <h1>Bartosz Osiej</h1>
+  <p class="subtitle"><span id="typing"></span><span class="cursor"></span></p>
+  <p class="desc">I build <strong>systems software</strong> in Rust and eBPF — kernel-level tooling, compilers, security, post-quantum cryptography.
+  I also write <strong>crime-horror fiction</strong> about obsession, silk, and the thin line between art and madness.</p>
+</section>
 
-    <div class="grid">
-        <a class="card" href="https://bartoszosiej.github.io/Portfolio/">
-            <h2>Portfolio</h2>
-            <p>Developer portfolio — projects, TL;DR engineering notes.</p>
-        </a>
-        <a class="card" href="https://bartoszosiej.github.io/Docs/">
-            <h2>Docs hub</h2>
-            <p>Architecture, QA, project catalogs, telecom wiki.</p>
-        </a>
-        <a class="card" href="https://bartoszosiej.github.io/thethreadcalls/">
-            <h2>The Stitcher Trilogy</h2>
-            <p>Crime-horror novels about obsession, silk, and the thin line between art and madness.</p>
-        </a>
-        <a class="card" href="https://github.com/BartoszOsiej">
-            <h2>GitHub</h2>
-            <p>22 public repositories with CI/CD, releases, signed images.</p>
-        </a>
-        <a class="card" href="https://dev.to/bartoszosiej">
-            <h2>dev.to</h2>
-            <p>Technical write-ups: eBPF, security, language engineering.</p>
-        </a>
-        <a class="card" href="https://www.linkedin.com/in/bartoszosiej2007/">
-            <h2>LinkedIn</h2>
-            <p>Professional profile.</p>
-        </a>
+<!-- ═══════════ STATS ═══════════ -->
+<section>
+  <div class="stats reveal">
+    <div class="stat">
+      <div class="stat-num red" data-target="22">0</div>
+      <div class="stat-label">Repos</div>
     </div>
+    <div class="stat">
+      <div class="stat-num cyan" data-target="8">0</div>
+      <div class="stat-label">Registries</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num purple" data-target="5">0</div>
+      <div class="stat-label">Platforms</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num blue" data-target="3">0</div>
+      <div class="stat-label">Books</div>
+    </div>
+  </div>
+</section>
 
-    <footer>
-        Contact: <a href="mailto:thethreadcalls@outlook.com">thethreadcalls@outlook.com</a> &middot;
-        Open&nbsp;source &amp; fiction, no ads.
-    </footer>
-</main>
+<!-- ═══════════ PROJECTS ═══════════ -->
+<section id="projects">
+  <div class="section-label reveal">Systemes</div>
+  <h2 class="section-title reveal">Flagship projects</h2>
+  <div class="projects-grid">
+
+    <a class="p-card reveal" href="https://github.com/BartoszOsiej/linux-aegis">
+      <div class="p-top"><div class="p-icon red-i">🛡</div><span class="p-arrow">↗</span></div>
+      <h3>linux-aegis</h3>
+      <div class="p-desc">Stackable Linux Security Module. In-tree upstream, four feature-flagged layers, CI + QEMU boot.</div>
+      <div class="p-tags"><span class="p-tag">C</span><span class="p-tag">LSM</span><span class="p-tag">kernel</span></div>
+    </a>
+
+    <a class="p-card reveal" href="https://github.com/BartoszOsiej/talus-process-monitor">
+      <div class="p-top"><div class="p-icon cyan-i">⚡</div><span class="p-arrow">↗</span></div>
+      <h3>talus-process-monitor</h3>
+      <div class="p-desc">eBPF ransomware tracker — execve/openat kernel tracing, per-CPU perf buffers, FrankenTUI.</div>
+      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">eBPF</span><span class="p-tag">security</span></div>
+    </a>
+
+    <a class="p-card reveal" href="https://github.com/BartoszOsiej/externum">
+      <div class="p-top"><div class="p-icon purple-i">◈</div><span class="p-arrow">↗</span></div>
+      <h3>externum</h3>
+      <div class="p-desc">Language compiling to Python, Bash, and native binary. 192 tests, ownership, traits, browser REPL.</div>
+      <div class="p-tags"><span class="p-tag">Python</span><span class="p-tag">compiler</span><span class="p-tag">transpiler</span></div>
+    </a>
+
+    <a class="p-card reveal" href="https://github.com/BartoszOsiej/fortis">
+      <div class="p-top"><div class="p-icon red-i">🔐</div><span class="p-arrow">↗</span></div>
+      <h3>fortis</h3>
+      <div class="p-desc">Bare-metal RISC-V chain-of-trust. SHA-256 + ML-KEM-768 post-quantum measured boot, no OS.</div>
+      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">RISC-V</span><span class="p-tag">crypto</span></div>
+    </a>
+
+    <a class="p-card reveal" href="https://github.com/BartoszOsiej/quantum-shield">
+      <div class="p-top"><div class="p-icon cyan-i">🔮</div><span class="p-arrow">↗</span></div>
+      <h3>quantum-shield</h3>
+      <div class="p-desc">Post-quantum file encryption CLI. ML-KEM-768 + AES-256-GCM, fuzz-tested, NIST oriented.</div>
+      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">post-quantum</span><span class="p-tag">encryption</span></div>
+    </a>
+
+    <a class="p-card reveal" href="https://github.com/BartoszOsiej/NV2_ENGINE">
+      <div class="p-top"><div class="p-icon purple-i">🎮</div><span class="p-arrow">↗</span></div>
+      <h3>NV2_ENGINE</h3>
+      <div class="p-desc">Voxel engine — wgpu, MLP neural renderer, multiplayer, ECS gameplay, content pipeline.</div>
+      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">wgpu</span><span class="p-tag">game-engine</span></div>
+    </a>
+
+    <a class="p-card reveal" href="https://github.com/BartoszOsiej/Aurora">
+      <div class="p-top"><div class="p-icon blue-i">◈</div><span class="p-arrow">↗</span></div>
+      <h3>Aurora</h3>
+      <div class="p-desc">Complete OS in the browser — kernel, window manager, filesystem, 8 apps, procedural audio.</div>
+      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">TypeScript</span><span class="p-tag">OS</span></div>
+    </a>
+
+    <a class="p-card reveal" href="https://github.com/BartoszOsiej/CyberForge">
+      <div class="p-top"><div class="p-icon red-i">⚔</div><span class="p-arrow">↗</span></div>
+      <h3>CyberForge</h3>
+      <div class="p-desc">Four Rust security tools — port scanner, web scanner, hash cracker, packet analyzer. Tokio async.</div>
+      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">security</span><span class="p-tag">pentest</span></div>
+    </a>
+
+    <a class="p-card reveal" href="https://github.com/BartoszOsiej/TrustNode">
+      <div class="p-top"><div class="p-icon blue-i">⛓</div><span class="p-arrow">↗</span></div>
+      <h3>TrustNode</h3>
+      <div class="p-desc">Solana-style validator — PoH clock, Tower BFT, Sealevel parallel execution, Turbine erasure.</div>
+      <div class="p-tags"><span class="p-tag">Rust</span><span class="p-tag">blockchain</span><span class="p-tag">consensus</span></div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══════════ BOOKS ═══════════ -->
+<section id="writing">
+  <div class="section-label reveal">Fiction</div>
+  <h2 class="section-title reveal">The Stitcher Trilogy</h2>
+  <div class="books-strip">
+    <a class="book-card reveal" href="https://www.amazon.com/dp/B0HHY39314">
+      <div class="book-num">BOOK ONE</div>
+      <h3>The Stitcher</h3>
+      <div class="blurb">A Chicago detective finds Mrs. Harlow surrounded by dolls sewn from human skin — and falls into the obsession herself.</div>
+      <span class="asin">ASIN B0HHY39314</span>
+    </a>
+    <a class="book-card reveal" href="https://www.amazon.com/dp/B0HHXT2ZRZ">
+      <div class="book-num">BOOK TWO</div>
+      <h3>The Curator</h3>
+      <div class="blurb">Pia Redfern inherits a museum collection of impossible, beating shells — and the curator who loves them too much.</div>
+      <span class="asin">ASIN B0HHXT2ZRZ</span>
+    </a>
+    <a class="book-card reveal" href="https://www.amazon.com/dp/B0GX7CPY7H">
+      <div class="book-num">BOOK THREE</div>
+      <h3>The Reckoning</h3>
+      <div class="blurb">The thread fraying. The ending of the trilogy.</div>
+      <span class="asin">ASIN B0GX7CPY7H</span>
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════ LINKS ═══════════ -->
+<section>
+  <div class="section-label reveal">Connect</div>
+  <h2 class="section-title reveal">Find me</h2>
+  <div class="links-bar reveal">
+    <a class="link-card" href="https://github.com/BartoszOsiej"><div class="l-icon">⌘</div>GitHub</a>
+    <a class="link-card" href="https://dev.to/bartoszosiej"><div class="l-icon">◇</div>dev.to</a>
+    <a class="link-card" href="https://www.linkedin.com/in/bartoszosiej2007/"><div class="l-icon">in</div>LinkedIn</a>
+    <a class="link-card" href="https://bartoszosiej.github.io/Portfolio/"><div class="l-icon">▶</div>Portfolio</a>
+    <a class="link-card" href="https://bartoszosiej.github.io/Docs/"><div class="l-icon">☰</div>Docs</a>
+    <a class="link-card" href="https://bartoszosiej.github.io/thethreadcalls/"><div class="l-icon">"@ </div>Books</a>
+    <a class="link-card" href="mailto:thethreadcalls@outlook.com"><div class="l-icon">✉</div>Email</a>
+  </div>
+</section>
+
+<footer>
+  <p>Contact: <a href="mailto:thethreadcalls@outlook.com">thethreadcalls@outlook.com</a> · 22 repos, 3 books, no ads, no sponsors.</p>
+</footer>
+
+<!-- ═══════════ ENGINE ═══════════ -->
+<script>
+// ── Particles ──
+(function(){
+  const c=document.getElementById('particles'),x=c.getContext('2d');
+  let W,H,P=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;P=[];for(let i=0;i<80;i++)P.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5})}
+  resize();addEventListener('resize',resize);
+  function draw(){
+    x.clearRect(0,0,W,H);
+    P.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle='rgba(156,30,26,0.25)';x.fill()
+    });
+    for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){
+      const dx=P[i].x-P[j].x,dy=P[i].y-P[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<140){x.beginPath();x.moveTo(P[i].x,P[i].y);x.lineTo(P[j].x,P[j].y);x.strokeStyle=`rgba(156,30,26,${0.06*(1-d/140)})`;x.stroke()}
+    }
+    requestAnimationFrame(draw)
+  }
+  draw()
+})();
+
+// ── Cursor glow ──
+const glow=document.getElementById('glow');
+document.addEventListener('mousemove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'});
+
+// ── Scroll progress ──
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-innerHeight;
+  prog.style.width=(scrollY/h*100)+'%'
+});
+
+// ── Scroll reveal ──
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── Counter animation ──
+const cobs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const el=e.target,to=+el.dataset.target;
+    let cur=0;const step=Math.ceil(to/40);
+    const iv=setInterval(()=>{cur=Math.min(cur+step,to);el.textContent=cur;if(cur>=to)clearInterval(iv)},30);
+    cobs.unobserve(el)
+  })
+},{threshold:0.5});
+document.querySelectorAll('[data-target]').forEach(el=>cobs.observe(el));
+
+// ── Typing ──
+(function(){
+  const el=document.getElementById('typing');
+  const phrases=['Systems programmer','Rust · eBPF · kernel','Crime-horror author','Security engineer','15+ repos · 8 registries','Compiler architect'];
+  let pi=0,ci=0,del=false;
+  function tick(){
+    const p=phrases[pi];
+    if(!del){ci++;if(ci>p.length){del=true;setTimeout(tick,1800);return}}
+    else{ci--;if(ci<0){ci=0;del=false;pi=(pi+1)%phrases.length;setTimeout(tick,400);return}}
+    el.textContent=p.slice(0,ci);
+    setTimeout(tick,del?45:70)
+  }
+  tick()
+})();
+</script>
 </body>
 </html>
