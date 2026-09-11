@@ -1,0 +1,148 @@
+/* AEGIS — shared brutalist design system for all bartoszosiej.github.io subpages.
+   Loaded AFTER each page's own stylesheet so :root overrides win the cascade. */
+
+:root {
+  /* design tokens */
+  --void: #050505;
+  --rust: #F15A24;
+  --blood: #DA2C38;
+  --slate: #4A5262;
+  --slate2: #8b95a8;
+  --bone: #d6d6d6;
+  --line: #22222a;
+  --line2: #1c1c24;
+  --sys: #F15A24;
+  --fic: #DA2C38;
+
+  /* per-site palette overrides (all subpages are variable-driven) */
+  --bg: #050505;
+  --fg: #d6d6d6;
+  --text: #d6d6d6;
+  --muted: #4A5262;
+  --dim: #4A5262;
+  --sub: #8b95a8;
+  --surface: rgba(10, 10, 16, 0.8);
+  --surface2: rgba(16, 16, 24, 0.5);
+  --panel: rgba(10, 10, 16, 0.9);
+  --panel2: rgba(16, 16, 24, 0.6);
+  --border: rgba(255, 255, 255, 0.08);
+  --line: #22222a;
+  --accent: #F15A24;
+  --accent2: #DA2C38;
+  --acc1: #F15A24;
+  --acc2: #DA2C38;
+  --acc3: #8b95a8;
+  --red: #DA2C38;
+  --green: #22c55e;
+  --yellow: #e3b341;
+  --ok: #22c55e;
+  --err: #DA2C38;
+  --glow: rgba(241, 90, 36, 0.12);
+  --glow2: rgba(218, 44, 56, 0.08);
+  --glow1: rgba(241, 90, 36, 0.12);
+  color-scheme: dark;
+}
+
+html { scroll-behavior: smooth; background: var(--void); }
+
+body {
+  font-family: "JetBrains Mono", "Space Mono", ui-monospace, monospace !important;
+  background: var(--void) !important;
+  color: var(--bone) !important;
+  padding-top: 48px;
+}
+
+/* ───────────────── AEGIS NAV RAIL ───────────────── */
+.aegis-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 16px;
+  background: rgba(5, 5, 5, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+  box-sizing: border-box;
+}
+.aegis-nav__brand {
+  font: 700 13px "Space Mono", monospace;
+  letter-spacing: 0.14em;
+  color: var(--bone);
+  text-decoration: none;
+  white-space: nowrap;
+  flex: none;
+}
+.aegis-nav__brand span { color: var(--rust); }
+.aegis-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 2px;
+}
+.aegis-nav__links::-webkit-scrollbar { display: none; }
+.aegis-nav__link {
+  font: 400 11px "Space Mono", monospace;
+  letter-spacing: 0.12em;
+  color: var(--slate);
+  text-decoration: none;
+  padding: 14px 8px;
+  white-space: nowrap;
+  transition: color 0.1s linear;
+}
+.aegis-nav__link:hover { color: var(--slate2); }
+.aegis-nav__link.is-active { color: var(--rust); font-weight: 700; }
+.aegis-nav__link.is-active::before { content: "▮ "; }
+
+/* ───────────────── AEGIS FOOTER ───────────────── */
+.aegis-foot {
+  margin-top: 64px;
+  border-top: 1px solid var(--line2);
+  padding: 24px 16px 40px;
+  text-align: center;
+  font: 400 11px "Space Mono", monospace;
+  letter-spacing: 0.12em;
+  color: var(--slate);
+}
+.aegis-foot a { color: var(--slate2); text-decoration: none; transition: color 0.1s; }
+.aegis-foot a:hover { color: var(--rust); }
+
+/* ───────────────── CRT OVERLAY ───────────────── */
+.aegis-crt {
+  position: fixed; inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px);
+  mix-blend-mode: overlay;
+}
+
+/* ───────────────── SHARED BRUTAL UTILITIES (for pages authored in AEGIS) ───────────────── */
+.blink::after { content: "▮"; color: var(--rust); animation: aegis-blink 1s steps(1) infinite; }
+@keyframes aegis-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+.brutal { border: 1px solid var(--line); box-shadow: 6px 6px 0 var(--line2); transition: box-shadow 0.15s linear, border-color 0.15s linear, transform 0.15s linear; }
+.brutal:hover { border-color: var(--rust); box-shadow: 6px 6px 0 var(--rust); transform: translate(-2px, -2px); }
+.glow-rust:hover { border-color: var(--rust); box-shadow: 0 0 24px rgba(241, 90, 36, 0.35), 6px 6px 0 var(--rust); }
+.glow-blood:hover { border-color: var(--blood); box-shadow: 0 0 24px rgba(218, 44, 56, 0.4), 6px 6px 0 var(--blood); }
+
+.eyebrow { font: 700 12px "Space Mono", monospace; letter-spacing: 0.14em; color: var(--rust); }
+.pin { color: var(--blood); }
+
+.reveal { opacity: 0; transform: translateY(12px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.is-in { opacity: 1; transform: none; }
+
+.hub { position: relative; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.01); transition: 0.1s linear; display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; text-decoration: none; }
+.hub:hover { border-color: #3a3a44; background: rgba(241, 90, 36, 0.05); }
+.hub .tick { position: absolute; left: 6px; top: 50%; transform: translateY(-50%) scale(0); color: var(--rust); }
+.hub:hover .tick { transform: translateY(-50%) scale(1); }
+.hub .go svg { transition: 0.1s linear; }
+.hub:hover .go { color: var(--rust); }
+.hub .lab { color: var(--slate); }
+.hub:hover .lab { color: var(--slate2); }
+
+code, pre { font-family: "JetBrains Mono", "Space Mono", monospace; }
