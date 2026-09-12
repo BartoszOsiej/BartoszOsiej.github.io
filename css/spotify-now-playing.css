@@ -17,6 +17,10 @@
   --np-dim: #666;
   --np-text: #ccc;
 
+  /* genre-mood accent (JS swaps these per-track via track.toptags) */
+  --np-accent: var(--np-rust);
+  --np-accent-soft: rgba(241, 90, 36, 0.4);
+
   padding: 12px 16px;
   border-top: 1px solid var(--np-slate);
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
@@ -52,8 +56,9 @@
 }
 
 .np-label--active {
-  color: var(--np-rust);
-  text-shadow: 0 0 8px rgba(241, 90, 36, 0.4);
+  color: var(--np-accent);
+  text-shadow: 0 0 8px var(--np-accent-soft);
+  transition: color 0.6s ease;
 }
 
 /* ─── Status Row ────────────────────────────────────────────── */
@@ -79,11 +84,11 @@
   display: block;
   width: 3px;
   height: 4px;
-  background: var(--np-rust);
+  background: var(--np-accent);
   border-radius: 1px;
   transform-origin: bottom;
   will-change: transform;
-  transition: height 0.15s ease;
+  transition: height 0.15s ease, background-color 0.6s ease;
 }
 
 /* Playing state: each bar animates independently via CSS keyframes */
@@ -291,8 +296,9 @@
 }
 
 .now-playing--fixed.np-playing {
-  border-color: var(--np-rust);
-  box-shadow: 6px 6px 0 rgba(241, 90, 36, 0.55);
+  border-color: var(--np-accent);
+  box-shadow: 6px 6px 0 var(--np-accent-soft);
+  transition: border-color 0.6s ease, box-shadow 0.6s ease;
 }
 
 /* ─── Hover effect ──────────────────────────────────────────── */
@@ -304,13 +310,55 @@
   opacity: 1 !important;
 }
 
+/* ─── Artwork thumbnail + clickability ──────────────────────── */
+.np-art-thumb {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border: 1px solid var(--np-slate);
+  flex-shrink: 0;
+  transition: border-color 0.6s ease, transform 0.15s ease;
+}
+
+.now-playing--fixed.np-playing .np-art-thumb {
+  border-color: var(--np-accent);
+}
+
+.np-clickable {
+  cursor: pointer;
+}
+
+.np-clickable:hover {
+  transform: translate(-1px, -1px);
+}
+
+.np-clickable:hover .np-art-thumb {
+  transform: scale(1.06);
+}
+
+.np-clickable::after {
+  content: "↗";
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 9px;
+  color: var(--np-dim);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.np-clickable:hover::after {
+  opacity: 1;
+  color: var(--np-accent);
+}
+
 /* ─── Track-change animation ────────────────────────────────── */
-/* Border flash on the card + slide-in of the text row. JS retriggers
-   it by removing/re-adding .np-track-change (with reflow). */
+/* Border flash on the card + slide-in of the text row. Colors follow
+   the current genre accent. JS retriggers via class + reflow. */
 @keyframes np-flash {
   0% {
-    border-color: var(--np-rust);
-    box-shadow: 6px 6px 0 rgba(241, 90, 36, 0.9), 0 0 22px rgba(241, 90, 36, 0.35);
+    border-color: var(--np-accent);
+    box-shadow: 6px 6px 0 var(--np-accent-soft), 0 0 22px var(--np-accent-soft);
   }
   100% {
     border-color: var(--np-slate);

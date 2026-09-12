@@ -86,6 +86,7 @@
           '</div>' +
           '<div class="np-artist"></div>' +
         '</div>' +
+        '<img class="np-art-thumb" alt="" referrerpolicy="no-referrer" style="display:none">' +
       '</div>' +
       '<div class="np-fallback" style="display:none;">' +
         '<span class="np-fallback-icon">◉</span>' +
@@ -100,6 +101,91 @@
     } else {
       container.classList.add('now-playing--fixed');
       document.body.appendChild(container);
+    }
+  }
+
+  // ─── Mood engine: track tags → accent color + genre label ───
+  // Public track.toptags (api_key only). First regex hit wins.
+  const MOODS = [
+    [/hip[- ]?hop|\brap\b|trap|drill/, '#c084fc', 'RAP'],
+    [/metal|\brock\b|punk|grunge/, '#ef4444', 'ROCK'],
+    [/\bpop\b|disco/, '#ec4899', 'POP'],
+    [/jazz|blues|soul|funk|r&b|rnb/, '#e3b341', 'JAZZ'],
+    [/techno|house|edm|electro|trance|drum.and.bass|\bdnb\b|\bidm\b/, '#22d3ee', 'ELECTRONIC'],
+    [/classical|klasyka|piano|orchestr|soundtrack/, '#e8e6e3', 'CINEMATIC'],
+    [/indie|alternative|shoegaze|post[- ]rock/, '#22c55e', 'INDIE'],
+    [/folk|country|acoustic/, '#a16207', 'FOLK'],
+    [/ambient|lo-?fi|chill/, '#7dd3fc', 'AMBIENT'],
+  ];
+  const MOOD_DEFAULT = { color: '#F15A24', label: 'AUDIO' };
+
+  function moodCacheGet(key) {
+    try {
+      const c = JSON.parse(localStorage.getItem('np-moods') || '{}');
+      return c[key];
+    } catch (e) { return null; }
+  }
+
+  function moodCacheSet(key, value) {
+    try {
+      const c = JSON.parse(localStorage.getItem('np-moods') || '{}');
+      c[key] = value;
+      localStorage.setItem('np-moods', JSON.stringify(c));
+    } catch (e) { /* private mode — no cache, still works */ }
+  }
+
+  function moodForTags(tags) {
+    for (const m of MOODS) {
+      for (const t of tags) {
+        if (m[0].test(t)) return { color: m[1], label: m[2] };
+      }
+    }
+    return null;
+  }
+
+  let moodKey = null;
+
+  async function fetchTags(method, params) {
+    const q = new URLSearchParams(Object.assign({ method: method, api_key: CONFIG.lastfmKey, format: 'json' }, params));
+    q.set('_', Date.now());
+    const res = await fetch('https://ws.audioscrobbler.com/2.0/?' + q, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return ((data && data.toptags && data.toptags.tag) || []).map((t) => (t.name || '').toLowerCase());
+  }
+
+  async function applyMood(track) {
+    if (!container || !track || !track.title) return;
+    const key = ((track.artist || '') + '|' + track.title).toLowerCase();
+    if (key === moodKey) return; // already resolved for this track
+    moodKey = key;
+
+    let mood = moodCacheGet(key);
+    if (!mood) {
+      try {
+        // Chain: track tags → artist tags (Polish/obscure tracks often lack
+        // track-level tags) → default. Results cached per track in localStorage.
+        let tags = await fetchTags('track.getTopTags', { artist: track.artist || '', track: track.title });
+        if (!tags.length) {
+          tags = await fetchTags('artist.getTopTags', { artist: track.artist || '' });
+        }
+        mood = moodForTags(tags) || MOOD_DEFAULT;
+        moodCacheSet(key, mood);
+      } catch (err) {
+        mood = MOOD_DEFAULT;
+      }
+    }
+
+    // Apply only if this track is still the current one
+    if (currentTrack && currentTrack.title === track.title) {
+      container.style.setProperty('--np-accent', mood.color);
+      container.style.setProperty('--np-accent-soft', mood.color + '66');
+      if (isPlaying && mood.label !== 'AUDIO') {
+        const label = container.querySelector('.np-label');
+        if (label && label.classList.contains('np-label--active')) {
+          label.textContent = '[ SYSTEM_AUDIO // ' + mood.label + ' ]';
+        }
+      }
     }
   }
 
@@ -166,6 +252,15 @@
 
       artistEl.textContent = track.artist;
 
+      const thumb = container.querySelector('.np-art-thumb');
+      if (track.artwork) {
+        thumb.src = track.artwork;
+        thumb.alt = track.album ? track.album + ' — cover' : 'cover art';
+        thumb.style.display = '';
+      } else {
+        thumb.style.display = 'none';
+      }
+
       fallback.style.display = 'none';
       trackInfo.style.display = '';
 
@@ -173,6 +268,8 @@
         label.textContent = '[ SYSTEM_AUDIO // ACTIVE ]';
       }
       label.classList.add('np-label--active');
+
+      container.classList.toggle('np-clickable', !!track.url);
 
       container.setAttribute('aria-label', 'Now Playing: ' + track.title + ' by ' + track.artist);
     } else {
@@ -191,6 +288,9 @@
 
       fallback.style.display = '';
       trackInfo.style.display = 'none';
+
+      const thumb = container.querySelector('.np-art-thumb');
+      if (thumb) thumb.style.display = 'none';
 
       label.textContent = '[ SYSTEM_AUDIO // SPOTIFY ]';
       label.classList.remove('np-label--active');
@@ -236,14 +336,19 @@
         lastPollState = nowplaying ? 'playing' : 'idle';
         const images = track.image || [];
         const art = images.length ? images[images.length - 1]['#text'] : null;
-        updateUI({
-          title: track.name,
-          artist: (track.artist && (track.artist.name || track.artist['#text'])) || '',
-          album: track.album && track.album['#text'] || '',
-          artwork: art || null,
-          url: track.url || null,
-          live: nowplaying,
-        });
+      updateUI({
+        title: track.name,
+        artist: (track.artist && (track.artist.name || track.artist['#text'])) || '',
+        album: track.album && track.album['#text'] || '',
+        artwork: art || null,
+        url: track.url || null,
+        live: nowplaying,
+      });
+      applyMood({
+        title: track.name,
+        artist: (track.artist && (track.artist.name || track.artist['#text'])) || '',
+        live: nowplaying,
+      });
       } else {
         lastPollState = 'idle';
         showFallback();
@@ -434,6 +539,12 @@
   // ─── Initialization ─────────────────────────────────────────
   function init() {
     createContainer();
+
+    // Click-to-open the currently playing track (last.fm page)
+    container.addEventListener('click', () => {
+      const u = currentTrack && currentTrack.url;
+      if (u) window.open(u, '_blank', 'noopener');
+    });
 
     if (CONFIG.lastfmUser && CONFIG.lastfmKey) {
       // ── Mode A: Last.fm — free Spotify accounts, no Premium needed ──
