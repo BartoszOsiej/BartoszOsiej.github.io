@@ -1,0 +1,308 @@
+/* ═══════════════════════════════════════════════════════════════
+ * spotify-now-playing.css
+ * ═══════════════════════════════════════════════════════════════
+ * Real-time "Now Playing" module styles
+ *
+ * Design tokens: matches aegis.css (void/rust/blood palette)
+ * Animation: 100% CSS transforms, zero JS animation frames
+ * Performance: will-change on animated properties only, GPU-composited
+ * ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Container ─────────────────────────────────────────────── */
+.now-playing {
+  --np-void: #050505;
+  --np-rust: #F15A24;
+  --np-blood: #DA2C38;
+  --np-slate: #1a1a2e;
+  --np-dim: #666;
+  --np-text: #ccc;
+
+  padding: 12px 16px;
+  border-top: 1px solid var(--np-slate);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--np-text);
+  user-select: none;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+.now-playing--fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: var(--np-void);
+  border-top: 2px solid var(--np-rust);
+  box-shadow: 0 -4px 20px rgba(241, 90, 36, 0.15);
+}
+
+/* ─── Label ─────────────────────────────────────────────────── */
+.np-label {
+  color: var(--np-dim);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  transition: color 0.3s ease;
+}
+
+.np-label--active {
+  color: var(--np-rust);
+  text-shadow: 0 0 8px rgba(241, 90, 36, 0.4);
+}
+
+/* ─── Status Row ────────────────────────────────────────────── */
+.np-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ─── Equalizer (CSS-only, 5 bars) ─────────────────────────── */
+.np-equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.eq-bar {
+  display: block;
+  width: 3px;
+  height: 4px;
+  background: var(--np-rust);
+  border-radius: 1px;
+  transform-origin: bottom;
+  will-change: transform;
+  transition: height 0.15s ease;
+}
+
+/* Playing state: each bar animates independently via CSS keyframes */
+.np-playing .eq-bar:nth-child(1) {
+  animation: eq-bounce 0.45s ease-in-out infinite alternate;
+  animation-delay: 0s;
+}
+.np-playing .eq-bar:nth-child(2) {
+  animation: eq-bounce 0.38s ease-in-out infinite alternate;
+  animation-delay: 0.08s;
+}
+.np-playing .eq-bar:nth-child(3) {
+  animation: eq-bounce 0.52s ease-in-out infinite alternate;
+  animation-delay: 0.15s;
+}
+.np-playing .eq-bar:nth-child(4) {
+  animation: eq-bounce 0.41s ease-in-out infinite alternate;
+  animation-delay: 0.05s;
+}
+.np-playing .eq-bar:nth-child(5) {
+  animation: eq-bounce 0.48s ease-in-out infinite alternate;
+  animation-delay: 0.12s;
+}
+
+/* Idle state: bars collapse to minimum height */
+.np-idle .eq-bar {
+  height: 3px;
+  opacity: 0.3;
+}
+
+/* Equalizer bounce keyframes — pure CSS transform, GPU-composited */
+@keyframes eq-bounce {
+  0% {
+    height: 4px;
+    opacity: 0.6;
+  }
+  25% {
+    height: 10px;
+    opacity: 0.8;
+  }
+  50% {
+    height: 16px;
+    opacity: 1;
+  }
+  75% {
+    height: 8px;
+    opacity: 0.7;
+  }
+  100% {
+    height: 14px;
+    opacity: 0.9;
+  }
+}
+
+/* ─── Track Info ────────────────────────────────────────────── */
+.np-track-info {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ─── Marquee (CSS-only text scroll) ────────────────────────── */
+.np-marquee-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 5%,
+    black 95%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 5%,
+    black 95%,
+    transparent 100%
+  );
+}
+
+.np-marquee {
+  display: inline-block;
+  color: var(--np-text);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding-right: 40px; /* gap before repeat */
+}
+
+.np-marquee--active {
+  animation: marquee-scroll 12s linear infinite;
+}
+
+.np-idle .np-marquee {
+  color: var(--np-dim);
+  font-style: italic;
+  animation: none;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* ─── Artist ────────────────────────────────────────────────── */
+.np-artist {
+  color: var(--np-dim);
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.np-playing .np-artist {
+  color: var(--np-rust);
+  opacity: 0.7;
+}
+
+/* ─── Fallback ──────────────────────────────────────────────── */
+.np-fallback {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.5;
+}
+
+.np-fallback-icon {
+  color: var(--np-dim);
+  font-size: 10px;
+  animation: pulse-idle 3s ease-in-out infinite;
+}
+
+.np-fallback-text {
+  color: var(--np-dim);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+@keyframes pulse-idle {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* ─── Artwork (hidden by default) ───────────────────────────── */
+.np-artwork {
+  display: none;
+  margin-top: 8px;
+}
+
+.np-artwork img {
+  width: 100%;
+  max-width: 48px;
+  height: auto;
+  border-radius: 2px;
+  border: 1px solid var(--np-slate);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.np-playing .np-artwork img {
+  opacity: 1;
+}
+
+/* ─── Playing State: subtle glow ────────────────────────────── */
+.np-playing {
+  background: linear-gradient(
+    180deg,
+    rgba(241, 90, 36, 0.03) 0%,
+    transparent 100%
+  );
+}
+
+.now-playing--fixed.np-playing {
+  border-top-color: var(--np-rust);
+  box-shadow: 0 -2px 15px rgba(241, 90, 36, 0.12);
+}
+
+/* ─── Hover effect ──────────────────────────────────────────── */
+.now-playing:hover .np-label {
+  color: var(--np-rust);
+}
+
+.now-playing:hover .eq-bar {
+  opacity: 1 !important;
+}
+
+/* ─── Accessibility ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .np-marquee--active {
+    animation: none;
+  }
+  .np-playing .eq-bar {
+    animation: none;
+    height: 8px;
+    opacity: 0.6;
+  }
+  .np-fallback-icon {
+    animation: none;
+  }
+}
+
+/* ─── Dark theme consistency ────────────────────────────────── */
+.now-playing {
+  background: var(--np-void);
+}
+
+/* When inside the aegis nav rail */
+.aegis-nav-rail .now-playing,
+.nav-rail .now-playing {
+  border-top-color: var(--np-slate);
+}
+
+/* NOTE: CRT scanline overlay is provided globally by .aegis-crt
+   (aegis.css) — do NOT add a second overlay here. */

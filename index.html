@@ -8,11 +8,18 @@
 <meta name="author" content="Bartosz Osiej">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#050505">
+<!-- Spotify Now Playing — Discord user ID (Lanyard reads presence from here).
+     Set your numeric Discord ID here (Developer Mode → right-click your name → Copy User ID).
+     Also required ONCE: Spotify connected in Discord (Settings → Connections) AND
+     join the Lanyard Discord (discord.gg/lanyard) so the service can observe your presence. -->
+<script>window.SPOTIFY_DISCORD_ID = "";</script>
 <link rel="canonical" href="https://bartoszosiej.github.io/">
 <link rel="me" href="https://github.com/BartoszOsiej">
 <link rel="me" href="https://dev.to/bartoszosiej">
 <link rel="me" href="https://www.linkedin.com/in/bartoszosiej2007/">
 <link rel="icon" type="image/png" href="img/bartosz-osiej.jpg">
+<link rel="stylesheet" href="css/spotify-now-playing.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="css/spotify-now-playing.css"></noscript>
 
 <!-- Open Graph -->
 <meta property="og:type" content="profile">
@@ -894,8 +901,9 @@ a{color:inherit}
       });
     },{threshold:.5});
     document.querySelectorAll('[data-count]').forEach(function(el){ co.observe(el); });
-  }
-})();
+  }  })();
 </script>
+<!-- Spotify Now Playing — lazy, deferred, 0 layout shift -->
+<script src="js/spotify-now-playing.js" defer></script>
 </body>
 </html>
