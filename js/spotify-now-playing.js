@@ -684,7 +684,7 @@
   function init() {
     createContainer();
     // diagnostics: confirms which build the browser is actually running
-    console.info('[spotify-np] build 20260912e — living widget: mood + art fallback + retry');
+    console.info('[spotify-np] build 20260912f — living widget: mood + art fallback + retry');
 
     // Click-to-open the currently playing track (last.fm page)
     container.addEventListener('click', () => {
