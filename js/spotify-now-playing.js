@@ -79,6 +79,8 @@
           '<span class="eq-bar"></span>' +
           '<span class="eq-bar"></span>' +
           '<span class="eq-bar"></span>' +
+          '<span class="eq-bar"></span>' +
+          '<span class="eq-bar"></span>' +
         '</div>' +
         '<div class="np-track-info">' +
           '<div class="np-marquee-wrapper">' +
@@ -181,6 +183,7 @@
     if (currentTrack && track && currentTrack.title !== track.title) return;
     container.style.setProperty('--np-accent', mood.color);
     container.style.setProperty('--np-accent-soft', mood.color + '66');
+    container.style.setProperty('--np-accent-faint', mood.color + '12');
     const label = container.querySelector('.np-label');
     if (label) {
       if (mood.label && mood.label !== 'AUDIO') {
@@ -197,15 +200,19 @@
     }
   }
 
+  const moodAttempts = {}; // key → retries so far (retry: a failed tag fetch
+                           // must not lock the track into the neutral color)
+  const MOOD_MAX_ATTEMPTS = 4;
+
   async function applyMood(track) {
     if (!container || !track || !track.title) return;
     const key = ((track.artist || '') + '|' + track.title).toLowerCase();
     if (key === moodKey) return; // already resolved for this track
-    moodKey = key;
 
     // 1) Instant hit from cache → zero-delay color switch on track change
     const cached = moodCacheGet(key);
     if (cached) {
+      moodKey = key;
       applyMoodStyles(cached, track);
       return;
     }
@@ -224,14 +231,23 @@
           tags = await fetchTags('artist.getTopTags', { artist: track.artist || '' });
         } catch (e) { tags = []; }
       }
+      moodKey = key; // resolved (one way or another) for this track
       const mood = moodForTags(tags) || MOOD_DEFAULT;
-      if (tags.length) moodCacheSet(key, mood); // cache only real resolutions
+      if (tags.length) {
+        moodCacheSet(key, mood); // cache only real resolutions
+        delete moodAttempts[key];
+      }
       console.debug('[spotify-np] mood ' + mood.label + ' ' + mood.color +
         ' (tags: ' + (tags.slice(0, 4).join(', ') || 'none') + ')');
       applyMoodStyles(mood, track);
     } catch (err) {
       // Total failure → neutral color NOW so a stale genre color never sticks
       applyMoodStyles(MOOD_DEFAULT, track);
+      // ...and allow a retry on a later poll (up to MOOD_MAX_ATTEMPTS)
+      const n = (moodAttempts[key] || 0) + 1;
+      moodAttempts[key] = n;
+      if (n < MOOD_MAX_ATTEMPTS) moodKey = null;
+      console.debug('[spotify-np] mood fetch failed, retry ' + n + '/' + MOOD_MAX_ATTEMPTS);
     }
   }
 
@@ -341,6 +357,12 @@
     const fallback = container.querySelector('.np-fallback');
     const trackInfo = container.querySelector('.np-track-info');
     const label = container.querySelector('.np-label');
+    if (changed && label) {
+      // New track: drop the previous genre immediately (cached moods re-apply
+      // synchronously in applyMood; uncached resolve within ~3.5s) so the OLD
+      // genre never bleeds onto the new track's label.
+      delete label.dataset.genre;
+    }
 
     if (track && track.title && track.artist) {
       isPlaying = true;
@@ -381,7 +403,12 @@
       trackInfo.style.display = '';
 
       if (track.live !== false) {
-        label.textContent = '[ SYSTEM_AUDIO // ACTIVE ]';
+        // Genre-aware label: applyMood early-returns for an already-resolved
+        // track, so this is the place that must carry the genre forward —
+        // otherwise every poll resets the label to plain ACTIVE.
+        label.textContent = label.dataset.genre
+          ? '[ SYSTEM_AUDIO // ' + label.dataset.genre + ' ]'
+          : '[ SYSTEM_AUDIO // ACTIVE ]';
       }
       label.classList.add('np-label--active');
 
@@ -394,6 +421,7 @@
 
       container.classList.remove('np-playing');
       container.classList.add('np-idle');
+      if (label) delete label.dataset.genre;
 
       equalizer.style.display = 'none';
 

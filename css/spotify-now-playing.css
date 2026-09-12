@@ -20,6 +20,7 @@
   /* genre-mood accent (JS swaps these per-track via track.toptags) */
   --np-accent: var(--np-rust);
   --np-accent-soft: rgba(241, 90, 36, 0.4);
+  --np-accent-faint: rgba(241, 90, 36, 0.07);
 
   padding: 12px 16px;
   border-top: 1px solid var(--np-slate);
@@ -45,6 +46,39 @@
   box-shadow: 6px 6px 0 rgba(34, 34, 42, 0.9);
 }
 
+/* ─── Living layer: ambient aurora in the genre color ───────── */
+.now-playing--fixed {
+  animation: np-in 0.5s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+}
+
+.now-playing--fixed::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  z-index: 0;
+  background:
+    radial-gradient(45% 45% at 20% 20%, var(--np-accent-faint), transparent 70%),
+    radial-gradient(40% 40% at 80% 70%, var(--np-accent-faint), transparent 70%);
+  animation: np-aurora 11s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.now-playing--fixed > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes np-aurora {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(3%, -2%) scale(1.05); }
+  100% { transform: translate(-3%, 2%) scale(1); }
+}
+
+@keyframes np-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
 /* ─── Label ─────────────────────────────────────────────────── */
 .np-label {
   color: var(--np-dim);
@@ -59,6 +93,28 @@
   color: var(--np-accent);
   text-shadow: 0 0 8px var(--np-accent-soft);
   transition: color 0.6s ease;
+  position: relative;
+  padding-left: 10px;
+}
+
+/* live dot: heartbeat in the genre color */
+.np-label--active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 50%;
+  background: var(--np-accent);
+  box-shadow: 0 0 6px var(--np-accent-soft);
+  animation: np-dot 1.2s ease-in-out infinite;
+}
+
+@keyframes np-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.8); }
 }
 
 /* ─── Status Row ────────────────────────────────────────────── */
@@ -112,6 +168,14 @@
   animation: eq-bounce 0.48s ease-in-out infinite alternate;
   animation-delay: 0.12s;
 }
+.np-playing .eq-bar:nth-child(6) {
+  animation: eq-bounce 0.36s ease-in-out infinite alternate;
+  animation-delay: 0.19s;
+}
+.np-playing .eq-bar:nth-child(7) {
+  animation: eq-bounce 0.5s ease-in-out infinite alternate;
+  animation-delay: 0.03s;
+}
 
 /* Idle state: bars collapse to minimum height */
 .np-idle .eq-bar {
@@ -129,28 +193,15 @@
   background: none;
 }
 
-/* Equalizer bounce keyframes — pure CSS transform, GPU-composited */
+/* Equalizer bounce keyframes — two-wave motion so bars never look
+   mechanically synced; pure CSS transform/height, GPU-composited. */
 @keyframes eq-bounce {
-  0% {
-    height: 4px;
-    opacity: 0.6;
-  }
-  25% {
-    height: 10px;
-    opacity: 0.8;
-  }
-  50% {
-    height: 16px;
-    opacity: 1;
-  }
-  75% {
-    height: 8px;
-    opacity: 0.7;
-  }
-  100% {
-    height: 14px;
-    opacity: 0.9;
-  }
+  0% { height: 4px; opacity: 0.55; }
+  20% { height: 13px; opacity: 0.9; }
+  45% { height: 6px; opacity: 0.65; }
+  65% { height: 17px; opacity: 1; }
+  80% { height: 9px; opacity: 0.75; }
+  100% { height: 14px; opacity: 0.9; }
 }
 
 /* ─── Track Info ────────────────────────────────────────────── */
@@ -320,6 +371,16 @@
   transition: border-color 0.6s ease, transform 0.15s ease;
 }
 
+/* artwork breathes with the genre-colored glow while playing */
+.np-playing .np-art-thumb {
+  animation: np-artglow 3.2s ease-in-out infinite;
+}
+
+@keyframes np-artglow {
+  0%, 100% { box-shadow: 0 0 5px var(--np-accent-soft); }
+  50% { box-shadow: 0 0 14px var(--np-accent-soft); }
+}
+
 .now-playing--fixed.np-playing .np-art-thumb {
   border-color: var(--np-accent);
 }
@@ -358,7 +419,7 @@
 @keyframes np-flash {
   0% {
     border-color: var(--np-accent);
-    box-shadow: 6px 6px 0 var(--np-accent-soft), 0 0 22px var(--np-accent-soft);
+    box-shadow: 6px 6px 0 var(--np-accent-soft), 0 0 26px var(--np-accent-soft);
   }
   100% {
     border-color: var(--np-slate);
@@ -367,22 +428,18 @@
 }
 
 .np-track-change {
-  animation: np-flash 1.4s ease-out;
+  animation: np-flash 0.9s ease-out;
 }
 
-@keyframes np-slide {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+/* title swap: slide + de-blur feels like a station change */
+@keyframes np-swap {
+  0% { opacity: 0; transform: translateY(7px); filter: blur(2px); }
+  100% { opacity: 1; transform: none; filter: blur(0); }
 }
 
-.np-track-change .np-track-info {
-  animation: np-slide 0.45s ease-out;
+.np-track-change .np-marquee-wrapper,
+.np-track-change .np-artist {
+  animation: np-swap 0.4s cubic-bezier(0.2, 0.9, 0.25, 1);
 }
 
 /* accent-follow: keep .np-track-change's border in the current genre
@@ -396,7 +453,8 @@
 /* ─── Accessibility ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .np-track-change,
-  .np-track-change .np-track-info {
+  .np-track-change .np-marquee-wrapper,
+  .np-track-change .np-artist {
     animation: none;
   }
   .np-marquee--loop {
@@ -407,8 +465,15 @@
     height: 8px;
     opacity: 0.6;
   }
-  .np-fallback-icon {
+  .np-fallback-icon,
+  .now-playing--fixed,
+  .now-playing--fixed::before,
+  .np-playing .np-art-thumb,
+  .np-label--active::before {
     animation: none;
+  }
+  .now-playing--fixed::before {
+    opacity: 0.6;
   }
 }
 
