@@ -109,6 +109,16 @@
   opacity: 0.3;
 }
 
+/* Paused state (Last.fm "last scrobbled", not playing now): freeze bars */
+.np-playing.np-paused .eq-bar {
+  animation: none;
+  height: 6px;
+  opacity: 0.5;
+}
+.np-playing.np-paused {
+  background: none;
+}
+
 /* Equalizer bounce keyframes — pure CSS transform, GPU-composited */
 @keyframes eq-bounce {
   0% {

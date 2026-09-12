@@ -3,11 +3,14 @@
  * ═══════════════════════════════════════════════════════════════
  * Real-time "Now Playing" Spotify module for bartoszosiej.github.io
  *
- * TWO MODES (auto-detected):
- *   A) JSON mode (default) — polls now-playing.json (same origin),
- *      which .github/workflows/refresh-spotify.yml regenerates every
- *      5 minutes straight from the Spotify Web API. No Discord needed.
- *   B) Lanyard mode — if window.SPOTIFY_DISCORD_ID is set, uses the
+ * THREE MODES (auto-detected, first match wins):
+ *   A) Last.fm mode — if window.SPOTIFY_LASTFM_USER is set, polls the
+ *      public Last.fm API (CORS-enabled, api key embeds safely) for the
+ *      user's now-playing/recent scrobbles. Free Spotify accounts work —
+ *      scrobbling is client-side, no Premium Web API needed.
+ *   B) JSON mode — polls now-playing.json (same origin), written by the
+ *      refresh-spotify.yml workflow (Spotify Web API; needs Premium).
+ *   C) Lanyard mode — if window.SPOTIFY_DISCORD_ID is set, uses the
  *      Lanyard WebSocket for real-time Discord presence push.
  *
  * UI: CSS-only equalizer + marquee, Cyber-Noir fallback when idle.
@@ -20,9 +23,13 @@
 
   // ─── Configuration ──────────────────────────────────────────
   const CONFIG = {
-    // Mode B only — Discord user ID (Lanyard). Empty = JSON mode.
+    // Mode A — Last.fm (free accounts; set BOTH of these in index.html)
+    lastfmUser: (typeof window !== 'undefined' && window.SPOTIFY_LASTFM_USER) || '',
+    lastfmKey: (typeof window !== 'undefined' && window.SPOTIFY_LASTFM_KEY) || '',
+    lastfmPollMs: 30000,
+    // Mode B — Discord user ID (Lanyard). Empty = skip.
     discordId: (typeof window !== 'undefined' && window.SPOTIFY_DISCORD_ID) || '',
-    // Mode A — static JSON published by refresh-spotify.yml
+    // Mode C — static JSON published by refresh-spotify.yml
     jsonUrl: 'now-playing.json',
     jsonPollMs: 60000,
     // Mode B — Lanyard endpoints
@@ -109,6 +116,15 @@
       container.classList.add('np-playing');
       container.classList.remove('np-idle');
 
+      // Last.fm knows the difference between "scrobbling now" and
+      // "last scrobbled" — freeze the equalizer for the latter (honest UI).
+      if (track.live === false) {
+        container.classList.add('np-paused');
+        label.textContent = '[ AUDIO // LAST_SCROBBLED ]';
+      } else {
+        container.classList.remove('np-paused');
+      }
+
       equalizer.style.display = '';
 
       marquee.textContent = track.title;
@@ -119,7 +135,9 @@
       fallback.style.display = 'none';
       trackInfo.style.display = '';
 
-      label.textContent = '[ SYSTEM_AUDIO // ACTIVE ]';
+      if (track.live !== false) {
+        label.textContent = '[ SYSTEM_AUDIO // ACTIVE ]';
+      }
       label.classList.add('np-label--active');
 
       container.setAttribute('aria-label', 'Now Playing: ' + track.title + ' by ' + track.artist);
@@ -147,7 +165,48 @@
     }
   }
 
-  // ─── MODE A: JSON polling (Spotify Web API via GitHub Action) ──
+  // ─── MODE A: Last.fm (public API, CORS-open, works with free Spotify) ──
+  async function pollLastfm() {
+    try {
+      const q = new URLSearchParams({
+        method: 'user.getrecenttracks',
+        user: CONFIG.lastfmUser,
+        api_key: CONFIG.lastfmKey,
+        format: 'json',
+        limit: '1',
+        extended: '1',
+      });
+      const res = await fetch('https://ws.audioscrobbler.com/2.0/?' + q, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const t = data && data.recenttracks && data.recenttracks.track;
+      const track = Array.isArray(t) ? t[0] : t;
+      if (track && track.name) {
+        const nowplaying = track['@attr'] && track['@attr'].nowplaying === 'true';
+        const images = track.image || [];
+        const art = images.length ? images[images.length - 1]['#text'] : null;
+        updateUI({
+          title: track.name,
+          artist: (track.artist && (track.artist.name || track.artist['#text'])) || '',
+          album: track.album && track.album['#text'] || '',
+          artwork: art || null,
+          url: track.url || null,
+          live: nowplaying,
+        });
+      } else {
+        showFallback();
+      }
+    } catch (err) {
+      // network/API hiccup — stay in current state, retry next tick
+    }
+  }
+
+  function startLastfmPolling() {
+    pollLastfm();
+    jsonTimer = setInterval(pollLastfm, CONFIG.lastfmPollMs);
+  }
+
+  // ─── MODE C: JSON polling (Spotify Web API via GitHub Action) ──
   async function pollJson() {
     try {
       const res = await fetch(CONFIG.jsonUrl + '?t=' + Date.now(), { cache: 'no-store' });
@@ -323,7 +382,10 @@
   function init() {
     createContainer();
 
-    if (CONFIG.discordId) {
+    if (CONFIG.lastfmUser && CONFIG.lastfmKey) {
+      // ── Mode A: Last.fm — free Spotify accounts, no Premium needed ──
+      startLastfmPolling();
+    } else if (CONFIG.discordId) {
       // ── Mode B: Lanyard real-time ──
       fetchInitialState();
       connectWebSocket();
@@ -337,7 +399,7 @@
         }
       });
     } else {
-      // ── Mode A: JSON polling (default; no Discord involved) ──
+      // ── Mode C: JSON polling (no external config present) ──
       startJsonPolling();
     }
   }

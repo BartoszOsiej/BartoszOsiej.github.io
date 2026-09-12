@@ -1,0 +1,42 @@
+{
+  "mode": "top_tracks",
+  "range": "long_term",
+  "updated_at": "2026-09-12T08:01:57.507827+00:00",
+  "tracks": [
+    {
+      "title": "Żyć aż do bólu",
+      "artist": "Chada",
+      "album": "Proceder: Żyj aż do bólu (Muzyka z filmu)",
+      "artwork": "https://i.scdn.co/image/ab67616d0000485134a0770449a9acf4010096d3",
+      "url": "https://open.spotify.com/track/7LRBENOMhrUq8dChGNvcRF"
+    },
+    {
+      "title": "Zosia (feat. Chada, Kroolik Underwood)",
+      "artist": "Rozbójnik Alibaba, Chada, Kroolik Underwood",
+      "album": "Bal maturalny",
+      "artwork": "https://i.scdn.co/image/ab67616d00004851858ed6c7d04beade0b9c269a",
+      "url": "https://open.spotify.com/track/2612HXR2OeIedQ7PyXsxjf"
+    },
+    {
+      "title": "Kiedy jak nie dziś",
+      "artist": "Chada",
+      "album": "Efekt porozumienia",
+      "artwork": "https://i.scdn.co/image/ab67616d00004851256f07f3e949da7ee4bfd662",
+      "url": "https://open.spotify.com/track/1esJKJ2NTq7DG2kPweXJZD"
+    },
+    {
+      "title": "pierwsza noc bez ciebie",
+      "artist": "Zuyeh",
+      "album": "pierwsza noc bez ciebie",
+      "artwork": "https://i.scdn.co/image/ab67616d00004851113988a05a1b87ae6385ddcc",
+      "url": "https://open.spotify.com/track/3zSv6MboqVX5YsxdKEQ3r9"
+    },
+    {
+      "title": "przepraszam",
+      "artist": "margiela",
+      "album": "przepraszam",
+      "artwork": "https://i.scdn.co/image/ab67616d00004851d60f6db3aa5f9ca1c57f89da",
+      "url": "https://open.spotify.com/track/071fKzcquBDedzGB4noIkq"
+    }
+  ]
+}

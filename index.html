@@ -8,11 +8,14 @@
 <meta name="author" content="Bartosz Osiej">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#050505">
-<!-- Spotify Now Playing — default: JSON mode (polls now-playing.json, written every
-     5 min by .github/workflows/refresh-spotify.yml from the Spotify Web API).
-     No Discord needed. Optional real-time mode: set window.SPOTIFY_DISCORD_ID below
-     and join discord.gg/lanyard. One-time Spotify app setup: scripts/spotify-auth-helper.py -->
-<script>window.SPOTIFY_DISCORD_ID = "";</script>
+<!-- Spotify Now Playing — ACTIVE MODE: Last.fm (free Spotify accounts work!).
+     1) Create API account: https://www.last.fm/api/account/create (instant, free)
+        → copy the api_key and paste it into SPOTIFY_LASTFM_KEY below.
+     2) Set SPOTIFY_LASTFM_USER to your last.fm username.
+     3) Connect scrobbling: open Spotify → Settings → turn ON "Scrobble to Last.fm",
+        log in with your last.fm account. That's the whole integration.
+     Optional real-time Lanyard mode: set SPOTIFY_DISCORD_ID and join discord.gg/lanyard. -->
+<script>window.SPOTIFY_LASTFM_USER = ""; window.SPOTIFY_LASTFM_KEY = "";</script>
 <link rel="canonical" href="https://bartoszosiej.github.io/">
 <link rel="me" href="https://github.com/BartoszOsiej">
 <link rel="me" href="https://dev.to/bartoszosiej">
