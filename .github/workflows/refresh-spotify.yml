@@ -40,6 +40,10 @@ jobs:
           SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
           SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
         run: |
+          if [ -z "$SPOTIFY_CLIENT_ID" ] || [ -z "$SPOTIFY_CLIENT_SECRET" ] || [ -z "$SPOTIFY_REFRESH_TOKEN" ]; then
+            echo "::notice::Spotify secrets not configured yet — run scripts/spotify-auth-helper.py (skipping quietly)"
+            exit 0
+          fi
           python3 - <<'PY'
           import base64, json, os, urllib.request, urllib.parse
 
