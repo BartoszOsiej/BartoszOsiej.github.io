@@ -220,6 +220,9 @@
       container.classList.remove('np-track-change');
       void container.offsetWidth; // force reflow so the animation retriggers
       container.classList.add('np-track-change');
+      // Auto-remove after the flash so lingering styles can't win the cascade
+      clearTimeout(updateUI._flashTimer);
+      updateUI._flashTimer = setTimeout(() => container.classList.remove('np-track-change'), 1500);
     }
 
     const equalizer = container.querySelector('.np-equalizer');

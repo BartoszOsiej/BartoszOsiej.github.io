@@ -385,9 +385,12 @@
   animation: np-slide 0.45s ease-out;
 }
 
+/* accent-follow: keep .np-track-change's border in the current genre
+   color (the animation end state must not hardcode rust — the class
+   stays applied until the next track change). */
 .np-playing.np-track-change {
-  border-color: var(--np-rust);
-  box-shadow: 6px 6px 0 rgba(241, 90, 36, 0.55);
+  border-color: var(--np-accent);
+  box-shadow: 6px 6px 0 var(--np-accent-soft);
 }
 
 /* ─── Accessibility ─────────────────────────────────────────── */
