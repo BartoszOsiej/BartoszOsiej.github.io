@@ -99,11 +99,30 @@
   }
 
   // ─── UI Update ──────────────────────────────────────────────
+  // Fit-or-scroll: static text when it fits (short titles stay fully
+  // visible instead of drifting away); seamless duplicated marquee
+  // (translate -50% = exactly one chunk) only when it overflows.
+  function setMarquee(marquee, wrapper, text) {
+    marquee.classList.remove('np-marquee--loop');
+    marquee.textContent = text;
+    if (marquee.scrollWidth > wrapper.clientWidth + 2) {
+      const chunk = text + '\u00A0\u00A0\u2022\u00A0\u00A0';
+      const c1 = document.createElement('span');
+      c1.className = 'np-m-chunk';
+      c1.textContent = chunk;
+      marquee.textContent = '';
+      marquee.appendChild(c1);
+      marquee.appendChild(c1.cloneNode(true));
+      marquee.classList.add('np-marquee--loop');
+    }
+  }
+
   function updateUI(track) {
     if (!container) return;
 
     const equalizer = container.querySelector('.np-equalizer');
     const marquee = container.querySelector('.np-marquee');
+    const marqueeWrapper = container.querySelector('.np-marquee-wrapper');
     const artistEl = container.querySelector('.np-artist');
     const fallback = container.querySelector('.np-fallback');
     const trackInfo = container.querySelector('.np-track-info');
@@ -127,8 +146,7 @@
 
       equalizer.style.display = '';
 
-      marquee.textContent = track.title;
-      marquee.classList.add('np-marquee--active');
+      setMarquee(marquee, marqueeWrapper, track.title);
 
       artistEl.textContent = track.artist;
 
@@ -151,7 +169,7 @@
       equalizer.style.display = 'none';
 
       marquee.textContent = '';
-      marquee.classList.remove('np-marquee--active');
+      marquee.classList.remove('np-marquee--loop');
 
       artistEl.textContent = '';
 

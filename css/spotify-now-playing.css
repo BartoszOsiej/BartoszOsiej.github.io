@@ -30,13 +30,15 @@
 
 .now-playing--fixed {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 16px;
+  right: 16px;
+  left: auto;
+  width: 320px;
+  max-width: calc(100vw - 32px);
   z-index: 9999;
-  background: var(--np-void);
-  border-top: 2px solid var(--np-rust);
-  box-shadow: 0 -4px 20px rgba(241, 90, 36, 0.15);
+  background: rgba(5, 5, 5, 0.95);
+  border: 1px solid var(--np-slate);
+  box-shadow: 6px 6px 0 rgba(34, 34, 42, 0.9);
 }
 
 /* ─── Label ─────────────────────────────────────────────────── */
@@ -179,8 +181,12 @@
   padding-right: 40px; /* gap before repeat */
 }
 
-.np-marquee--active {
-  animation: marquee-scroll 12s linear infinite;
+.np-marquee--loop {
+  animation: marquee-loop 14s linear infinite;
+}
+
+.np-m-chunk {
+  display: inline-block;
 }
 
 .np-idle .np-marquee {
@@ -189,12 +195,14 @@
   animation: none;
 }
 
-@keyframes marquee-scroll {
+/* Seamless loop: JS duplicates the content once; shifting -50% moves
+   exactly one chunk, so there is never an empty gap in view. */
+@keyframes marquee-loop {
   0% {
     transform: translateX(0%);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
@@ -275,8 +283,8 @@
 }
 
 .now-playing--fixed.np-playing {
-  border-top-color: var(--np-rust);
-  box-shadow: 0 -2px 15px rgba(241, 90, 36, 0.12);
+  border-color: var(--np-rust);
+  box-shadow: 6px 6px 0 rgba(241, 90, 36, 0.55);
 }
 
 /* ─── Hover effect ──────────────────────────────────────────── */
@@ -290,7 +298,7 @@
 
 /* ─── Accessibility ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .np-marquee--active {
+  .np-marquee--loop {
     animation: none;
   }
   .np-playing .eq-bar {
