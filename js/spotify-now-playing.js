@@ -26,7 +26,7 @@
     // Mode A — Last.fm (free accounts; set BOTH of these in index.html)
     lastfmUser: (typeof window !== 'undefined' && window.SPOTIFY_LASTFM_USER) || '',
     lastfmKey: (typeof window !== 'undefined' && window.SPOTIFY_LASTFM_KEY) || '',
-    lastfmPollMs: 30000,
+    lastfmPollMs: 15000,
     // Mode B — Discord user ID (Lanyard). Empty = skip.
     discordId: (typeof window !== 'undefined' && window.SPOTIFY_DISCORD_ID) || '',
     // Mode C — static JSON published by refresh-spotify.yml
@@ -51,6 +51,7 @@
   let isPlaying = false;
   let currentTrack = null;
   let container = null;
+  let lastTitle = null;
 
   // ─── DOM Creation ───────────────────────────────────────────
   function createContainer() {
@@ -122,6 +123,15 @@
   function updateUI(track) {
     if (!container) return;
 
+    // Song-change detection → flash + slide animation
+    const changed = !!(track && track.title && track.title !== lastTitle);
+    lastTitle = (track && track.title) || null;
+    if (changed) {
+      container.classList.remove('np-track-change');
+      void container.offsetWidth; // force reflow so the animation retriggers
+      container.classList.add('np-track-change');
+    }
+
     const equalizer = container.querySelector('.np-equalizer');
     const marquee = container.querySelector('.np-marquee');
     const marqueeWrapper = container.querySelector('.np-marquee-wrapper');
@@ -180,6 +190,7 @@
 
       label.textContent = '[ SYSTEM_AUDIO // SPOTIFY ]';
       label.classList.remove('np-label--active');
+      container.classList.remove('np-track-change');
 
       container.setAttribute('aria-label', 'Spotify: No track playing');
     }
@@ -187,6 +198,7 @@
 
   // ─── MODE A: Last.fm (public API, CORS-open, works with free Spotify) ──
   async function pollLastfm() {
+    if (document.hidden) return; // save calls while tab is in background
     try {
       const q = new URLSearchParams({
         method: 'user.getrecenttracks',
@@ -196,6 +208,7 @@
         limit: '1',
         extended: '1',
       });
+      q.set('_', Date.now()); // cache-buster: last.fm CDN caches identical URLs
       const res = await fetch('https://ws.audioscrobbler.com/2.0/?' + q, { cache: 'no-store' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
@@ -407,6 +420,7 @@
       startLastfmPolling();
     } else if (CONFIG.discordId) {
       // ── Mode B: Lanyard real-time ──
+      // ── Mode B: Lanyard real-time ──
       fetchInitialState();
       connectWebSocket();
 
@@ -422,12 +436,23 @@
       // ── Mode C: JSON polling (no external config present) ──
       startJsonPolling();
     }
+
+    // Refresh instantly when the user comes back to the tab
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) return;
+      if (CONFIG.lastfmUser && CONFIG.lastfmKey) {
+        pollLastfm();
+      } else if (!CONFIG.discordId) {
+        pollJson();
+      }
+    });
   }
 
   // ─── Lazy Load ──────────────────────────────────────────────
   function schedule() {
     if (typeof requestIdleCallback === 'function') {
-      requestIdleCallback(init);
+      // timeout guard: rIC alone can stall for ages in background tabs
+      requestIdleCallback(init, { timeout: 2000 });
     } else {
       setTimeout(init, 0);
     }

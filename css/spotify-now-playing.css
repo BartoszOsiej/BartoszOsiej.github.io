@@ -304,8 +304,50 @@
   opacity: 1 !important;
 }
 
+/* ─── Track-change animation ────────────────────────────────── */
+/* Border flash on the card + slide-in of the text row. JS retriggers
+   it by removing/re-adding .np-track-change (with reflow). */
+@keyframes np-flash {
+  0% {
+    border-color: var(--np-rust);
+    box-shadow: 6px 6px 0 rgba(241, 90, 36, 0.9), 0 0 22px rgba(241, 90, 36, 0.35);
+  }
+  100% {
+    border-color: var(--np-slate);
+    box-shadow: 6px 6px 0 rgba(34, 34, 42, 0.9);
+  }
+}
+
+.np-track-change {
+  animation: np-flash 1.4s ease-out;
+}
+
+@keyframes np-slide {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.np-track-change .np-track-info {
+  animation: np-slide 0.45s ease-out;
+}
+
+.np-playing.np-track-change {
+  border-color: var(--np-rust);
+  box-shadow: 6px 6px 0 rgba(241, 90, 36, 0.55);
+}
+
 /* ─── Accessibility ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
+  .np-track-change,
+  .np-track-change .np-track-info {
+    animation: none;
+  }
   .np-marquee--loop {
     animation: none;
   }
