@@ -119,18 +119,30 @@
   ];
   const MOOD_DEFAULT = { color: '#F15A24', label: 'AUDIO' };
 
+  const MOOD_CACHE_VER = 'v2';
+  const MOOD_CACHE_TTL = 7 * 24 * 3600 * 1000; // 7 days
+
   function moodCacheGet(key) {
     try {
-      const c = JSON.parse(localStorage.getItem('np-moods') || '{}');
-      return c[key];
+      const c = JSON.parse(localStorage.getItem('np-moods-' + MOOD_CACHE_VER) || '{}');
+      const e = c[key];
+      if (!e) return null;
+      if (Date.now() - e.t > MOOD_CACHE_TTL) return null; // expired
+      return e.m;
     } catch (e) { return null; }
   }
 
   function moodCacheSet(key, value) {
     try {
-      const c = JSON.parse(localStorage.getItem('np-moods') || '{}');
-      c[key] = value;
-      localStorage.setItem('np-moods', JSON.stringify(c));
+      const store = 'np-moods-' + MOOD_CACHE_VER;
+      const c = JSON.parse(localStorage.getItem(store) || '{}');
+      c[key] = { m: value, t: Date.now() };
+      // keep it bounded: max 200 entries, drop the oldest
+      const keys = Object.keys(c);
+      if (keys.length > 200) {
+        keys.sort((a, b) => c[a].t - c[b].t).slice(0, keys.length - 200).forEach((k) => delete c[k]);
+      }
+      localStorage.setItem(store, JSON.stringify(c));
     } catch (e) { /* private mode — no cache, still works */ }
   }
 
@@ -171,6 +183,8 @@
         }
         mood = moodForTags(tags) || MOOD_DEFAULT;
         moodCacheSet(key, mood);
+        console.debug('[spotify-np] mood ' + mood.label + ' ' + mood.color +
+          ' (tags: ' + (tags.slice(0, 4).join(', ') || 'none') + ')');
       } catch (err) {
         mood = MOOD_DEFAULT;
       }
@@ -542,6 +556,8 @@
   // ─── Initialization ─────────────────────────────────────────
   function init() {
     createContainer();
+    // diagnostics: confirms which build the browser is actually running
+    console.info('[spotify-np] build 20260912c — mood engine active');
 
     // Click-to-open the currently playing track (last.fm page)
     container.addEventListener('click', () => {

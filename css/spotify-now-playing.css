@@ -232,7 +232,7 @@
 }
 
 .np-playing .np-artist {
-  color: var(--np-rust);
+  color: var(--np-accent);
   opacity: 0.7;
 }
 
@@ -303,7 +303,7 @@
 
 /* ─── Hover effect ──────────────────────────────────────────── */
 .now-playing:hover .np-label {
-  color: var(--np-rust);
+  color: var(--np-accent);
 }
 
 .now-playing:hover .eq-bar {
