@@ -62,6 +62,9 @@
   align-items: center;
   gap: 10px;
 }
+.np-status > * {
+  min-width: 0;
+}
 
 /* ─── Equalizer (CSS-only, 5 bars) ─────────────────────────── */
 .np-equalizer {
@@ -156,6 +159,11 @@
 .np-marquee-wrapper {
   overflow: hidden;
   white-space: nowrap;
+}
+
+/* Edge fade only while actually looping — static (fit) titles stay
+   crisp and keep a clean 10px visual gap from the icon. */
+.np-marquee-wrapper.is-looping {
   mask-image: linear-gradient(
     to right,
     transparent 0%,
@@ -227,7 +235,7 @@
 .np-fallback {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   opacity: 0.5;
 }
 

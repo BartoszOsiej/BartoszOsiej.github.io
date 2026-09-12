@@ -104,6 +104,7 @@
   // (translate -50% = exactly one chunk) only when it overflows.
   function setMarquee(marquee, wrapper, text) {
     marquee.classList.remove('np-marquee--loop');
+    wrapper.classList.remove('is-looping');
     marquee.textContent = text;
     if (marquee.scrollWidth > wrapper.clientWidth + 2) {
       const chunk = text + '\u00A0\u00A0\u2022\u00A0\u00A0';
@@ -114,6 +115,7 @@
       marquee.appendChild(c1);
       marquee.appendChild(c1.cloneNode(true));
       marquee.classList.add('np-marquee--loop');
+      wrapper.classList.add('is-looping');
     }
   }
 
