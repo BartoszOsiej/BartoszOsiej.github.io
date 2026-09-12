@@ -157,13 +157,44 @@
 
   let moodKey = null;
 
+  const MOOD_TIMEOUT_MS = 3500;
+
+  function fetchWithTimeout(url, ms) {
+    const ctrl = (typeof AbortController === 'function') ? new AbortController() : null;
+    const timer = setTimeout(() => ctrl && ctrl.abort(), ms);
+    const p = fetch(url, Object.assign({ cache: 'no-store' }, ctrl ? { signal: ctrl.signal } : {}));
+    return p.finally(() => clearTimeout(timer));
+  }
+
   async function fetchTags(method, params) {
     const q = new URLSearchParams(Object.assign({ method: method, api_key: CONFIG.lastfmKey, format: 'json' }, params));
     q.set('_', Date.now());
-    const res = await fetch('https://ws.audioscrobbler.com/2.0/?' + q, { cache: 'no-store' });
+    const res = await fetchWithTimeout('https://ws.audioscrobbler.com/2.0/?' + q, MOOD_TIMEOUT_MS);
     if (!res.ok) return [];
     const data = await res.json();
     return ((data && data.toptags && data.toptags.tag) || []).map((t) => (t.name || '').toLowerCase());
+  }
+
+  function applyMoodStyles(mood, track) {
+    if (!container) return;
+    // Apply only if this track is still the current one (no race overwrites)
+    if (currentTrack && track && currentTrack.title !== track.title) return;
+    container.style.setProperty('--np-accent', mood.color);
+    container.style.setProperty('--np-accent-soft', mood.color + '66');
+    const label = container.querySelector('.np-label');
+    if (label) {
+      if (mood.label && mood.label !== 'AUDIO') {
+        label.dataset.genre = mood.label;
+      } else {
+        delete label.dataset.genre; // neutral mood → no stale genre text
+      }
+      // Re-render the label with the genre when it's in plain ACTIVE state
+      if (isPlaying && label.dataset.genre &&
+          (label.textContent === '[ SYSTEM_AUDIO // ACTIVE ]' ||
+           label.textContent.indexOf('SYSTEM_AUDIO // ' + label.dataset.genre) !== -1)) {
+        label.textContent = '[ SYSTEM_AUDIO // ' + label.dataset.genre + ' ]';
+      }
+    }
   }
 
   async function applyMood(track) {
@@ -172,35 +203,99 @@
     if (key === moodKey) return; // already resolved for this track
     moodKey = key;
 
-    let mood = moodCacheGet(key);
-    if (!mood) {
-      try {
-        // Chain: track tags → artist tags (Polish/obscure tracks often lack
-        // track-level tags) → default. Results cached per track in localStorage.
-        let tags = await fetchTags('track.getTopTags', { artist: track.artist || '', track: track.title });
-        if (!tags.length) {
-          tags = await fetchTags('artist.getTopTags', { artist: track.artist || '' });
-        }
-        mood = moodForTags(tags) || MOOD_DEFAULT;
-        moodCacheSet(key, mood);
-        console.debug('[spotify-np] mood ' + mood.label + ' ' + mood.color +
-          ' (tags: ' + (tags.slice(0, 4).join(', ') || 'none') + ')');
-      } catch (err) {
-        mood = MOOD_DEFAULT;
-      }
+    // 1) Instant hit from cache → zero-delay color switch on track change
+    const cached = moodCacheGet(key);
+    if (cached) {
+      applyMoodStyles(cached, track);
+      return;
     }
 
-    // Apply only if this track is still the current one
-    if (currentTrack && currentTrack.title === track.title) {
-      container.style.setProperty('--np-accent', mood.color);
-      container.style.setProperty('--np-accent-soft', mood.color + '66');
-      if (isPlaying && mood.label !== 'AUDIO') {
-        const label = container.querySelector('.np-label');
-        if (label && label.classList.contains('np-label--active')) {
-          label.textContent = '[ SYSTEM_AUDIO // ' + mood.label + ' ]';
-        }
+    // 2) Resolve tags, guarded end-to-end: a hanging or failed request can
+    //    never leave the previous track's genre color frozen on screen.
+    try {
+      // Chain: track tags → artist tags (Polish/obscure tracks often lack
+      // track-level tags) → neutral default. Each step has a hard timeout.
+      let tags = [];
+      try {
+        tags = await fetchTags('track.getTopTags', { artist: track.artist || '', track: track.title });
+      } catch (e) { tags = []; }
+      if (!tags.length) {
+        try {
+          tags = await fetchTags('artist.getTopTags', { artist: track.artist || '' });
+        } catch (e) { tags = []; }
       }
+      const mood = moodForTags(tags) || MOOD_DEFAULT;
+      if (tags.length) moodCacheSet(key, mood); // cache only real resolutions
+      console.debug('[spotify-np] mood ' + mood.label + ' ' + mood.color +
+        ' (tags: ' + (tags.slice(0, 4).join(', ') || 'none') + ')');
+      applyMoodStyles(mood, track);
+    } catch (err) {
+      // Total failure → neutral color NOW so a stale genre color never sticks
+      applyMoodStyles(MOOD_DEFAULT, track);
     }
+  }
+
+  // ─── Artwork: a cover is ALWAYS shown, never a hole ────────
+  // Chain: last.fm image → iTunes Search API (CORS-open, no key, good
+  // for obscure/Polish releases) → generated letter avatar (data URI).
+  const ART_TIMEOUT_MS = 3500;
+  const artInflight = {}; // per-track guard against duplicate hunts
+
+  function letterAvatar(title, artist) {
+    // Deterministic hue from artist+title: same track → same color, always.
+    const seed = ((artist || '') + '|' + (title || '?')).toLowerCase();
+    let h = 0;
+    for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+    const hue = h % 360;
+    const letter = (title || '?').trim().charAt(0).toUpperCase() || '?';
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96">' +
+      '<rect width="96" height="96" fill="hsl(' + hue + ',45%,22%)"/>' +
+      '<text x="48" y="63" font-family="system-ui,sans-serif" font-size="42" ' +
+      'font-weight="700" text-anchor="middle" fill="hsl(' + hue + ',80%,72%)">' +
+      letter + '</text></svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+
+  async function fetchArtworkFromItunes(artist, title) {
+    try {
+      const q = new URLSearchParams({ term: ((artist || '') + ' ' + (title || '')).trim(), entity: 'song', limit: '1' });
+      const res = await fetchWithTimeout('https://itunes.apple.com/search?' + q, ART_TIMEOUT_MS);
+      if (!res.ok) return null;
+      const data = await res.json();
+      const url = data && data.results && data.results[0] && data.results[0].artworkUrl100;
+      return url ? url.replace(/100x100/, '200x200') : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function setArtwork(el, src, alt) {
+    if (!el) return;
+    el.onerror = () => {
+      // Even the provided URL failed → guaranteed letter avatar
+      el.onerror = null;
+      el.src = letterAvatar(currentTrack && currentTrack.title, currentTrack && currentTrack.artist);
+    };
+    el.alt = alt || 'cover art';
+    el.src = src;
+    el.style.display = '';
+  }
+
+  async function resolveArtwork(track) {
+    const key = ((track.artist || '') + '|' + (track.title || '')).toLowerCase();
+    if (artInflight[key]) return;
+    artInflight[key] = true;
+    let url = null;
+    if (track.artist) url = await fetchArtworkFromItunes(track.artist, track.title);
+    // Apply only if this track is still current AND still missing a cover
+    const thumb = container && container.querySelector('.np-art-thumb');
+    if (url && thumb && thumb.dataset.nofallback === key &&
+        currentTrack && currentTrack.title === track.title) {
+      delete thumb.dataset.nofallback;
+      setArtwork(thumb, url, track.album ? track.album + ' — cover' : 'cover art');
+    }
+    delete artInflight[key];
   }
 
   // ─── UI Update ──────────────────────────────────────────────
@@ -271,11 +366,15 @@
 
       const thumb = container.querySelector('.np-art-thumb');
       if (track.artwork) {
-        thumb.src = track.artwork;
-        thumb.alt = track.album ? track.album + ' — cover' : 'cover art';
-        thumb.style.display = '';
+        delete thumb.dataset.nofallback;
+        setArtwork(thumb, track.artwork, track.album ? track.album + ' — cover' : 'cover art');
       } else {
-        thumb.style.display = 'none';
+        // No image from last.fm (common for obscure tracks) → hunt a
+        // fallback cover; until then show the letter avatar, never a hole.
+        const trackKey = ((track.artist || '') + '|' + track.title).toLowerCase();
+        thumb.dataset.nofallback = trackKey;
+        setArtwork(thumb, letterAvatar(track.title, track.artist), 'cover art');
+        resolveArtwork(track);
       }
 
       fallback.style.display = 'none';
@@ -557,7 +656,7 @@
   function init() {
     createContainer();
     // diagnostics: confirms which build the browser is actually running
-    console.info('[spotify-np] build 20260912c — mood engine active');
+    console.info('[spotify-np] build 20260912d — mood engine + artwork fallback active');
 
     // Click-to-open the currently playing track (last.fm page)
     container.addEventListener('click', () => {
