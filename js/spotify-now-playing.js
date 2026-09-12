@@ -26,7 +26,10 @@
     // Mode A — Last.fm (free accounts; set BOTH of these in index.html)
     lastfmUser: (typeof window !== 'undefined' && window.SPOTIFY_LASTFM_USER) || '',
     lastfmKey: (typeof window !== 'undefined' && window.SPOTIFY_LASTFM_KEY) || '',
-    lastfmPollMs: 15000,
+    // Adaptive polling: fast while music is playing, slow when idle.
+    lastfmPollMs: 3000,      // nowplaying → detect track change fast (avg ~1.5s, worst ~4s)
+    lastfmIdlePollMs: 15000, // nothing playing → relax
+    lastfmErrorPollMs: 45000,// consecutive errors → back off
     // Mode B — Discord user ID (Lanyard). Empty = skip.
     discordId: (typeof window !== 'undefined' && window.SPOTIFY_DISCORD_ID) || '',
     // Mode C — static JSON published by refresh-spotify.yml
@@ -52,6 +55,7 @@
   let currentTrack = null;
   let container = null;
   let lastTitle = null;
+  let lastPollState = 'idle'; // 'playing' | 'idle' | 'error'
 
   // ─── DOM Creation ───────────────────────────────────────────
   function createContainer() {
@@ -197,8 +201,21 @@
   }
 
   // ─── MODE A: Last.fm (public API, CORS-open, works with free Spotify) ──
+  function scheduleNextPoll() {
+    const delay = lastPollState === 'playing' ? CONFIG.lastfmPollMs
+                : lastPollState === 'error' ? CONFIG.lastfmErrorPollMs
+                : CONFIG.lastfmIdlePollMs;
+    jsonTimer = setTimeout(pollLastfm, delay);
+  }
+
   async function pollLastfm() {
-    if (document.hidden) return; // save calls while tab is in background
+    if (jsonTimer) { clearTimeout(jsonTimer); jsonTimer = null; }
+    if (document.hidden) {
+      // Tab in background: do nothing, re-check in 30s (visibilitychange
+      // fires an instant poll the moment the user comes back).
+      jsonTimer = setTimeout(pollLastfm, 30000);
+      return;
+    }
     try {
       const q = new URLSearchParams({
         method: 'user.getrecenttracks',
@@ -216,6 +233,7 @@
       const track = Array.isArray(t) ? t[0] : t;
       if (track && track.name) {
         const nowplaying = track['@attr'] && track['@attr'].nowplaying === 'true';
+        lastPollState = nowplaying ? 'playing' : 'idle';
         const images = track.image || [];
         const art = images.length ? images[images.length - 1]['#text'] : null;
         updateUI({
@@ -227,16 +245,18 @@
           live: nowplaying,
         });
       } else {
+        lastPollState = 'idle';
         showFallback();
       }
     } catch (err) {
-      // network/API hiccup — stay in current state, retry next tick
+      // network/API hiccup — back off, retry on next tick
+      lastPollState = 'error';
     }
+    scheduleNextPoll();
   }
 
   function startLastfmPolling() {
     pollLastfm();
-    jsonTimer = setInterval(pollLastfm, CONFIG.lastfmPollMs);
   }
 
   // ─── MODE C: JSON polling (Spotify Web API via GitHub Action) ──
@@ -269,7 +289,7 @@
 
   function stopJsonPolling() {
     if (jsonTimer) {
-      clearInterval(jsonTimer);
+      clearTimeout(jsonTimer);
       jsonTimer = null;
     }
   }
