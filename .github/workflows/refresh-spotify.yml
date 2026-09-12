@@ -1,0 +1,136 @@
+# Refresh Spotify Now Playing — bartoszosiej.github.io
+#
+# Runs every 5 minutes: refreshes the Spotify access token, reads the
+# currently-playing track and commits it to now-playing.json (served at
+# https://bartoszosiej.github.io/now-playing.json).
+#
+# One-time setup (see scripts/spotify-auth-helper.py):
+#   gh secret set SPOTIFY_CLIENT_ID     -R BartoszOsiej/BartoszOsiej.github.io
+#   gh secret set SPOTIFY_CLIENT_SECRET -R BartoszOsiej/BartoszOsiej.github.io
+#   gh secret set SPOTIFY_REFRESH_TOKEN -R BartoszOsiej/BartoszOsiej.github.io
+#
+# No Discord, no third-party services — direct Spotify Web API.
+
+name: Refresh Spotify Now Playing
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: spotify-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch current track
+        id: track
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import base64, json, os, urllib.request, urllib.parse
+
+          cid = os.environ["SPOTIFY_CLIENT_ID"]
+          secret = os.environ["SPOTIFY_CLIENT_SECRET"]
+          refresh = os.environ["SPOTIFY_REFRESH_TOKEN"]
+
+          # 1) refresh access token
+          data = urllib.parse.urlencode({
+              "grant_type": "refresh_token",
+              "refresh_token": refresh,
+          }).encode()
+          req = urllib.request.Request(
+              "https://accounts.spotify.com/api/token",
+              data=data,
+              headers={
+                  "Authorization": "Basic " + base64.b64encode(f"{cid}:{secret}".encode()).decode(),
+                  "Content-Type": "application/x-www-form-urlencoded",
+              },
+          )
+          with urllib.request.urlopen(req, timeout=30) as r:
+              tok = json.load(r)
+          access = tok["access_token"]
+          # rotate refresh token if Spotify returned a new one (it sometimes does)
+          new_refresh = tok.get("refresh_token")
+
+          # 2) currently playing
+          req = urllib.request.Request(
+              "https://api.spotify.com/v1/me/player/currently-playing",
+              headers={"Authorization": "Bearer " + access},
+          )
+          try:
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  code = r.status
+                  body = r.read().decode()
+          except urllib.error.HTTPError as e:
+              code, body = e.code, ""
+
+          playing = {}
+          if code == 200 and body:
+              d = json.loads(body)
+              if d.get("is_playing") and d.get("item"):
+                  item = d["item"]
+                  playing = {
+                      "playing": True,
+                      "title": item.get("name"),
+                      "artist": ", ".join(a.get("name", "") for a in item.get("artists", [])),
+                      "album": item.get("album", {}).get("name"),
+                      "artwork": next(
+                          (img.get("url") for img in reversed(item.get("album", {}).get("images", []))),
+                          None,
+                      ),
+                      "url": item.get("external_urls", {}).get("spotify"),
+                      "progress_ms": d.get("progress_ms"),
+                      "duration_ms": item.get("duration_ms"),
+                      "fetched_at": None,  # filled below (UTC)
+                  }
+
+          from datetime import datetime, timezone
+          now = datetime.now(timezone.utc).isoformat()
+          if playing:
+              playing["fetched_at"] = now
+          else:
+              playing = {"playing": False, "fetched_at": now}
+
+          with open("now-playing.json", "w") as f:
+              json.dump(playing, f, indent=2, ensure_ascii=False)
+              f.write("\n")
+
+          # persist rotated refresh token for the next run (step writes it to GITHUB_ENV output)
+          if new_refresh:
+              with open(os.environ.get("GITHUB_OUTPUT", "/dev/null"), "a") as f:
+                  f.write(f"new_refresh={new_refresh}\n")
+          PY
+
+      - name: Rotate refresh token (if Spotify sent a new one)
+        if: steps.track.outputs.new_refresh != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_REFRESH: ${{ steps.track.outputs.new_refresh }}
+        run: |
+          gh secret set SPOTIFY_REFRESH_TOKEN -R "$GITHUB_REPOSITORY" -b "$NEW_REFRESH"
+
+      - name: Commit now-playing.json
+        run: |
+          git config user.name  "spotify-bot"
+          git config user.email "thethreadcalls@outlook.com"
+          git add now-playing.json
+          if git diff --cached --quiet; then
+            echo "No change"
+          else
+            git commit -q -m "chore: spotify now-playing update"
+            git push
+          fi

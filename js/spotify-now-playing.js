@@ -3,19 +3,15 @@
  * ═══════════════════════════════════════════════════════════════
  * Real-time "Now Playing" Spotify module for bartoszosiej.github.io
  *
- * Architecture:
- *   - Lanyard WebSocket API (real-time, no polling)
- *   - CSS-only equalizer animation (zero JS animation frames)
- *   - CSS text marquee for track title
- *   - Cyber-Noir fallback when offline/silent
- *   - Lazy-loaded, deferred, no Lighthouse impact
+ * TWO MODES (auto-detected):
+ *   A) JSON mode (default) — polls now-playing.json (same origin),
+ *      which .github/workflows/refresh-spotify.yml regenerates every
+ *      5 minutes straight from the Spotify Web API. No Discord needed.
+ *   B) Lanyard mode — if window.SPOTIFY_DISCORD_ID is set, uses the
+ *      Lanyard WebSocket for real-time Discord presence push.
  *
- * API: https://api.lanyard.rest/
- * Requires: Discord ID (window.SPOTIFY_DISCORD_ID, set in index.html)
- *           + Spotify connected to Discord + user inside the Lanyard
- *           Discord guild (discord.gg/lanyard) so Lanyard can observe it.
- *
- * Performance budget: <3KB gzipped, 0 layout shifts, 0 main-thread animation
+ * UI: CSS-only equalizer + marquee, Cyber-Noir fallback when idle.
+ * Performance budget: <3KB gzipped, 0 layout shifts, 0 main-thread animation.
  * ═══════════════════════════════════════════════════════════════
  */
 
@@ -24,15 +20,16 @@
 
   // ─── Configuration ──────────────────────────────────────────
   const CONFIG = {
-    // Discord user ID — set in index.html: window.SPOTIFY_DISCORD_ID = "123...";
+    // Mode B only — Discord user ID (Lanyard). Empty = JSON mode.
     discordId: (typeof window !== 'undefined' && window.SPOTIFY_DISCORD_ID) || '',
-    // Lanyard endpoints
+    // Mode A — static JSON published by refresh-spotify.yml
+    jsonUrl: 'now-playing.json',
+    jsonPollMs: 60000,
+    // Mode B — Lanyard endpoints
     restUrl: 'https://api.lanyard.rest/v1/users/',
     wsUrl: 'wss://api.lanyard.rest/socket',
-    // Reconnection (exponential backoff)
     reconnectBaseMs: 1000,
     reconnectMaxMs: 30000,
-    // Heartbeat fallback interval (real value arrives in Lanyard Hello frame)
     heartbeatIntervalMs: 30000,
     // DOM
     containerId: 'now-playing',
@@ -43,6 +40,7 @@
   let heartbeatTimer = null;
   let reconnectTimer = null;
   let reconnectAttempts = 0;
+  let jsonTimer = null;
   let isPlaying = false;
   let currentTrack = null;
   let container = null;
@@ -105,7 +103,6 @@
     const label = container.querySelector('.np-label');
 
     if (track && track.title && track.artist) {
-      // ── Playing state ──
       isPlaying = true;
       currentTrack = track;
 
@@ -127,7 +124,6 @@
 
       container.setAttribute('aria-label', 'Now Playing: ' + track.title + ' by ' + track.artist);
     } else {
-      // ── Idle/sleep state ──
       isPlaying = false;
       currentTrack = null;
 
@@ -151,7 +147,42 @@
     }
   }
 
-  // ─── Lanyard REST (initial fetch) ───────────────────────────
+  // ─── MODE A: JSON polling (Spotify Web API via GitHub Action) ──
+  async function pollJson() {
+    try {
+      const res = await fetch(CONFIG.jsonUrl + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if (data && data.playing && data.title) {
+        updateUI({
+          title: data.title,
+          artist: data.artist || '',
+          album: data.album || '',
+          artwork: data.artwork || null,
+          url: data.url || null,
+        });
+      } else {
+        showFallback();
+      }
+    } catch (err) {
+      // 404 = secrets not configured yet, or transient network issue.
+      // Stay idle silently; the next poll will retry.
+    }
+  }
+
+  function startJsonPolling() {
+    pollJson();
+    jsonTimer = setInterval(pollJson, CONFIG.jsonPollMs);
+  }
+
+  function stopJsonPolling() {
+    if (jsonTimer) {
+      clearInterval(jsonTimer);
+      jsonTimer = null;
+    }
+  }
+
+  // ─── MODE B: Lanyard REST (initial fetch) ───────────────────
   async function fetchInitialState() {
     try {
       const res = await fetch(CONFIG.restUrl + CONFIG.discordId);
@@ -164,7 +195,7 @@
     }
   }
 
-  // ─── Lanyard WebSocket (real-time) ──────────────────────────
+  // ─── MODE B: Lanyard WebSocket (real-time) ──────────────────
   function connectWebSocket() {
     if (ws && (ws.readyState === WebSocket.CONNECTING || ws.readyState === WebSocket.OPEN)) {
       return;
@@ -194,7 +225,6 @@
             const interval = (msg.d && msg.d.heartbeat_interval) || CONFIG.heartbeatIntervalMs;
             CONFIG.heartbeatIntervalMs = interval;
             startHeartbeat();
-            // Initialize: subscribe to Bartosz's presence
             ws.send(JSON.stringify({
               op: 2,
               d: { subscribe_to_id: CONFIG.discordId },
@@ -227,7 +257,7 @@
     };
   }
 
-  // ─── Presence Handler ───────────────────────────────────────
+  // ─── Presence Handler (Mode B) ──────────────────────────────
   function handlePresence(data) {
     if (!data) {
       showFallback();
@@ -254,7 +284,7 @@
     updateUI(null);
   }
 
-  // ─── Heartbeat (Lanyard: client responds with op 3) ─────────
+  // ─── Heartbeat (Mode B; Lanyard: client responds with op 3) ─
   function startHeartbeat() {
     stopHeartbeat();
     heartbeatTimer = setInterval(sendHeartbeat, CONFIG.heartbeatIntervalMs);
@@ -273,7 +303,7 @@
     }
   }
 
-  // ─── Reconnection ───────────────────────────────────────────
+  // ─── Reconnection (Mode B) ──────────────────────────────────
   function scheduleReconnect() {
     if (reconnectTimer) return;
 
@@ -293,27 +323,23 @@
   function init() {
     createContainer();
 
-    if (!CONFIG.discordId) {
-      console.warn('[spotify-np] No Discord ID set (window.SPOTIFY_DISCORD_ID). Showing idle state.');
-      showFallback();
-      return;
+    if (CONFIG.discordId) {
+      // ── Mode B: Lanyard real-time ──
+      fetchInitialState();
+      connectWebSocket();
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          if (ws) ws.close(1000, 'Tab hidden');
+          stopHeartbeat();
+        } else {
+          connectWebSocket();
+        }
+      });
+    } else {
+      // ── Mode A: JSON polling (default; no Discord involved) ──
+      startJsonPolling();
     }
-
-    // Initial REST fetch (fast, non-blocking)
-    fetchInitialState();
-
-    // WebSocket for real-time updates
-    connectWebSocket();
-
-    // Pause the socket when the tab is hidden, resume when visible
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        if (ws) ws.close(1000, 'Tab hidden');
-        stopHeartbeat();
-      } else {
-        connectWebSocket();
-      }
-    });
   }
 
   // ─── Lazy Load ──────────────────────────────────────────────
@@ -337,6 +363,7 @@
     isPlaying: () => isPlaying,
     reconnect: () => connectWebSocket(),
     destroy: () => {
+      stopJsonPolling();
       if (ws) ws.close(1000, 'Destroyed');
       stopHeartbeat();
       if (reconnectTimer) clearTimeout(reconnectTimer);

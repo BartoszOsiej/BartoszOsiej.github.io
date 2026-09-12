@@ -8,10 +8,10 @@
 <meta name="author" content="Bartosz Osiej">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#050505">
-<!-- Spotify Now Playing — Discord user ID (Lanyard reads presence from here).
-     Set your numeric Discord ID here (Developer Mode → right-click your name → Copy User ID).
-     Also required ONCE: Spotify connected in Discord (Settings → Connections) AND
-     join the Lanyard Discord (discord.gg/lanyard) so the service can observe your presence. -->
+<!-- Spotify Now Playing — default: JSON mode (polls now-playing.json, written every
+     5 min by .github/workflows/refresh-spotify.yml from the Spotify Web API).
+     No Discord needed. Optional real-time mode: set window.SPOTIFY_DISCORD_ID below
+     and join discord.gg/lanyard. One-time Spotify app setup: scripts/spotify-auth-helper.py -->
 <script>window.SPOTIFY_DISCORD_ID = "";</script>
 <link rel="canonical" href="https://bartoszosiej.github.io/">
 <link rel="me" href="https://github.com/BartoszOsiej">
