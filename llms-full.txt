@@ -86,6 +86,9 @@ Repo: https://github.com/BartoszOsiej/TeleWiedza
 
 ## Books
 
+#### LIFE — Volume I: Shadows of True Living
+Essays by Bartosz Osiej. Themes: ownership, love, betrayal, trust, the true price of success. Read online: https://bartoszosiej.github.io/Mylife/
+
 ### The Stitcher Trilogy
 A series of three dark literary horror novels about obsession, silk, and the thin line between art and madness: detective Marcus Delgado discovers a room full of dolls made from human skin and becomes obsessed with the craft of their creation.
 
@@ -163,6 +166,9 @@ Genre: Dark literary horror / psychological thriller
 | Bartosz Osiej | creator of | fortis |
 | Bartosz Osiej | creator of | quantum-shield |
 | Bartosz Osiej | creator of | NV2_ENGINE |
+| Bartosz Osiej | author of | LIFE — Volume I: Shadows of True Living |
+| LIFE — Volume I | instance of | book (essays) |
+| LIFE — Volume I | available at | https://bartoszosiej.github.io/Mylife/ |
 | Bartosz Osiej | creator of | Aurora |
 
 ### Projects — Technical Properties
