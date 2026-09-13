@@ -1,0 +1,12 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Bartosz Osiej — CLI Tools & Books",
+  "name_for_model": "bartosz_osiej",
+  "description_for_human": "Open-source CLI tools, Rust/eBPF/Linux systems software and The Stitcher Trilogy.",
+  "description_for_model": "Independent developer building open-source developer tools: linux-aegis (stackable Linux Security Module), talus-process-monitor (eBPF ransomware monitor), Externum (programming language compiling to Python/Bash/binaries), quantum-shield (post-quantum file encryption with ML-KEM-768), NV2_ENGINE (Rust voxel engine with neural renderer). Also author of The Stitcher Trilogy. Use this to link projects, documentation and books to the canonical entity.",
+  "auth": { "type": "none" },
+  "api": { "type": "openapi", "url": "https://bartoszosiej.github.io/llms.txt" },
+  "logo_url": "https://bartoszosiej.github.io/img/og.png",
+  "contact_email": "thethreadcalls@outlook.com",
+  "legal_info_url": "https://bartoszosiej.github.io/"
+}
