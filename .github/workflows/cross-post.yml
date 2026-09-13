@@ -1,0 +1,137 @@
+name: Cross-post (crier)
+
+# Method #1-9: content syndication / cross-posting.
+# Writes an article in content/, push to main -> crier publishes it to every
+# configured platform (batch, API-only). Registry is cached AND committed back
+# so posts are never duplicated.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "content/**/*.md"
+      - ".github/workflows/cross-post.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "23 5 * * 1" # Mondays 05:23 UTC — weekly catch-up audit
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cross-post
+  cancel-in-progress: false
+
+jobs:
+  syndicate:
+    runs-on: ubuntu-latest
+    env:
+      CRIER_HOME: ${{ github.workspace }}/.crier-home
+      CRIER_DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
+      CRIER_HASHNODE_API_KEY: ${{ secrets.HASHNODE_API_KEY }}
+      CRIER_BLUESKY_API_KEY: ${{ secrets.BLUESKY_API_KEY }}
+      CRIER_MASTODON_API_KEY: ${{ secrets.MASTODON_API_KEY }}
+      CRIER_LINKEDIN_API_KEY: ${{ secrets.LINKEDIN_API_KEY }}
+      CRIER_THREADS_API_KEY: ${{ secrets.THREADS_API_KEY }}
+      CRIER_TELEGRAM_API_KEY: ${{ secrets.TELEGRAM_API_KEY }}
+      CRIER_DISCORD_API_KEY: ${{ secrets.DISCORD_WEBHOOK_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Restore crier registry (idempotency across runs)
+        uses: actions/cache@v4
+        with:
+          path: .crier-home/.config/crier
+          key: crier-registry-${{ github.run_id }}
+          restore-keys: crier-registry-
+
+      - name: Install crier
+        run: pip install crier
+
+      - name: Write crier config
+        run: |
+          mkdir -p "$CRIER_HOME/.config/crier"
+          cat > "$CRIER_HOME/.config/crier/config.yaml" <<'YAML'
+          site_root: __WORKSPACE__
+          site_base_url: https://bartoszosiej.github.io
+          content_paths:
+            - content
+          file_extensions:
+            - .md
+          exclude_patterns:
+            - _drafts/*
+            - bip-calendar.md   # BIP prompts, not publishable content
+          default_profile: everything
+          platforms:
+            medium:
+              api_key: import   # Medium import needs a browser -> manual checklist
+            twitter:
+              api_key: manual   # X has no free write API -> copy-paste mode
+          profiles:
+            blogs:
+              - devto
+              - hashnode
+            social:
+              - bluesky
+              - mastodon
+            channels:
+              - telegram
+              - discord
+            everything:
+              - blogs
+              - social
+              - channels
+              - linkedin
+              - threads
+          YAML
+          sed -i "s|__WORKSPACE__|$GITHUB_WORKSPACE|" "$CRIER_HOME/.config/crier/config.yaml"
+
+      - name: Guard — at least one platform configured
+        run: |
+          COUNT=$(env | grep -c '^CRIER_.*API_KEY=..' || true)
+          echo "platforms configured: $COUNT"
+          if [ "$COUNT" -eq 0 ]; then
+            echo "### Cross-post skipped: no CRIER_* secrets configured yet." >> "$GITHUB_STEP_SUMMARY"
+            echo "Add DEVTO_API_KEY / HASHNODE_API_KEY / BLUESKY_API_KEY ... in repo Settings → Secrets → Actions." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+      - name: Publish (batch, API platforms only)
+        run: |
+          set +e
+          crier audit --publish --batch --only-api --json > crier-results.json
+          CODE=$?
+          echo "crier exit code: $CODE (0=ok, 2=partial — expected while some platforms are unconfigured)"
+          if [ "$CODE" -ge 3 ]; then exit "$CODE"; fi
+        env:
+          HOME: ${{ github.workspace }}/.crier-home
+
+      - name: Job summary
+        if: hashFiles('crier-results.json') != ''
+        run: |
+          if command -v jq >/dev/null; then
+            {
+              echo "## Cross-post results"
+              jq -r '.results[] | "- \(.platform): \(if .success then "✅ \(.url)" else "❌ failed" end)"' crier-results.json
+              jq -r '"Succeeded: \(.summary.succeeded) · Failed: \(.summary.failed) · Skipped: \(.summary.skipped)"' crier-results.json
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload results
+        if: always() && hashFiles('crier-results.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: crier-results
+          path: crier-results.json
+
+      - name: Commit registry back (durable idempotency)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .crier-home
+          git diff --cached --quiet || git commit -m "ci(cross-post): update crier registry [skip ci]"
+          git push

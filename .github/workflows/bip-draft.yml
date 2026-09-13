@@ -1,0 +1,26 @@
+name: Build-in-public daily draft
+
+# Method #34/37: keeps one rolling issue (`label: bip-draft`) with today's
+# build-in-public draft. Nothing is ever auto-published — you edit/approve,
+# then either paste it or drop it into content/ for the cross-post workflow.
+
+on:
+  schedule:
+    - cron: "17 8 * * *" # daily 08:17 UTC (right after the 07:42 kgcheck)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate + upsert rolling draft issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/bip-draft.py

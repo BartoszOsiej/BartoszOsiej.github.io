@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OSIEJ.EXE — build log & release signal</title>
+<meta name="description" content="One email when it matters: new releases, eBPF/kernel security write-ups and The Stitcher Trilogy updates. No spam, unsubscribe anytime.">
+<link rel="canonical" href="https://bartoszosiej.github.io/waitlist/">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { background:#050505; color:#d7d7d7; font:16px/1.7 "JetBrains Mono","Space Mono",ui-monospace,monospace; margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:2rem 1.25rem; }
+  main { max-width:640px; width:100%; }
+  h1 { color:#F15A24; font-size:clamp(1.6rem,5vw,2.4rem); letter-spacing:.04em; margin:0 0 .5rem; text-shadow:3px 3px 0 #000; }
+  .sub { color:#8a8a8a; margin:0 0 2rem; }
+  ul { padding-left:1.2rem; margin:0 0 2rem; }
+  li { margin:.4rem 0; }
+  li::marker { color:#E04855; }
+  form { display:flex; gap:.6rem; flex-wrap:wrap; }
+  input[type=email] { flex:1 1 240px; background:#0d0d0d; border:2px solid #2a2a2a; color:#d7d7d7; padding:.85rem 1rem; font:inherit; }
+  input[type=email]:focus { outline:none; border-color:#F15A24; }
+  button { background:#F15A24; color:#050505; border:none; padding:.85rem 1.4rem; font:inherit; font-weight:700; cursor:pointer; box-shadow:4px 4px 0 #000; }
+  button:hover { transform:translate(-1px,-1px); box-shadow:5px 5px 0 #000; }
+  .fine { color:#5a5a5a; font-size:.8rem; margin-top:1.2rem; }
+  a { color:#E04855; }
+  .bar { border-top:2px solid #F15A24; margin-top:2.5rem; padding-top:.8rem; color:#8a8a8a; font-size:.85rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:.5rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>OSIEJ.EXE</h1>
+  <p class="sub">build log &amp; release signal — zero spam, zero schedule, sends only when something actually shipped.</p>
+  <ul>
+    <li><b>Releases:</b> linux-aegis, talus, externum, fortis, quantum-shield, NV2_ENGINE</li>
+    <li><b>Write-ups:</b> eBPF, Linux kernel, compilers — the deep dives first</li>
+    <li><b>Books:</b> The Stitcher Trilogy — launch dates, chapter zero excerpts</li>
+  </ul>
+  <!--
+    SETUP (2 min): create a free Formspree form (https://formspree.io) or
+    Buttondown embed (https://buttondown.com) and paste its endpoint below.
+    Exported emails can then be imported into the newsletter tool in one CSV.
+  -->
+  <form action="FORM_ENDPOINT_HERE" method="POST">
+    <input type="email" name="email" placeholder="you@domain.tld" required aria-label="email address">
+    <button type="submit">SUBSCRIBE_</button>
+  </form>
+  <p class="fine">Double opt-in via the provider. Unsubscribe link in every email. No third-party tracking pixels.</p>
+  <div class="bar">
+    <span><a href="https://bartoszosiej.github.io/">bartoszosiej.github.io</a></span>
+    <span><a href="https://github.com/BartoszOsiej">github/BartoszOsiej</a></span>
+    <span><a href="https://bartoszosiej.github.io/thethreadcalls/">the books</a></span>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,55 @@
+name: IndexNow ping
+
+# Method #15: instant indexing. The IndexNow "key" is not a secret — it is a
+# proof-of-control token served publicly at /<KEY>.txt on the same host.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "sitemap.xml"
+      - "llms-full.txt"
+      - "content/**"
+      - "waitlist/**"
+  workflow_dispatch:
+  schedule:
+    - cron: "53 4 * * 5" # Fridays 04:53 UTC — weekly re-ping of everything
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Submit sitemap URLs to IndexNow
+        env:
+          KEY: "b7f3d9a1c2e84f60a5d18c3b7e92f406"
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          import xml.etree.ElementTree as ET
+
+          key = os.environ["KEY"]
+          host = "bartoszosiej.github.io"
+          urls = [f"https://{host}/"]
+          if os.path.exists("sitemap.xml"):
+              root = ET.parse("sitemap.xml").getroot()
+              ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+              urls += [e.text.strip() for e in root.findall(".//s:loc", ns) if e.text]
+          urls = list(dict.fromkeys(urls))[:10000]
+
+          body = json.dumps({
+              "host": host,
+              "key": key,
+              "keyLocation": f"https://{host}/{key}.txt",
+              "urlList": urls,
+          }).encode()
+          req = urllib.request.Request(
+              "https://api.indexnow.org/indexnow",
+              data=body,
+              headers={"Content-Type": "application/json; charset=utf-8"},
+          )
+          with urllib.request.urlopen(req, timeout=30) as r:
+              print("IndexNow HTTP", r.status, f"({len(urls)} URLs)")
+          PY
