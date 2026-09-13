@@ -23,7 +23,7 @@
 - [linux-aegis](https://github.com/BartoszOsiej/linux-aegis) — stackable Linux Security Module, in-tree
 - [fortis](https://github.com/BartoszOsiej/fortis) — bare-metal RISC-V chain-of-trust
 - [quantum-shield](https://github.com/BartoszOsiej/quantum-shield) — post-quantum file encryption (ML-KEM-768)
-- [NV2_ENGINE](https://github.com/BartoszOsiej/NV2_ENGINE) — Rust voxel engine with neural renderer
+- [NV2_ENGINE](https://github.com/BartoszOsiej/NV2_ENGINE) — Rust voxel survival engine: NASA real-climate worlds + embedded MeMLP neural terrain (EGS kit ready)
 - [Aurora](https://github.com/BartoszOsiej/Aurora) — operating system in the browser
 - [TrustNode](https://github.com/BartoszOsiej/TrustNode) — Solana-style validator in Rust
 - [Meshcore](https://github.com/BartoszOsiej/Meshcore) — serverless P2P chat (WebRTC + MQTT)

@@ -53,7 +53,7 @@ Post-quantum file encryption CLI. ML-KEM-768 KEM + HKDF + AES-256-GCM AEAD. NIST
 Repo: https://github.com/BartoszOsiej/quantum-shield
 
 ### NV2_ENGINE
-Rust voxel engine (wgpu) with MLP neural renderer for terrain/lighting approximation, multiplayer, ECS gameplay, content pipeline. Language: Rust.
+Voxel survival engine in Rust (wgpu): every seed maps to a real Earth location — NASA POWER climate drives biomes, weather and sky; embedded MeMLP network (3 heads, ~1.1k params) learns vegetation/biome/texture online; day/night survival with 4 hostile types; EGS submission kit ready. Language: Rust.
 Repo: https://github.com/BartoszOsiej/NV2_ENGINE
 
 ### Aurora
@@ -208,9 +208,9 @@ Genre: Dark literary horror / psychological thriller
 | quantum-shield | source repository | https://github.com/BartoszOsiej/quantum-shield |
 | NV2_ENGINE | instance of | voxel engine |
 | NV2_ENGINE | rendering API | wgpu |
-| NV2_ENGINE | has feature | neural renderer |
-| NV2_ENGINE | has feature | multiplayer |
-| NV2_ENGINE | has feature | ECS |
+| NV2_ENGINE | has feature | MeMLP neural terrain |
+| NV2_ENGINE | has feature | NASA POWER real-climate worlds |
+| NV2_ENGINE | has feature | day/night survival |
 | NV2_ENGINE | programming language | Rust |
 | NV2_ENGINE | license | MIT |
 | NV2_ENGINE | source repository | https://github.com/BartoszOsiej/NV2_ENGINE |
