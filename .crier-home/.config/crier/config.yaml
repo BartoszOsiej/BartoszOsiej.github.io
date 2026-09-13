@@ -1,0 +1,31 @@
+site_root: /home/runner/work/BartoszOsiej.github.io/BartoszOsiej.github.io
+site_base_url: https://bartoszosiej.github.io
+content_paths:
+  - content
+file_extensions:
+  - .md
+exclude_patterns:
+  - _drafts/*
+  - bip-calendar.md   # BIP prompts, not publishable content
+default_profile: everything
+platforms:
+  medium:
+    api_key: import   # Medium import needs a browser -> manual checklist
+  twitter:
+    api_key: manual   # X has no free write API -> copy-paste mode
+profiles:
+  blogs:
+    - devto
+    - hashnode
+  social:
+    - bluesky
+    - mastodon
+  channels:
+    - telegram
+    - discord
+  everything:
+    - blogs
+    - social
+    - channels
+    - linkedin
+    - threads
