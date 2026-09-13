@@ -35,6 +35,8 @@ jobs:
       CRIER_THREADS_API_KEY: ${{ secrets.THREADS_API_KEY }}
       CRIER_TELEGRAM_API_KEY: ${{ secrets.TELEGRAM_API_KEY }}
       CRIER_DISCORD_API_KEY: ${{ secrets.DISCORD_WEBHOOK_URL }}
+    outputs:
+      skipped: ${{ steps.guard.outputs.skip }}
     steps:
       - uses: actions/checkout@v4
 
@@ -91,35 +93,51 @@ jobs:
           sed -i "s|__WORKSPACE__|$GITHUB_WORKSPACE|" "$CRIER_HOME/.config/crier/config.yaml"
 
       - name: Guard — at least one platform configured
+        id: guard
         run: |
-          COUNT=$(env | grep -c '^CRIER_.*API_KEY=..' || true)
+          COUNT=$(env | grep -cE '^CRIER_[A-Z_]+=..' || true)
           echo "platforms configured: $COUNT"
           if [ "$COUNT" -eq 0 ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "### Cross-post skipped: no CRIER_* secrets configured yet." >> "$GITHUB_STEP_SUMMARY"
-            echo "Add DEVTO_API_KEY / HASHNODE_API_KEY / BLUESKY_API_KEY ... in repo Settings → Secrets → Actions." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
+            echo "Add DEVTO_API_KEY / HASHNODE_API_KEY / BLUESKY_API_KEY / MASTODON_API_KEY ... in repo Settings → Secrets → Actions, then re-run." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Publish (batch, API platforms only)
+        if: steps.guard.outputs.skip != 'true'
         run: |
           set +e
           crier audit --publish --batch --only-api --json > crier-results.json
           CODE=$?
           echo "crier exit code: $CODE (0=ok, 2=partial — expected while some platforms are unconfigured)"
           if [ "$CODE" -ge 3 ]; then exit "$CODE"; fi
-        env:
-          HOME: ${{ github.workspace }}/.crier-home
 
-      - name: Job summary
-        if: hashFiles('crier-results.json') != ''
+      - name: Job summary (JSON-tolerant)
+        if: always()
         run: |
-          if command -v jq >/dev/null; then
-            {
-              echo "## Cross-post results"
-              jq -r '.results[] | "- \(.platform): \(if .success then "✅ \(.url)" else "❌ failed" end)"' crier-results.json
-              jq -r '"Succeeded: \(.summary.succeeded) · Failed: \(.summary.failed) · Skipped: \(.summary.skipped)"' crier-results.json
-            } >> "$GITHUB_STEP_SUMMARY"
-          fi
+          python3 - <<'PY'
+          import json, os
+          path = "crier-results.json"
+          if not os.path.exists(path):
+              print("no results file"); raise SystemExit(0)
+          raw = open(path).read().strip()
+          # crier may print human text when nothing matched; only parse if it looks like JSON
+          if not raw.startswith("{"):
+              print("crier output (non-JSON):", raw[:300])
+              raise SystemExit(0)
+          data = json.loads(raw)
+          lines = ["## Cross-post results", ""]
+          for r in data.get("results", []):
+              mark = "✅" if r.get("success") else "❌"
+              lines.append(f"- {mark} {r.get('platform')}: {r.get('url', 'failed')}")
+          s = data.get("summary", {})
+          lines.append("")
+          lines.append(f"Succeeded: {s.get('succeeded', '?')} · Failed: {s.get('failed', '?')} · Skipped: {s.get('skipped', '?')}")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+              f.write("\n".join(lines) + "\n")
+          PY
 
       - name: Upload results
         if: always() && hashFiles('crier-results.json') != ''
@@ -129,6 +147,7 @@ jobs:
           path: crier-results.json
 
       - name: Commit registry back (durable idempotency)
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
