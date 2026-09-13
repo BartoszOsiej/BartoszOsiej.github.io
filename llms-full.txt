@@ -59,6 +59,7 @@ Repo: https://github.com/BartoszOsiej/NV2_ENGINE
 ### Aurora
 Operating system in the browser: kernel, window manager, filesystem, 8 apps, procedural audio, zero dependencies. Languages: Rust, TypeScript.
 Repo: https://github.com/BartoszOsiej/Aurora
+Live: https://bartoszosiej.github.io/Aurora/
 
 ### TrustNode
 Solana-style validator in Rust: Proof-of-History clock, Tower BFT, Sealevel parallel execution, Turbine erasure, CRDS gossip, JSON-RPC.
