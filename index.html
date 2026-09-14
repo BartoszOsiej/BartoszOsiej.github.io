@@ -21,8 +21,8 @@
 <link rel="me" href="https://dev.to/bartoszosiej">
 <link rel="me" href="https://www.linkedin.com/in/bartoszosiej2007/">
 <link rel="icon" type="image/png" href="img/bartosz-osiej.jpg">
-<link rel="stylesheet" href="css/spotify-now-playing.css?v=20260912f" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="css/spotify-now-playing.css?v=20260912f"></noscript>
+<link rel="stylesheet" href="css/spotify-now-playing.css?v=20260914a" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="css/spotify-now-playing.css?v=20260914a"></noscript>
 
 <!-- Open Graph -->
 <meta property="og:type" content="profile">
@@ -96,6 +96,7 @@ a { color: inherit; text-decoration: none; }
 /* ── typography ─────────────────────────────────── */
 .font-mono { font-family: "Space Mono", "JetBrains Mono", mono, monospace; }
 .font-bold { font-weight: 700; }
+.font-normal { font-weight: 400; }
 .text-\[10px\] { font-size: 10px; }
 .text-\[11px\] { font-size: 11px; }
 .text-\[12px\] { font-size: 12px; }
@@ -131,8 +132,10 @@ a { color: inherit; text-decoration: none; }
 .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
 .pt-4 { padding-top: 1rem; }
 .pt-14 { padding-top: 3.5rem; }
+.pt-16 { padding-top: 4rem; }
 .pt-28 { padding-top: 7rem; }
 .pt-\[42px\] { padding-top: 42px; }
+.pb-4 { padding-bottom: 1rem; }
 .pb-6 { padding-bottom: 1.5rem; }
 .pb-12 { padding-bottom: 3rem; }
 .pb-16 { padding-bottom: 4rem; }
@@ -157,6 +160,7 @@ a { color: inherit; text-decoration: none; }
 .z-50 { z-index: 50; }
 .backdrop-blur-sm { -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
 .min-w-0 { min-width: 0; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .shrink-0 { flex-shrink: 0; }
 .bg-rust { background-color: var(--rust); }
 .italic { font-style: italic; }
@@ -165,7 +169,7 @@ a { color: inherit; text-decoration: none; }
 .mx-auto { margin-left: auto; margin-right: auto; }
 .space-y-1 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.25rem; }
 .transition-all { transition: all 0.15s linear; }
-.animate-ping { animation: root-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite; }
+.animate-ping { animation: root-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
 @keyframes root-ping {
   75%, 100% { transform: scale(2); opacity: 0; }
 }
@@ -184,6 +188,9 @@ a { color: inherit; text-decoration: none; }
 .gap-4 { gap: 1rem; }
 .gap-5 { gap: 1.25rem; }
 .gap-6 { gap: 1.5rem; }
+.gap-x-6 { column-gap: 1.5rem; }
+.gap-x-12 { column-gap: 3rem; }
+.gap-y-6 { row-gap: 1.5rem; }
 .block { display: block; }
 .hidden { display: none; }
 .relative { position: relative; }
@@ -206,6 +213,7 @@ a { color: inherit; text-decoration: none; }
 .w-full { width: 100%; }
 .max-w-6xl { max-width: 72rem; }
 .max-w-xl { max-width: 36rem; }
+.min-h-\[60vh\] { min-height: 60vh; }
 .min-h-\[88vh\] { min-height: 88vh; }
 
 /* ── borders ────────────────────────────────────── */
@@ -236,8 +244,14 @@ a { color: inherit; text-decoration: none; }
 @media (min-width: 640px) {
   .sm\:flex { display: flex; }
   .sm\:hidden { display: none; }
+  .sm\:block { display: block; }
   .sm\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
   .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sm\:pt-28 { padding-top: 7rem; }
+  .sm\:gap-x-12 { column-gap: 3rem; }
+  .sm\:border-r { border-right: 1px solid; }
+  .sm\:border-b-0 { border-bottom-width: 0; }
+  .sm\:min-h-\[88vh\] { min-height: 88vh; }
 }
 @media (min-width: 768px) {
   .md\:block { display: block; }
@@ -331,6 +345,16 @@ a{color:inherit}
 .reveal{opacity:0;transform:translateY(12px)}
 .reveal.in{opacity:1;transform:none;transition:opacity .45s ease,transform .45s ease}
 
+/* mobile nav (hamburger) */
+.mobile-nav{display:none;flex-direction:column;gap:1rem}
+.mobile-nav.open{display:flex}
+@media (min-width:640px){.mobile-nav{display:none!important}}
+
+/* CRT overlay: calmer on small screens */
+@media (max-width:640px){
+  .static{opacity:.02}
+}
+
 @media (prefers-reduced-motion:reduce){
   .reveal{opacity:1;transform:none}
   .blink{animation:none}
@@ -417,14 +441,21 @@ a{color:inherit}
         <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
       </a>
     </nav>
-    <span class="sm:hidden text-slate2 text-[11px] tracking-widest">RUST+eBPF</span>
+    <button id="nav-toggle" type="button" class="sm:hidden text-slate2 text-[11px] tracking-widest hover:text-bone transition-colors" aria-expanded="false" aria-controls="mobile-nav">MENU ▾</button>
   </div>
+  <nav id="mobile-nav" class="mobile-nav max-w-6xl mx-auto px-5 pb-4 text-[11px] tracking-widest text-slate2 border-t border-[#22222a]" aria-label="Mobile navigation">
+    <a href="#systems" class="hover:text-bone transition-colors">[01]_SYSTEMS</a>
+    <a href="#fiction" class="hover:text-bone transition-colors">[02]_FICTION</a>
+    <a href="#hub" class="hover:text-bone transition-colors">[03]_HUB</a>
+    <a href="#subpages" class="hover:text-bone transition-colors">[04]_SUBPAGES</a>
+    <a href="https://github.com/BartoszOsiej" class="hover:text-rust transition-colors">GITHUB ↗</a>
+  </nav>
 </div>
 
 <main id="top" class="max-w-6xl mx-auto px-5" itemscope itemtype="https://schema.org/Person">
 
   <!-- ─────── HERO ─────── -->
-  <section class="pt-28 pb-16 border-b border-[#1c1c24] min-h-[88vh] flex flex-col justify-center">
+  <section class="pt-16 sm:pt-28 pb-16 border-b border-[#1c1c24] min-h-[60vh] sm:min-h-[88vh] flex flex-col justify-center">
     <p class="eyebrow text-[12px] pt-[42px]" data-hero>+/ STATUS: OPERATIONAL · SZCZECIN, PL · 19YO_POL_ROOT</p>
     <h1 itemprop="name" class="text-[clamp(40px,9vw,96px)] leading-[.95] font-bold tracking-tight mt-6" data-hero>
       BARTOSZ<br><span class="text-rust">OSI</span>EJ<span class="blink" aria-hidden="true"></span>
@@ -452,13 +483,13 @@ a{color:inherit}
       </span>
     </div>
 
-    <div class="blade mt-14"></div>
+    <div class="blade mt-14 hidden sm:block"></div>
   </section>
 
   <!-- ─────── BIOGRAPHY / FACTS ─────── -->
   <section id="biography" class="py-12 border-b border-[#1c1c24]" aria-label="biography">
     <h2 class="eyebrow text-[12px] tracking-widest text-rust uppercase">/ Biography</h2>
-    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 max-w-4xl">
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-6 sm:gap-x-12 gap-y-6 max-w-4xl">
       <div>
         <dl class="space-y-4 text-[13px]">
           <div class="flex gap-6">
@@ -491,8 +522,8 @@ a{color:inherit}
 
   <!-- ─────── CHRONOMETER / STATS ─────── -->
   <section class="py-12" aria-label="metrics">
-    <div class="grid grid-cols-2 lg:grid-cols-4 border border-[#22222a]">
-      <div class="stat p-6 border-r border-b lg:border-b-0 border-[#22222a]">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border border-[#22222a]">
+      <div class="stat p-6 border-b sm:border-r lg:border-b-0 border-[#22222a]">
         <div class="n text-4xl md:text-5xl font-bold text-rust" data-count="22">22</div>
         <div class="mt-2 text-[11px] tracking-widest text-slate2 uppercase">Public Repos</div>
       </div>
@@ -500,7 +531,7 @@ a{color:inherit}
         <div class="n text-4xl md:text-5xl font-bold text-bone" data-count="15">15</div>
         <div class="mt-2 text-[11px] tracking-widest text-slate2 uppercase">With CI/CD</div>
       </div>
-      <div class="stat p-6 border-r border-b lg:border-b-0 border-[#22222a]">
+      <div class="stat p-6 border-b sm:border-b-0 sm:border-r border-[#22222a]">
         <div class="n text-4xl md:text-5xl font-bold text-rust" data-count="192">192</div>
         <div class="mt-2 text-[11px] tracking-widest text-slate2 uppercase">Automated Tests</div>
       </div>
@@ -515,7 +546,7 @@ a{color:inherit}
   <section id="systems" class="pt-14 pb-6 border-b border-[#1c1c24]">
     <div class="flex items-end justify-between flex-wrap gap-4 reveal">
       <div>
-        <p class="eyebrow text-[12px]"><span class="pin">[01]</span> // SYSTEMS // RUST_SECTOR</p>
+        <p class="eyebrow text-[12px]"><span class="pin">[01]</span> // SYSTEMS</p>
         <h2 class="text-3xl md:text-5xl font-bold tracking-tight mt-3">INFRASTRUCTURE,<br><span class="text-rust">BUILT_TO_SHIP.</span></h2>
       </div>
       <a href="https://github.com/BartoszOsiej" class="text-[12px] tracking-widest text-slate2 hover:text-rust transition-colors inline-flex items-center gap-2">
@@ -590,8 +621,8 @@ a{color:inherit}
           <span class="icon-tile border p-2"><svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-box"/></svg></span>
           <span class="arr"><svg class="w-3 h-3" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg></span>
         </div>
-        <h3 class="mt-5 text-[15px] font-bold tracking-tight">NV2_ENGINE</h3>
-        <p class="mt-2 text-[11px] leading-relaxed text-slate2">Voxel survival engine — NASA real-climate worlds, MeMLP neural terrain, EGS kit ready.</p>
+        <h3 class="mt-5 text-[15px] font-bold tracking-tight">Vivia: Beyond The Known <span class="text-slate2 font-normal">(engine: NV2)</span></h3>
+        <p class="mt-2 text-[11px] leading-relaxed text-slate2">Voxel survival game — NASA real-climate worlds, MeMLP neural terrain, EGS kit ready.</p>
         <div class="mt-4 flex flex-wrap gap-2">
           <span class="tag px-2 py-1">RUST</span><span class="tag px-2 py-1">wgpu</span><span class="tag px-2 py-1">GAMES</span>
         </div>
@@ -629,7 +660,7 @@ a{color:inherit}
   <section id="fiction" class="py-16 border-b border-[#1c1c24]">
     <div class="flex items-end justify-between flex-wrap gap-4 reveal">
       <div>
-        <p class="eyebrow text-[12px]"><span class="pin" style="color:#E04855">[02]</span> // FICTION // BLOOD_SECTOR</p>
+        <p class="eyebrow text-[12px]"><span class="pin" style="color:#E04855">[02]</span> // FICTION</p>
         <h2 class="text-3xl md:text-5xl font-bold tracking-tight mt-3"><span class="text-blood">THE_STITCHER</span><br>TRILOGY.</h2>
       </div>
       <a href="https://bartoszosiej.github.io/thethreadcalls/" class="text-[12px] tracking-widest text-slate2 hover:text-blood transition-colors inline-flex items-center gap-2">
@@ -684,17 +715,17 @@ a{color:inherit}
 
   <!-- ─────── HUB ─────── -->
   <section id="hub" class="py-16">
-    <p class="eyebrow text-[12px] reveal"><span class="pin">[03]</span> // HUB // ROUTE_TABLE</p>
+    <p class="eyebrow text-[12px] reveal"><span class="pin">[03]</span> // HUB</p>
     <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 mb-10 reveal">FIND_ME_<span class="text-rust">AROUND_THE_WEB.</span></h2>
 
     <div class="border border-[#22222a]">
       <a href="https://github.com/BartoszOsiej" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
-        <span class="flex items-center gap-4">
+        <span class="flex items-center gap-4 min-w-0">
           <svg class="w-7 h-7 text-bone" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
-          <span>
+          <span class="min-w-0">
             <span class="block text-[14px] font-bold">GitHub</span>
-            <span class="lab block text-[11px]">github.com/BartoszOsiej</span>
+            <span class="lab block text-[11px] truncate">github.com/BartoszOsiej</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">22_REPOS // SOURCE_OF_TRUTH</span>
@@ -702,11 +733,11 @@ a{color:inherit}
       </a>
       <a href="https://dev.to/bartoszosiej" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
-        <span class="flex items-center gap-4">
+        <span class="flex items-center gap-4 min-w-0">
           <svg class="w-7 h-7 text-bone" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-dev"/></svg>
-          <span>
+          <span class="min-w-0">
             <span class="block text-[14px] font-bold">dev.to</span>
-            <span class="lab block text-[11px]">bartoszosiej — engineering write-ups</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej — engineering write-ups</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">eBPF · SECURITY · COMPILERS</span>
@@ -714,11 +745,11 @@ a{color:inherit}
       </a>
       <a href="https://www.linkedin.com/in/bartoszosiej2007/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
-        <span class="flex items-center gap-4">
+        <span class="flex items-center gap-4 min-w-0">
           <svg class="w-7 h-7 text-bone" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-linkedin"/></svg>
-          <span>
+          <span class="min-w-0">
             <span class="block text-[14px] font-bold">LinkedIn</span>
-            <span class="lab block text-[11px]">in/bartoszosiej2007</span>
+            <span class="lab block text-[11px] truncate">in/bartoszosiej2007</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">OPEN_TO_ROLES</span>
@@ -726,11 +757,11 @@ a{color:inherit}
       </a>
       <a href="https://bartoszosiej.github.io/Portfolio/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
-        <span class="flex items-center gap-4">
+        <span class="flex items-center gap-4 min-w-0">
           <svg class="w-6 h-6 text-bone" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-layout-grid"/></svg>
-          <span>
+          <span class="min-w-0">
             <span class="block text-[14px] font-bold">Portfolio</span>
-            <span class="lab block text-[11px]">bartoszosiej.github.io/Portfolio/</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej.github.io/Portfolio/</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">PROJECTS_&_NOTES</span>
@@ -738,11 +769,11 @@ a{color:inherit}
       </a>
       <a href="https://bartoszosiej.github.io/Docs/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
-        <span class="flex items-center gap-4">
+        <span class="flex items-center gap-4 min-w-0">
           <svg class="w-6 h-6 text-bone" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-book-open"/></svg>
-          <span>
+          <span class="min-w-0">
             <span class="block text-[14px] font-bold">Docs</span>
-            <span class="lab block text-[11px]">bartoszosiej.github.io/Docs/</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej.github.io/Docs/</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">ARCHITECTURE_&_QA</span>
@@ -750,11 +781,11 @@ a{color:inherit}
       </a>
       <a href="mailto:thethreadcalls@outlook.com" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
         <span class="tick">▮</span>
-        <span class="flex items-center gap-4">
+        <span class="flex items-center gap-4 min-w-0">
           <svg class="w-6 h-6 text-bone" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mail"/></svg>
-          <span>
+          <span class="min-w-0">
             <span class="block text-[14px] font-bold">Email</span>
-            <span class="lab block text-[11px]">thethreadcalls@outlook.com</span>
+            <span class="lab block text-[11px] truncate">thethreadcalls@outlook.com</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">WORK_/_MEDIA</span>
@@ -764,7 +795,7 @@ a{color:inherit}
   </section>
 
   <section id="subpages" class="py-16 border-t border-[#1c1c24]">
-    <p class="eyebrow text-[12px] reveal"><span class="pin">[04]</span> // SUBPAGES // LIVE_SURFACES</p>
+    <p class="eyebrow text-[12px] reveal"><span class="pin">[04]</span> // SUBPAGES</p>
     <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 mb-10 reveal">DEPLOYED_ON_<span class="text-rust">GH_PAGES.</span></h2>
 
     <div class="border border-[#22222a]">
@@ -774,7 +805,7 @@ a{color:inherit}
           <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-book"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/Docs</span>
-            <span class="lab block text-[11px]">bartoszosiej.github.io/Docs</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej.github.io/Docs</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">FULL_DOCUMENTATION_MIRROR</span>
@@ -786,7 +817,7 @@ a{color:inherit}
           <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cubes"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/externum</span>
-            <span class="lab block text-[11px]">bartoszosiej.github.io/externum</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej.github.io/externum</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">EXTERNUM_LANGUAGE</span>
@@ -798,7 +829,7 @@ a{color:inherit}
           <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-activity"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/talus-process-monitor</span>
-            <span class="lab block text-[11px]">bartoszosiej.github.io/talus-process-monitor</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej.github.io/talus-process-monitor</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">EBPF_RANSOMWARE_MONITOR</span>
@@ -810,7 +841,7 @@ a{color:inherit}
           <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-lock"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/quantum-shield</span>
-            <span class="lab block text-[11px]">bartoszosiej.github.io/quantum-shield</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej.github.io/quantum-shield</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">POST_QUANTUM_RUST_CRYPTO</span>
@@ -822,7 +853,7 @@ a{color:inherit}
           <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-box"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/NV2_ENGINE</span>
-            <span class="lab block text-[11px]">bartoszosiej.github.io/NV2_ENGINE</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej.github.io/NV2_ENGINE</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">RUST_VOXEL_ENGINE</span>
@@ -834,7 +865,7 @@ a{color:inherit}
           <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-quote"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/thethreadcalls</span>
-            <span class="lab block text-[11px]">bartoszosiej.github.io/thethreadcalls</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej.github.io/thethreadcalls</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">STITCHER_TRILOGY_BOOKS</span>
@@ -846,7 +877,7 @@ a{color:inherit}
           <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/linux-aegis</span>
-            <span class="lab block text-[11px]">bartoszosiej.github.io/linux-aegis</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej.github.io/linux-aegis</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">LINUX_SECURITY_MODULE</span>
@@ -858,7 +889,7 @@ a{color:inherit}
           <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-fingerprint"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/fortis</span>
-            <span class="lab block text-[11px]">bartoszosiej.github.io/fortis</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej.github.io/fortis</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">POST_QUANTUM_MEASURED_BOOT</span>
@@ -870,7 +901,7 @@ a{color:inherit}
           <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-book"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/Mylife</span>
-            <span class="lab block text-[11px]">bartoszosiej.github.io/Mylife</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej.github.io/Mylife</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">LIFE_VOL_I — BOOK</span>
@@ -882,7 +913,7 @@ a{color:inherit}
           <svg class="w-7 h-7 text-bone shrink-0" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cubes"/></svg>
           <span class="min-w-0">
             <span class="block text-[14px] font-bold">/Aurora</span>
-            <span class="lab block text-[11px]">bartoszosiej.github.io/Aurora</span>
+            <span class="lab block text-[11px] truncate">bartoszosiej.github.io/Aurora</span>
           </span>
         </span>
         <span class="hidden md:block lab text-[11px]">OS_IN_THE_BROWSER</span>
@@ -928,9 +959,29 @@ a{color:inherit}
       });
     },{threshold:.5});
     document.querySelectorAll('[data-count]').forEach(function(el){ co.observe(el); });
-  }  })();
+  }
+
+  // mobile nav (hamburger)
+  var navBtn = document.getElementById('nav-toggle');
+  var mobileNav = document.getElementById('mobile-nav');
+  if (navBtn && mobileNav) {
+    var closeMobileNav = function () {
+      mobileNav.classList.remove('open');
+      navBtn.setAttribute('aria-expanded', 'false');
+      navBtn.textContent = 'MENU ▾';
+    };
+    navBtn.addEventListener('click', function () {
+      var open = mobileNav.classList.toggle('open');
+      navBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      navBtn.textContent = open ? 'CLOSE ▴' : 'MENU ▾';
+    });
+    mobileNav.addEventListener('click', function (e) {
+      if (e.target && e.target.tagName === 'A') closeMobileNav();
+    });
+  }
+})();
 </script>
 <!-- Spotify Now Playing — lazy, deferred, 0 layout shift -->
-<script src="js/spotify-now-playing.js?v=20260912f" defer></script>
+<script src="js/spotify-now-playing.js?v=20260914a" defer></script>
 </body>
 </html>

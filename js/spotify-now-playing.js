@@ -347,7 +347,7 @@
       container.classList.add('np-track-change');
       // Auto-remove after the flash so lingering styles can't win the cascade
       clearTimeout(updateUI._flashTimer);
-      updateUI._flashTimer = setTimeout(() => container.classList.remove('np-track-change'), 1500);
+      updateUI._flashTimer = setTimeout(() => container.classList.remove('np-track-change'), 2200);
     }
 
     const equalizer = container.querySelector('.np-equalizer');

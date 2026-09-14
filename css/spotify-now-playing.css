@@ -30,7 +30,7 @@
   color: var(--np-text);
   user-select: none;
   overflow: hidden;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.6s ease;
 }
 
 .now-playing--fixed {
@@ -48,7 +48,7 @@
 
 /* ─── Living layer: ambient aurora in the genre color ───────── */
 .now-playing--fixed {
-  animation: np-in 0.5s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+  animation: np-in 1s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
 }
 
 .now-playing--fixed::before {
@@ -59,7 +59,7 @@
   background:
     radial-gradient(45% 45% at 20% 20%, var(--np-accent-faint), transparent 70%),
     radial-gradient(40% 40% at 80% 70%, var(--np-accent-faint), transparent 70%);
-  animation: np-aurora 11s ease-in-out infinite alternate;
+  animation: np-aurora 22s ease-in-out infinite alternate;
   pointer-events: none;
 }
 
@@ -86,13 +86,13 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 6px;
-  transition: color 0.3s ease;
+  transition: color 0.6s ease;
 }
 
 .np-label--active {
   color: var(--np-accent);
   text-shadow: 0 0 8px var(--np-accent-soft);
-  transition: color 0.6s ease;
+  transition: color 1.2s ease;
   position: relative;
   padding-left: 10px;
 }
@@ -109,7 +109,7 @@
   border-radius: 50%;
   background: var(--np-accent);
   box-shadow: 0 0 6px var(--np-accent-soft);
-  animation: np-dot 1.2s ease-in-out infinite;
+  animation: np-dot 2.4s ease-in-out infinite;
 }
 
 @keyframes np-dot {
@@ -149,32 +149,32 @@
 
 /* Playing state: each bar animates independently via CSS keyframes */
 .np-playing .eq-bar:nth-child(1) {
-  animation: eq-bounce 0.45s ease-in-out infinite alternate;
+  animation: eq-bounce 0.9s ease-in-out infinite alternate;
   animation-delay: 0s;
 }
 .np-playing .eq-bar:nth-child(2) {
-  animation: eq-bounce 0.38s ease-in-out infinite alternate;
-  animation-delay: 0.08s;
+  animation: eq-bounce 0.76s ease-in-out infinite alternate;
+  animation-delay: 0.16s;
 }
 .np-playing .eq-bar:nth-child(3) {
-  animation: eq-bounce 0.52s ease-in-out infinite alternate;
-  animation-delay: 0.15s;
+  animation: eq-bounce 1.04s ease-in-out infinite alternate;
+  animation-delay: 0.3s;
 }
 .np-playing .eq-bar:nth-child(4) {
-  animation: eq-bounce 0.41s ease-in-out infinite alternate;
-  animation-delay: 0.05s;
+  animation: eq-bounce 0.82s ease-in-out infinite alternate;
+  animation-delay: 0.1s;
 }
 .np-playing .eq-bar:nth-child(5) {
-  animation: eq-bounce 0.48s ease-in-out infinite alternate;
-  animation-delay: 0.12s;
+  animation: eq-bounce 0.96s ease-in-out infinite alternate;
+  animation-delay: 0.24s;
 }
 .np-playing .eq-bar:nth-child(6) {
-  animation: eq-bounce 0.36s ease-in-out infinite alternate;
-  animation-delay: 0.19s;
+  animation: eq-bounce 0.72s ease-in-out infinite alternate;
+  animation-delay: 0.38s;
 }
 .np-playing .eq-bar:nth-child(7) {
-  animation: eq-bounce 0.5s ease-in-out infinite alternate;
-  animation-delay: 0.03s;
+  animation: eq-bounce 1s ease-in-out infinite alternate;
+  animation-delay: 0.06s;
 }
 
 /* Idle state: bars collapse to minimum height */
@@ -246,7 +246,7 @@
 }
 
 .np-marquee--loop {
-  animation: marquee-loop 14s linear infinite;
+  animation: marquee-loop 28s linear infinite;
 }
 
 .np-m-chunk {
@@ -298,7 +298,7 @@
 .np-fallback-icon {
   color: var(--np-dim);
   font-size: 10px;
-  animation: pulse-idle 3s ease-in-out infinite;
+  animation: pulse-idle 6s ease-in-out infinite;
 }
 
 .np-fallback-text {
@@ -330,7 +330,7 @@
   border-radius: 2px;
   border: 1px solid var(--np-slate);
   opacity: 0.8;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.6s ease;
 }
 
 .np-playing .np-artwork img {
@@ -368,12 +368,12 @@
   object-fit: cover;
   border: 1px solid var(--np-slate);
   flex-shrink: 0;
-  transition: border-color 0.6s ease, transform 0.15s ease;
+  transition: border-color 1.2s ease, transform 0.3s ease;
 }
 
 /* artwork breathes with the genre-colored glow while playing */
 .np-playing .np-art-thumb {
-  animation: np-artglow 3.2s ease-in-out infinite;
+  animation: np-artglow 6.4s ease-in-out infinite;
 }
 
 @keyframes np-artglow {
@@ -405,7 +405,7 @@
   font-size: 9px;
   color: var(--np-dim);
   opacity: 0;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.3s ease;
 }
 
 .np-clickable:hover::after {
@@ -428,7 +428,7 @@
 }
 
 .np-track-change {
-  animation: np-flash 0.9s ease-out;
+  animation: np-flash 1.8s ease-out;
 }
 
 /* title swap: slide + de-blur feels like a station change */
@@ -439,7 +439,7 @@
 
 .np-track-change .np-marquee-wrapper,
 .np-track-change .np-artist {
-  animation: np-swap 0.4s cubic-bezier(0.2, 0.9, 0.25, 1);
+  animation: np-swap 0.8s cubic-bezier(0.2, 0.9, 0.25, 1);
 }
 
 /* accent-follow: keep .np-track-change's border in the current genre
@@ -452,6 +452,13 @@
 
 /* ─── Accessibility ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
+  .now-playing *,
+  .now-playing *::before,
+  .now-playing *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
   .np-track-change,
   .np-track-change .np-marquee-wrapper,
   .np-track-change .np-artist {
