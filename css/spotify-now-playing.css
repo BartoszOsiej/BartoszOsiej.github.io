@@ -14,7 +14,7 @@
   --np-rust: #F15A24;
   --np-blood: #DA2C38;
   --np-slate: #1a1a2e;
-  --np-dim: #666;
+  --np-dim: #8b8f98; /* #666 was 3.4:1 on void — below WCAG AA */
   --np-text: #ccc;
 
   /* genre-mood accent (JS swaps these per-track via track.toptags) */
