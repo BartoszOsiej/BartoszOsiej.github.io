@@ -129,7 +129,6 @@ footer a:hover{color:var(--blood)}
   try { cached = JSON.parse(sessionStorage.getItem(cacheKey) || 'null'); } catch(e){}
   var el = document.querySelector('[data-lastcommit]');
   if (cached && el) { el.textContent = cached; }
-  var api = document.body.getAttribute('data-bz-api') || '';
   fetch(api).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
     if (!d || !d[0] || !d[0].commit) return;
     var c = d[0], sha = (c.sha || '').slice(0,7);
