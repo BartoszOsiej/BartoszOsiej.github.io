@@ -1185,6 +1185,7 @@ a{color:inherit}
     }
 
     var sortState = { mode: 'hot', up: {}, dn: {}, reads: {}, els: {} };
+    var inflight = {};   // slug → vote op in progress; kills the click race
     posts.forEach(function (p) {
       var slug = p.dataset.slug;
       sortState.els[slug] = {
@@ -1208,8 +1209,8 @@ a{color:inherit}
       e.down.setAttribute('aria-pressed', mine === -1 ? 'true' : 'false');
       e.up.classList.toggle('on', mine === 1);
       e.down.classList.toggle('on', mine === -1);
-      e.up.disabled = !online;
-      e.down.disabled = !online;
+      e.up.disabled = !online || !!inflight[slug];
+      e.down.disabled = !online || !!inflight[slug];
     }
 
     function flash(el, txt){
@@ -1235,29 +1236,43 @@ a{color:inherit}
 
     function vote(slug, dir){
       var e = sortState.els[slug];
+      if (inflight[slug]) return;                    // one op at a time per post
       if (!online) { flash(e.score, 'OFFLINE'); return; }
       var mine = store[slug] || 0;
-      var target = (mine === dir) ? 0 : dir;   // same arrow again → retract
+      var target = (mine === dir) ? 0 : dir;         // same arrow again → retract
       var d = target - mine;
       if (!d) return;
       if (!budgetOk(Math.abs(d))) { flash(e.score, 'SLOW_DOWN'); return; }
-      // Abacus counters are increment-only, so every transition syncs as
-      // net-delta increments: retract ▲ = +1 ▼, flip = both. Global net stays exact.
+      // optimistic: apply locally now, reconcile when the network answers —
+      // rapid clicks can never re-read a stale state because of the inflight lock
+      store[slug] = target;
+      saveStore();
+      if (typeof sortState.up[slug] === 'number') sortState.up[slug] += d;
+      paintVotes(slug);
+      flash(e.score, d > 0 ? '+' + d : String(d).replace('-', '−'));
+      bump(e.score);
+      inflight[slug] = true;
+      e.up.disabled = true;
+      e.down.disabled = true;
       var ops = [];
       for (var i = 0; i < d;  i++) ops.push(hitCounter('vote_' + slug + '_up'));
       for (var j = 0; j < -d; j++) ops.push(hitCounter('vote_' + slug + '_dn'));
       Promise.all(ops)
         .then(function () {
-          store[slug] = target;
-          saveStore();
-          if (typeof sortState.up[slug] === 'number') sortState.up[slug] += d;
           spend(Math.abs(d));
-          paintVotes(slug);
           paintSignals();
-          bump(e.score);
-          flash(e.score, d > 0 ? '+' + d : String(d).replace('-', '−'));
         })
-        .catch(function () { flash(e.score, 'SYNC_ERR'); });
+        .catch(function () {
+          // roll the optimistic apply back — the server did not accept it
+          store[slug] = mine;
+          saveStore();
+          if (typeof sortState.up[slug] === 'number') sortState.up[slug] -= d;
+          flash(e.score, 'SYNC_ERR');
+        })
+        .then(function () {
+          inflight[slug] = false;
+          paintVotes(slug);   // repaint + re-enable per online/inflight state
+        });
     }
 
     posts.forEach(function (p) {
