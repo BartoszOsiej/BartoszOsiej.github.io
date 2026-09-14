@@ -7,7 +7,7 @@ compatibility_date = "2026-08-01"
 
 [[kv_namespaces]]
 binding = "BZ_KV"
-id = "REPLACE_WITH_KV_ID"      # `npx wrangler kv namespace create BZ_KV` → paste id here
+id = "ce9fdf5231994688923ddeacfcd2d1da"
 
 [triggers]
 crons = ["5 0 * * *"]          # daily karma snapshot 00:05 UTC

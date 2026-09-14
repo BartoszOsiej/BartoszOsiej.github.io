@@ -79,14 +79,16 @@ async function rateOk(env, req, bucket, limit, ttl) {
 
 /* ── origin content ────────────────────────────────────────────────────── */
 async function getIndex(env) {
-  const cached = await kvGet(env, 'idx', 'json');
+  const cached = await kvGet(env, 'idx:v2', 'json');
   if (cached && Date.now() - cached.t < 600000) return cached.data;
   const origin = env.ORIGIN || 'https://bartoszosiej.github.io';
   const r = await fetch(origin + '/blog/index.json', { cf: { cacheTtl: 300 } });
   if (!r.ok) throw new Error('origin index ' + r.status);
   const data = await r.json();
-  await kvPut(env, 'idx', { t: Date.now(), data }, 600);
-  return data;
+  const list = Array.isArray(data) ? data : (data.posts || []);
+  if (!list.length) throw new Error('origin index empty');
+  await kvPut(env, 'idx:v2', { t: Date.now(), data: list }, 600);
+  return list;
 }
 
 /* ── counters ──────────────────────────────────────────────────────────── */
@@ -134,6 +136,18 @@ export default {
         const user = await userFromReq(env, req);
         if (!user) return json({ error: 'unauthorized' }, 401);
         return json({ username: user.name, role: user.role });
+      }
+      if (p === '/auth/password' && req.method === 'POST') {
+        const user = await userFromReq(env, req);
+        if (!user) return json({ error: 'unauthorized' }, 401);
+        const b = await req.json().catch(() => ({}));
+        const row = await kvGet(env, 'user:' + user.name, 'json');
+        if (!row || !safeEq(await pbkdf2(String(b.old_password || ''), row.salt), row.hash))
+          return json({ error: 'old password incorrect' }, 403);
+        if (String(b.new_password || '').length < 8) return json({ error: 'new password: min 8 chars' }, 400);
+        row.hash = await pbkdf2(b.new_password, row.salt);
+        await kvPut(env, 'user:' + user.name, row);
+        return json({ ok: true });
       }
 
       /* ---- votes (server-enforced: one net vote per voter, exact retract/flip) ---- */
