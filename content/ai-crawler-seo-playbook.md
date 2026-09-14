@@ -4,6 +4,7 @@ description: "A practical playbook for making a developer portfolio citable by C
 tags: [seo, ai, llms, automation, indiehackers, githubactions]
 date: 2026-09-13
 canonical_url: https://bartoszosiej.github.io/content/ai-crawler-seo-playbook
+layout: post
 published: true
 ---
 

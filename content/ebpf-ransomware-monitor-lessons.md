@@ -4,6 +4,7 @@ description: "Lessons from building talus-process-monitor, a Rust + eBPF ransomw
 tags: [ebpf, rust, linux, security, ransomware]
 date: 2026-09-13
 canonical_url: https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons
+layout: post
 published: true
 ---
 

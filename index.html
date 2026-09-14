@@ -339,6 +339,25 @@ a{color:inherit}
 .proof figcaption{display:flex;justify-content:space-between;gap:8px;padding:8px 10px;font-size:10px;letter-spacing:.12em;color:#8B93A3;border-top:1px solid #1c1c24}
 .proof figcaption .t{color:#E8E6E3;font-weight:700}
 .proof:hover{border-color:#F15A24}
+.proof img{cursor:zoom-in}
+
+/* ─── lightbox ─── */
+.lb{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(5,5,5,.92);backdrop-filter:blur(3px)}
+.lb.open{display:flex}
+.lb img{max-width:min(96vw,1280px);max-height:82vh;border:1px solid #F15A24;box-shadow:0 0 60px rgba(241,90,36,.15);cursor:zoom-out}
+.lb figcaption{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:.15em;color:#8B93A3}
+.lb-close{position:absolute;top:18px;right:24px;font-size:26px;color:#8B93A3;background:none;border:none;cursor:pointer;font-family:inherit}
+.lb-close:hover{color:#F15A24}
+
+/* ─── blog rows ─── */
+.post{display:block;border:1px solid #22222a;background:rgba(255,255,255,.01);padding:20px 22px;transition:border-color .12s linear,transform .12s linear}
+.post:hover{border-color:#3a3a44;transform:translate(-2px,-2px)}
+.post .pt{display:block;font-size:14px;font-weight:700;color:var(--bone);margin:6px 0 6px}
+.post:hover .pt{color:#F15A24}
+.post .pd{display:block;font-size:11px;letter-spacing:.12em;color:#8B93A3;text-transform:uppercase}
+.post .pd .tag{color:#F15A24}
+.post + .post{margin-top:10px}
+
 /* terminal cursor in hero title */
 .blink{display:inline-block;width:12px;height:1.1em;background:#F15A24;vertical-align:text-bottom;
   animation:cursor 1.1s steps(1) infinite}
@@ -454,6 +473,7 @@ a{color:inherit}
       <a href="#hub" class="hover:text-bone transition-colors">[03]_HUB</a>
       <a href="#subpages" class="hover:text-bone transition-colors">[04]_SUBPAGES</a>
       <a href="#proof" class="hover:text-bone transition-colors">[05]_PROOF</a>
+      <a href="#blog" class="hover:text-bone transition-colors">[06]_BLOG</a>
       <a href="https://github.com/BartoszOsiej" class="hover:text-rust transition-colors" aria-label="GitHub">
         <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
       </a>
@@ -466,6 +486,7 @@ a{color:inherit}
     <a href="#hub" class="hover:text-bone transition-colors">[03]_HUB</a>
     <a href="#subpages" class="hover:text-bone transition-colors">[04]_SUBPAGES</a>
     <a href="#proof" class="hover:text-bone transition-colors">[05]_PROOF</a>
+    <a href="#blog" class="hover:text-bone transition-colors">[06]_BLOG</a>
     <a href="https://github.com/BartoszOsiej" class="hover:text-rust transition-colors">GITHUB ↗</a>
   </nav>
 </div>
@@ -993,6 +1014,24 @@ a{color:inherit}
     </div>
   </section>
 
+  <section id="blog" class="py-16 border-t border-[#1c1c24]">
+    <p class="eyebrow text-[12px] reveal"><span class="pin">[06]</span> // BLOG // WRITEUPS</p>
+    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 mb-10 reveal">ENGINEERING_<span class="text-blood">NOTES.</span></h2>
+    <div class="border border-[#22222a]">
+      <a href="/content/ebpf-ransomware-monitor-lessons" class="post reveal">
+        <span class="pd">2026-09-13 · <span class="tag">#EBPF</span> <span class="tag">#RUST</span> <span class="tag">#SECURITY</span></span>
+        <span class="pt">Catching ransomware with eBPF: what execve/openat tracing taught me about false positives</span>
+        <span class="pd">PER-CPU PERF BUFFERS · BEHAVIOURAL SCORING · WHY CARGO BUILDS CRY WOLF</span>
+      </a>
+      <a href="/content/ai-crawler-seo-playbook" class="post reveal">
+        <span class="pd">2026-09-13 · <span class="tag">#SEO</span> <span class="tag">#AI</span> <span class="tag">#AUTOMATION</span></span>
+        <span class="pt">I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack</span>
+        <span class="pd">LLMS.TXT · JSON-LD ENTITY GRAPHS · GIT-PUSH CROSS-POSTING TO 9 PLATFORMS</span>
+      </a>
+    </div>
+    <p class="mt-8 text-[11px] text-slate2 reveal">// FULL_ARCHIVE: <a href="https://dev.to/bartoszosiej" class="text-rust hover:underline">dev.to/bartoszosiej</a></p>
+  </section>
+
 </main>
 
 <!-- ─────── FOOTER ─────── -->
@@ -1061,6 +1100,31 @@ a{color:inherit}
       })
       .catch(function () {});
   }
+
+  // lightbox for PROOF captures
+  var lb = document.createElement('div');
+  lb.className = 'lb';
+  lb.setAttribute('role', 'dialog');
+  lb.setAttribute('aria-label', 'Image preview');
+  lb.innerHTML = '<button type="button" class="lb-close" aria-label="Close">✕</button><img alt="">' +
+    '<figcaption id="lb-cap"></figcaption>';
+  document.body.appendChild(lb);
+  var lbImg = lb.querySelector('img');
+  var lbCap = document.getElementById('lb-cap');
+  function closeLb(){ lb.classList.remove('open'); document.removeEventListener('keydown', onLbKey); }
+  function onLbKey(e){ if(e.key === 'Escape') closeLb(); }
+  document.querySelectorAll('.proof img').forEach(function(img){
+    img.addEventListener('click', function(){
+      lbImg.src = img.src.replace('/img/projects/', '/img/projects/full-');
+      lbImg.alt = img.alt;
+      var cap = img.closest('figure').querySelector('figcaption');
+      lbCap.textContent = cap ? cap.textContent.replace(/\s+/g,' ').trim() : '';
+      lb.classList.add('open');
+      lb.querySelector('.lb-close').focus();
+      document.addEventListener('keydown', onLbKey);
+    });
+  });
+  lb.addEventListener('click', closeLb);
 
   // mobile nav (hamburger)
   var navBtn = document.getElementById('nav-toggle');
