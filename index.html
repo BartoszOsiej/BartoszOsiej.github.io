@@ -273,6 +273,8 @@ a { color: inherit; text-decoration: none; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .vote .flash { display: none; }
+  .vote .score { transition: none; }
 }
 .underline { text-decoration-line: underline; text-underline-offset: 3px; }
 </style>
@@ -360,13 +362,37 @@ a{color:inherit}
 .lb-close:hover{color:#F15A24}
 
 /* ─── blog rows ─── */
-.post{display:block;border:1px solid #22222a;background:rgba(255,255,255,.01);padding:20px 22px;transition:border-color .12s linear,transform .12s linear}
+/* blog: reddit-grade voting rail, terminal skin */
+.sortbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}
+.sortbtn{background:none;border:1px solid #26262e;color:#8B93A3;font:inherit;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;cursor:pointer;transition:.1s linear}
+.sortbtn:hover{color:#8b95a8;border-color:#3a3a44}
+.sortbtn[aria-pressed="true"]{color:#F15A24;border-color:#F15A24}
+.netmode{font-size:10px;letter-spacing:.12em;color:#66708a;text-transform:uppercase;margin-left:auto}
+.netmode b{color:#F15A24;font-weight:400}
+.post{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:16px;border:1px solid #22222a;background:rgba(255,255,255,.01);padding:16px 18px;transition:border-color .12s linear,transform .12s linear}
 .post:hover{border-color:#3a3a44;transform:translate(-2px,-2px)}
 .post .pt{display:block;font-size:14px;font-weight:700;color:var(--bone);margin:6px 0 6px}
+.post .pt a{color:inherit;text-decoration:none}
+.post .pt a:focus-visible{outline-offset:3px}
 .post:hover .pt{color:#F15A24}
 .post .pd{display:block;font-size:11px;letter-spacing:.12em;color:#8B93A3;text-transform:uppercase}
 .post .pd .tag{color:#F15A24}
+.post .signal{display:block;font-size:10px;letter-spacing:.12em;color:#66708a;text-transform:uppercase;margin-top:6px}
+.post .signal b{color:#8b95a8;font-weight:400}
 .post + .post{margin-top:10px}
+.vote{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:44px;padding:4px 0;user-select:none}
+.vote button{background:none;border:1px solid #26262e;color:#8B93A3;width:26px;height:24px;line-height:1;font:inherit;font-size:11px;padding:0;cursor:pointer;transition:.1s linear}
+.vote button:hover{color:#F15A24;border-color:#F15A24}
+.vote button:focus-visible{outline-offset:1px}
+.vote button.on{color:#F15A24;border-color:#F15A24;background:rgba(241,90,36,.08)}
+.vote button:disabled{cursor:default;opacity:.45}
+.vote button:disabled:hover{color:#8B93A3;border-color:#26262e}
+.vote button.on:disabled{opacity:1;color:#F15A24;border-color:#F15A24;background:rgba(241,90,36,.08)}
+.vote .score{font-size:13px;font-weight:700;color:var(--bone);min-width:2ch;text-align:center;transition:transform .12s linear}
+.vote .score.bump{transform:scale(1.3)}
+.vote .flash{position:fixed;font-size:11px;color:#F15A24;pointer-events:none;z-index:60;animation:voteFloat .7s ease-out forwards}
+@keyframes voteFloat{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-18px)}}
+@media (max-width:640px){.post{padding:14px 12px;column-gap:10px}}
 
 /* terminal cursor in hero title */
 .blink{display:inline-block;width:12px;height:1.1em;background:#F15A24;vertical-align:text-bottom;
@@ -1003,19 +1029,41 @@ a{color:inherit}
   <section id="blog" class="py-16 border-t border-[#1c1c24]">
     <p class="eyebrow text-[12px] reveal"><span class="pin">[06]</span> // BLOG // WRITEUPS</p>
     <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 mb-10 reveal">ENGINEERING_<span class="text-blood">NOTES.</span></h2>
-    <div class="border border-[#22222a]">
-      <a href="/content/ebpf-ransomware-monitor-lessons" class="post reveal">
-        <span class="pd">2026-09-13 · <span class="tag">#EBPF</span> <span class="tag">#RUST</span> <span class="tag">#SECURITY</span></span>
-        <span class="pt">Catching ransomware with eBPF: what execve/openat tracing taught me about false positives</span>
-        <span class="pd">PER-CPU PERF BUFFERS · BEHAVIOURAL SCORING · WHY CARGO BUILDS CRY WOLF</span>
-      </a>
-      <a href="/content/ai-crawler-seo-playbook" class="post reveal">
-        <span class="pd">2026-09-13 · <span class="tag">#SEO</span> <span class="tag">#AI</span> <span class="tag">#AUTOMATION</span></span>
-        <span class="pt">I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack</span>
-        <span class="pd">LLMS.TXT · JSON-LD ENTITY GRAPHS · GIT-PUSH CROSS-POSTING TO 9 PLATFORMS</span>
-      </a>
+    <div class="sortbar reveal" role="group" aria-label="Sort posts">
+      <button type="button" class="sortbtn" data-sort="hot" aria-pressed="true">HOT</button>
+      <button type="button" class="sortbtn" data-sort="new" aria-pressed="false">NEW</button>
+      <span class="netmode" data-netmode>SYNCING // VOTE_STATE</span>
     </div>
-    <p class="mt-8 text-[11px] text-slate2 reveal">// FULL_ARCHIVE: <a href="https://dev.to/bartoszosiej" class="text-rust hover:underline">dev.to/bartoszosiej</a></p>
+
+    <div id="postlist" class="border border-[#22222a]">
+      <article class="post reveal" data-slug="ebpf-ransomware-monitor-lessons" data-date="2026-09-13">
+        <div class="vote" data-vote>
+          <button type="button" data-up aria-label="Upvote: Catching ransomware with eBPF" aria-pressed="false">▲</button>
+          <span class="score" data-score aria-label="Score">0</span>
+          <button type="button" data-down aria-label="Downvote: Catching ransomware with eBPF" aria-pressed="false">▼</button>
+        </div>
+        <div class="min-w-0">
+          <span class="pd">2026-09-13 · <span class="tag">#EBPF</span> <span class="tag">#RUST</span> <span class="tag">#SECURITY</span> · 3_MIN_READ</span>
+          <span class="pt"><a class="ptlink" href="/content/ebpf-ransomware-monitor-lessons">Catching ransomware with eBPF: what execve/openat tracing taught me about false positives</a></span>
+          <span class="pd">PER-CPU PERF BUFFERS · BEHAVIOURAL SCORING · WHY CARGO BUILDS CRY WOLF</span>
+          <span class="signal">SIGNAL ▸ <b data-reads>—</b></span>
+        </div>
+      </article>
+      <article class="post reveal" data-slug="ai-crawler-seo-playbook" data-date="2026-09-13">
+        <div class="vote" data-vote>
+          <button type="button" data-up aria-label="Upvote: I made my portfolio readable to AI crawlers" aria-pressed="false">▲</button>
+          <span class="score" data-score aria-label="Score">0</span>
+          <button type="button" data-down aria-label="Downvote: I made my portfolio readable to AI crawlers" aria-pressed="false">▼</button>
+        </div>
+        <div class="min-w-0">
+          <span class="pd">2026-09-13 · <span class="tag">#SEO</span> <span class="tag">#AI</span> <span class="tag">#AUTOMATION</span> · 4_MIN_READ</span>
+          <span class="pt"><a class="ptlink" href="/content/ai-crawler-seo-playbook">I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack</a></span>
+          <span class="pd">LLMS.TXT · JSON-LD ENTITY GRAPHS · GIT-PUSH CROSS-POSTING TO 9 PLATFORMS</span>
+          <span class="signal">SIGNAL ▸ <b data-reads>—</b></span>
+        </div>
+      </article>
+    </div>
+    <p class="mt-8 text-[11px] text-slate2 reveal">// FULL_ARCHIVE: <a href="https://dev.to/bartoszosiej" class="text-rust hover:underline">dev.to/bartoszosiej</a> · // ONE_VOTE_PER_VISITOR · NO_TRACKERS · NO_COOKIES</p>
   </section>
 
 </main>
@@ -1111,6 +1159,209 @@ a{color:inherit}
     });
   });
   lb.addEventListener('click', closeLb);
+
+  /* ── BLOG ENGINE: real votes (Abacus API) + reads + HOT/NEW + j/k/v ── */
+  var posts = Array.prototype.slice.call(document.querySelectorAll('.post[data-slug]'));
+  if (posts.length) {
+    var NS = 'bartoszosiej.github.io';
+    var LS = 'bz-votes';
+    var store = {};
+    try { store = JSON.parse(localStorage.getItem(LS) || '{}'); } catch (e) { store = {}; }
+    var online = navigator.onLine !== false;
+
+    function saveStore(){ try { localStorage.setItem(LS, JSON.stringify(store)); } catch (e) {} }
+    function abacus(path){
+      return fetch('https://abacus.jasoncameron.dev' + path, { method: 'GET', cache: 'no-store' })
+        .then(function(r){ if (!r.ok) throw new Error('abacus ' + r.status); return r.json(); })
+        .then(function(d){ if (typeof d.value !== 'number') throw new Error('abacus shape'); return d.value; });
+    }
+
+    var sortState = { mode: 'hot', up: {}, dn: {}, reads: {}, els: {} };
+    posts.forEach(function (p) {
+      var slug = p.dataset.slug;
+      sortState.els[slug] = {
+        root: p,
+        score: p.querySelector('[data-score]'),
+        up: p.querySelector('[data-up]'),
+        down: p.querySelector('[data-down]'),
+        reads: p.querySelector('[data-reads]')
+      };
+    });
+
+    function paintVotes(slug){
+      var e = sortState.els[slug];
+      var mine = store[slug] || 0;
+      // server net (up − dn) already includes my persisted vote — every local
+      // transition was synced as increments; offline/fresh = my local state only
+      var hasServer = online && typeof sortState.up[slug] === 'number';
+      var net = hasServer ? (sortState.up[slug] - (sortState.dn[slug] || 0)) : mine;
+      e.score.textContent = String(net);
+      e.up.setAttribute('aria-pressed', mine === 1 ? 'true' : 'false');
+      e.down.setAttribute('aria-pressed', mine === -1 ? 'true' : 'false');
+      e.up.classList.toggle('on', mine === 1);
+      e.down.classList.toggle('on', mine === -1);
+      e.up.disabled = !online;
+      e.down.disabled = !online;
+    }
+
+    function flash(el, txt){
+      if (reduce) return;
+      var r = el.getBoundingClientRect();
+      var f = document.createElement('span');
+      f.className = 'flash';
+      f.textContent = txt;
+      f.style.left = (r.left + r.width / 2 - 8) + 'px';
+      f.style.top = (r.top - 6) + 'px';
+      document.body.appendChild(f);
+      setTimeout(function(){ f.remove(); }, 700);
+    }
+
+    function bump(el){
+      if (reduce) return;
+      el.classList.add('bump');
+      setTimeout(function(){ el.classList.remove('bump'); }, 140);
+    }
+
+    function vote(slug, dir){
+      var e = sortState.els[slug];
+      if (!online) { flash(e.score, 'OFFLINE'); return; }
+      var mine = store[slug] || 0;
+      var target = (mine === dir) ? 0 : dir;   // same arrow again → retract
+      var d = target - mine;
+      if (!d) return;
+      // Abacus counters are increment-only, so every transition syncs as
+      // net-delta increments: retract ▲ = +1 ▼, flip = both. Global net stays exact.
+      var ops = [];
+      for (var i = 0; i < d;  i++) ops.push(abacus('/hit/' + NS + '/vote_' + slug + '_up'));
+      for (var j = 0; j < -d; j++) ops.push(abacus('/hit/' + NS + '/vote_' + slug + '_dn'));
+      Promise.all(ops)
+        .then(function () {
+          store[slug] = target;
+          saveStore();
+          if (typeof sortState.up[slug] === 'number') sortState.up[slug] += d;
+          paintVotes(slug);
+          bump(e.score);
+          flash(e.score, d > 0 ? '+' + d : String(d).replace('-', '−'));
+        })
+        .catch(function () { flash(e.score, 'SYNC_ERR'); });
+    }
+
+    posts.forEach(function (p) {
+      var slug = p.dataset.slug;
+      var e = sortState.els[slug];
+      e.up.addEventListener('click', function(){ vote(slug, 1); });
+      e.down.addEventListener('click', function(){ vote(slug, -1); });
+
+      // reads: one count per visitor per post, fired on first click-through
+      var link = p.querySelector('.ptlink');
+      if (link) link.addEventListener('click', function () {
+        if (store['read_' + slug] || !online) return;
+        store['read_' + slug] = 1;
+        saveStore();
+        abacus('/hit/' + NS + '/reads_' + slug)
+          .then(function (v) {
+            sortState.reads[slug] = v;
+            var r = e.reads;
+            if (r) r.textContent = 'READS ' + v;
+          })
+          .catch(function () {});
+      });
+    });
+
+    // bootstrap: pull real counters; LIVE lights up only after sync
+    var netmode = document.querySelector('[data-netmode]');
+    var synced = false;
+    function setMode(){
+      if (!netmode) return;
+      netmode.innerHTML = !online ? 'OFFLINE // <b>LOCAL_ONLY</b>'
+        : synced ? 'LIVE // <b>REAL VOTES</b>'
+        : 'SYNCING // VOTE_STATE';
+    }
+    setMode();
+    // instant honest paint from local state (my vote) before server numbers land
+    posts.forEach(function (p) { paintVotes(p.dataset.slug); });
+    var pending = posts.map(function (p) {
+      var slug = p.dataset.slug;
+      return abacus('/get/' + NS + '/vote_' + slug + '_up')
+        .then(function (v) { sortState.up[slug] = v; })
+        .catch(function () {})
+        .then(function () {
+          return abacus('/get/' + NS + '/vote_' + slug + '_dn')
+            .then(function (v) { sortState.dn[slug] = v; })
+            .catch(function () {});
+        })
+        .then(function () {
+          return abacus('/get/' + NS + '/reads_' + slug)
+            .then(function (v) {
+              sortState.reads[slug] = v;
+              var r = sortState.els[slug].reads;
+              if (r) r.textContent = 'READS ' + v;
+            })
+            .catch(function () {});
+        });
+    });
+    Promise.all(pending).then(function () {
+      synced = true;
+      posts.forEach(function (p) { paintVotes(p.dataset.slug); });
+      resort();
+      setMode();
+    });
+
+    // HOT/NEW: gravity sort like reddit's default
+    function epoch(iso){ return Date.parse(iso + 'T12:00:00Z') / 3600000; }
+    function resort(){
+      var now = Date.now() / 3600000;
+      var list = posts.slice().sort(function (a, b) {
+        if (sortState.mode === 'new') {
+          return b.dataset.date.localeCompare(a.dataset.date);
+        }
+        var sa = (sortState.up[a.dataset.slug] || 0) - (sortState.dn[a.dataset.slug] || 0) + (sortState.reads[a.dataset.slug] || 0);
+        var sb = (sortState.up[b.dataset.slug] || 0) - (sortState.dn[b.dataset.slug] || 0) + (sortState.reads[b.dataset.slug] || 0);
+        var ha = (sa + 1) / Math.pow(now - epoch(a.dataset.date) + 2, 1.5);
+        var hb = (sb + 1) / Math.pow(now - epoch(b.dataset.date) + 2, 1.5);
+        return hb - ha;
+      });
+      var wrap = document.getElementById('postlist');
+      list.forEach(function (p) { wrap.appendChild(p); });
+    }
+    document.querySelectorAll('.sortbtn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        sortState.mode = b.dataset.sort;
+        document.querySelectorAll('.sortbtn').forEach(function (x) {
+          x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+        });
+        resort();
+      });
+    });
+
+    // keyboard: j/k move, v votes (reddit muscle memory, minus the arrows)
+    document.addEventListener('keydown', function (ev) {
+      if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+      var t = ev.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      var k = ev.key.toLowerCase();
+      if (k !== 'j' && k !== 'k' && k !== 'v') return;
+      var boxes = posts.map(function (p) { return p.getBoundingClientRect(); });
+      var mid = window.innerHeight / 2;
+      var cur = -1, best = 1e9;
+      boxes.forEach(function (r, i) {
+        var d = Math.abs(r.top + r.height / 2 - mid);
+        if (d < best) { best = d; cur = i; }
+      });
+      if (cur < 0) return;
+      if (k === 'v') {
+        // toggle upvote: vote() retracts when dir === current state
+        vote(posts[cur].dataset.slug, 1);
+      } else {
+        var next = Math.min(Math.max(cur + (k === 'j' ? 1 : -1), 0), posts.length - 1);
+        var el = sortState.els[posts[next].dataset.slug].root;
+        el.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+      }
+    });
+
+    window.addEventListener('online',  function(){ online = true;  setMode(); posts.forEach(function(p){ paintVotes(p.dataset.slug); }); });
+    window.addEventListener('offline', function(){ online = false; setMode(); });
+  }
 
   // mobile nav (hamburger)
   var navBtn = document.getElementById('nav-toggle');
