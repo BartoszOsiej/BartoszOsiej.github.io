@@ -21,8 +21,8 @@
 <link rel="me" href="https://dev.to/bartoszosiej">
 <link rel="me" href="https://www.linkedin.com/in/bartoszosiej2007/">
 <link rel="icon" type="image/png" href="img/bartosz-osiej.jpg">
-<link rel="stylesheet" href="css/spotify-now-playing.css?v=20260914c" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="css/spotify-now-playing.css?v=20260914c"></noscript>
+<link rel="stylesheet" href="css/spotify-now-playing.css?v=20260914d" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="css/spotify-now-playing.css?v=20260914d"></noscript>
 
 <!-- Open Graph -->
 <meta property="og:type" content="profile">
@@ -379,6 +379,10 @@ a{color:inherit}
 .post .pd .tag{color:#F15A24}
 .post .signal{display:block;font-size:10px;letter-spacing:.12em;color:#66708a;text-transform:uppercase;margin-top:6px}
 .post .signal b{color:#8b95a8;font-weight:400}
+.post .ship,.post .mirror{display:block;font-size:10px;letter-spacing:.1em;color:#565f78;text-transform:uppercase;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.post .ship b{color:#8b95a8;font-weight:400}
+.post .mirror .ok{color:#F15A24}
+.post .mirror .no{color:#565f78}
 .post + .post{margin-top:10px}
 .vote{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:44px;padding:4px 0;user-select:none}
 .vote button{background:none;border:1px solid #26262e;color:#8B93A3;width:26px;height:24px;line-height:1;font:inherit;font-size:11px;padding:0;cursor:pointer;transition:.1s linear}
@@ -1047,6 +1051,8 @@ a{color:inherit}
           <span class="pt"><a class="ptlink" href="/content/ebpf-ransomware-monitor-lessons">Catching ransomware with eBPF: what execve/openat tracing taught me about false positives</a></span>
           <span class="pd">PER-CPU PERF BUFFERS · BEHAVIOURAL SCORING · WHY CARGO BUILDS CRY WOLF</span>
           <span class="signal">SIGNAL ▸ <b data-reads>—</b></span>
+          <span class="ship" data-ship>SHIP_METER ▸ GIT_HISTORY</span>
+          <span class="mirror" data-mirror>MIRROR ▸ DEV_TO: PENDING · HASHNODE: PENDING · BLUESKY: PENDING · MASTODON: PENDING</span>
         </div>
       </article>
       <article class="post reveal" data-slug="ai-crawler-seo-playbook" data-date="2026-09-13">
@@ -1060,10 +1066,12 @@ a{color:inherit}
           <span class="pt"><a class="ptlink" href="/content/ai-crawler-seo-playbook">I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack</a></span>
           <span class="pd">LLMS.TXT · JSON-LD ENTITY GRAPHS · GIT-PUSH CROSS-POSTING TO 9 PLATFORMS</span>
           <span class="signal">SIGNAL ▸ <b data-reads>—</b></span>
+          <span class="ship" data-ship>SHIP_METER ▸ GIT_HISTORY</span>
+          <span class="mirror" data-mirror>MIRROR ▸ DEV_TO: PENDING · HASHNODE: PENDING · BLUESKY: PENDING · MASTODON: PENDING</span>
         </div>
       </article>
     </div>
-    <p class="mt-8 text-[11px] text-slate2 reveal">// FULL_ARCHIVE: <a href="https://dev.to/bartoszosiej" class="text-rust hover:underline">dev.to/bartoszosiej</a> · // ONE_VOTE_PER_VISITOR · NO_TRACKERS · NO_COOKIES</p>
+    <p class="mt-8 text-[11px] text-slate2 reveal">// FULL_ARCHIVE: <a href="https://dev.to/bartoszosiej" class="text-rust hover:underline">dev.to/bartoszosiej</a> · // ONE_VOTE_PER_VISITOR · NO_TRACKERS · NO_COOKIES · // SITE_SESSIONS: <b data-sessions>—</b> · // GRAVEYARD: EMPTY — 0_ABANDONED, EVERYTHING_ON_THE_ACCOUNT_IS_ALIVE</p>
   </section>
 
 </main>
@@ -1222,6 +1230,9 @@ a{color:inherit}
       setTimeout(function(){ el.classList.remove('bump'); }, 140);
     }
 
+    // votes go direct to Abacus (free tier); client-side budget keeps us inside 30req/10s
+    function hitCounter(key){ return abacus('/hit/' + NS + '/' + key); }
+
     function vote(slug, dir){
       var e = sortState.els[slug];
       if (!online) { flash(e.score, 'OFFLINE'); return; }
@@ -1229,17 +1240,20 @@ a{color:inherit}
       var target = (mine === dir) ? 0 : dir;   // same arrow again → retract
       var d = target - mine;
       if (!d) return;
+      if (!budgetOk(Math.abs(d))) { flash(e.score, 'SLOW_DOWN'); return; }
       // Abacus counters are increment-only, so every transition syncs as
       // net-delta increments: retract ▲ = +1 ▼, flip = both. Global net stays exact.
       var ops = [];
-      for (var i = 0; i < d;  i++) ops.push(abacus('/hit/' + NS + '/vote_' + slug + '_up'));
-      for (var j = 0; j < -d; j++) ops.push(abacus('/hit/' + NS + '/vote_' + slug + '_dn'));
+      for (var i = 0; i < d;  i++) ops.push(hitCounter('vote_' + slug + '_up'));
+      for (var j = 0; j < -d; j++) ops.push(hitCounter('vote_' + slug + '_dn'));
       Promise.all(ops)
         .then(function () {
           store[slug] = target;
           saveStore();
           if (typeof sortState.up[slug] === 'number') sortState.up[slug] += d;
+          spend(Math.abs(d));
           paintVotes(slug);
+          paintSignals();
           bump(e.score);
           flash(e.score, d > 0 ? '+' + d : String(d).replace('-', '−'));
         })
@@ -1263,9 +1277,42 @@ a{color:inherit}
             sortState.reads[slug] = v;
             var r = e.reads;
             if (r) r.textContent = 'READS ' + v;
+            paintSignals();
           })
           .catch(function () {});
       });
+    });
+
+    // mirror status: does dev.to already carry this post? live check; honest PENDING otherwise
+    fetch('https://dev.to/api/articles?username=bartoszosiej&per_page=30')
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (arts) {
+        posts.forEach(function (p) {
+          var el = p.querySelector('[data-mirror]'); if (!el) return;
+          var hit = null;
+          (arts || []).forEach(function (a) {
+            if (!hit && a.url && (a.slug || '').indexOf(p.dataset.slug) === 0) hit = a;
+          });
+          if (hit) el.innerHTML = 'MIRROR ▸ <a class="ok" href="' + hit.url + '" target="_blank" rel="noopener">DEV_TO: LIVE ↗</a> · HASHNODE: PENDING · BLUESKY: PENDING · MASTODON: PENDING';
+        });
+      }).catch(function () {});
+
+    // ship meter: real commit history per post from the GitHub API (1h sessionStorage cache)
+    posts.forEach(function (p) {
+      var slug = p.dataset.slug;
+      var el = p.querySelector('[data-ship]');
+      if (!el) return;
+      var ck = 'bz-ship-' + slug, c = null;
+      try { c = JSON.parse(sessionStorage.getItem(ck) || 'null'); } catch (e) {}
+      if (c && Date.now() - c.t < 3600000) { el.innerHTML = c.v; return; }
+      fetch('https://api.github.com/repos/BartoszOsiej/BartoszOsiej.github.io/commits?per_page=100&path=' + encodeURIComponent('content/' + slug + '.md'))
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (list) {
+          if (!list || !list.length) return;
+          var v = 'SHIP_METER ▸ <b>COMMITS: ' + list.length + '</b> · FIRST ' + list[list.length - 1].commit.author.date.slice(0, 10) + ' · LAST ' + list[0].commit.author.date.slice(0, 10);
+          el.innerHTML = v;
+          try { sessionStorage.setItem(ck, JSON.stringify({ t: Date.now(), v: v })); } catch (e) {}
+        }).catch(function () {});
     });
 
     // bootstrap: pull real counters; LIVE lights up only after sync
@@ -1300,12 +1347,37 @@ a{color:inherit}
             .catch(function () {});
         });
     });
+    // client-side rate guard: Abacus free tier = 30 req/10s; bootstrap uses ~7,
+    // so voting may spend at most 8 ops per 10s window before SLOW_DOWN
+    var opTimes = [];
+    function budgetOk(ops) {
+      var now = Date.now();
+      opTimes = opTimes.filter(function (t) { return now - t < 10000; });
+      return opTimes.length + ops <= 8;
+    }
+    function spend(ops) { for (var i = 0; i < ops; i++) opTimes.push(Date.now()); }
+
     Promise.all(pending).then(function () {
       synced = true;
       posts.forEach(function (p) { paintVotes(p.dataset.slug); });
       resort();
+      paintSignals();
       setMode();
     });
+
+    // aggregate signal total from numbers already in memory — zero extra requests
+    function paintSignals(){
+      if (!netmode) return;
+      var total = 0;
+      posts.forEach(function (p) {
+        var s = p.dataset.slug;
+        total += (sortState.up[s] || 0) + (sortState.dn[s] || 0) + (sortState.reads[s] || 0);
+      });
+      if (!synced) return;
+      netmode.innerHTML = online
+        ? 'LIVE // <b>REAL VOTES</b> · SIGNALS: ' + total
+        : 'OFFLINE // <b>LOCAL_ONLY</b>';
+    }
 
     // HOT/NEW: gravity sort like reddit's default
     function epoch(iso){ return Date.parse(iso + 'T12:00:00Z') / 3600000; }
@@ -1363,6 +1435,24 @@ a{color:inherit}
     window.addEventListener('offline', function(){ online = false; setMode(); });
   }
 
+  // site sessions: real visits, one hit per tab session (sessionStorage guard)
+  var sessEl = document.querySelector('[data-sessions]');
+  if (sessEl && navigator.onLine !== false && !sessionStorage.getItem('bz-session-counted')) {
+    fetch('https://abacus.jasoncameron.dev/hit/bartoszosiej.github.io/site_sessions', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (d && typeof d.value === 'number') {
+          sessionStorage.setItem('bz-session-counted', '1');
+          sessEl.textContent = String(d.value);
+        }
+      }).catch(function () {});
+  } else if (sessEl) {
+    fetch('https://abacus.jasoncameron.dev/get/bartoszosiej.github.io/site_sessions', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d && typeof d.value === 'number') sessEl.textContent = String(d.value); })
+      .catch(function () {});
+  }
+
   // mobile nav (hamburger)
   var navBtn = document.getElementById('nav-toggle');
   var mobileNav = document.getElementById('mobile-nav');
@@ -1384,6 +1474,6 @@ a{color:inherit}
 })();
 </script>
 <!-- Spotify Now Playing — lazy, deferred, 0 layout shift -->
-<script src="js/spotify-now-playing.js?v=20260914c" defer></script>
+<script src="js/spotify-now-playing.js?v=20260914d" defer></script>
 </body>
 </html>

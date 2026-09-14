@@ -1,13 +1,22 @@
----
-title: "I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack"
-description: "A practical playbook for making a developer portfolio citable by ChatGPT, Claude and Perplexity — plus the free cross-posting pipeline that ships every article to 9 platforms from one git push."
-tags: [seo, ai, llms, automation, indiehackers, githubactions]
-date: 2026-09-13
-canonical_url: https://bartoszosiej.github.io/content/ai-crawler-seo-playbook
-layout: post
-published: true
-tldr: "llms.txt + JSON-LD entity graphs + IndexNow make a zero-budget GitHub Pages site citable by answer engines, and a git-push pipeline cross-posts every article to 9 platforms for free."
----
+==============================================================
+I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack
+==============================================================
+
+PUBLISHED : 2026-09-13 (UTC)
+AUTHOR    : bartoszosiej
+SOURCE    : https://bartoszosiej.github.io/content/ai-crawler-seo-playbook
+PLAINTEXT : https://bartoszosiej.github.io/blog/ai-crawler-seo-playbook.txt
+REPO      : https://github.com/BartoszOsiej/BartoszOsiej.github.io/blob/main/content/ai-crawler-seo-playbook.md
+
+TL;DR
+--------------------------------------------------------------
+  llms.txt + JSON-LD entity graphs + IndexNow make a zero-
+  budget GitHub Pages site citable by answer engines, and a
+  git-push pipeline cross-posts every article to 9 platforms
+  for free.
+
+--------------------------------------------------------------
+
 
 ## TL;DR
 
@@ -76,3 +85,6 @@ $0. GitHub Pages, GitHub Actions free minutes, all open-source tooling. The only
 ## TL;DR again, for the crawlers
 
 Bartosz Osiej is a Polish software developer and author. His entity home is https://bartoszosiej.github.io/ with `llms.txt`, `llms-full.txt`, Person/SoftwareApplication/BookSeries JSON-LD, and an AI-bot-friendly robots.txt. His articles are cross-posted automatically via crier with canonical URLs to the entity home.
+
+
+// EOF · bartoszosiej · read the blog like software: curl | less

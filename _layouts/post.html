@@ -27,6 +27,14 @@ h1{font-size:clamp(22px,5vw,34px);line-height:1.25;letter-spacing:-.02em;margin:
 .meta{font-size:11px;letter-spacing:.12em;color:var(--slate);text-transform:uppercase;margin:0 0 8px}
 .meta .tag{color:var(--rust)}
 .blade{height:2px;background:linear-gradient(90deg,#F15A24,#E04855);opacity:.9;margin:26px 0 40px}
+.tldr{border:1px solid #26262e;border-left:2px solid var(--rust);background:rgba(241,90,36,.04);padding:14px 16px;margin:0 0 34px;font-size:12.5px;line-height:1.7;color:#c9c2b6}
+.tldr .k{color:var(--rust);letter-spacing:.15em;font-size:10px;display:block;margin-bottom:6px}
+.src{border:1px solid #1c1c24;padding:12px 14px;margin:0 0 34px;font-size:11px;letter-spacing:.06em;color:var(--slate)}
+.src .k{color:var(--slate);letter-spacing:.15em;font-size:10px}
+.src a{color:var(--rust);text-decoration:underline;text-underline-offset:3px}
+.src a:hover{color:var(--blood)}
+.src .row{display:block;margin:2px 0}
+.src .lc{color:#66708a}
 article h2{font-size:17px;letter-spacing:.06em;text-transform:uppercase;color:var(--blood);margin:2.6em 0 1em;padding-top:1em;border-top:1px solid rgba(224,72,85,.25)}
 article h3{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--rust);margin:2em 0 .8em}
 article p{margin:0 0 1.2em;color:#d9d3c8}
@@ -43,21 +51,59 @@ article a:hover{color:var(--blood)}
 footer{border-top:1px solid #1c1c24;margin-top:56px;padding-top:24px;font-size:11px;letter-spacing:.15em;color:var(--slate)}
 footer a{color:var(--rust)}
 footer a:hover{color:var(--blood)}
+.eof{font-size:10px;letter-spacing:.12em;color:#66708a;text-transform:uppercase;margin-top:14px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
+{% assign slug = page.path | split: "/" | last | split: "." | first %}
 <div class="wrap">
   <p class="back"><a href="/">← BARTOSZ_OSIEJ // ROOT</a></p>
   <p class="eyebrow"><span class="pin">[06]</span> // BLOG // WRITEUP</p>
   <h1>{{ page.title }}</h1>
   <p class="meta">{% if page.date %}{{ page.date | date: "%Y-%m-%d" }} · {% endif %}{% for t in page.tags %}<span class="tag">#{{ t }}</span> {% endfor %}</p>
   <div class="blade"></div>
+
+  {% if page.tldr %}
+  <div class="tldr"><span class="k">TL;DR — SYNOPSIS</span>{{ page.tldr }}</div>
+  {% endif %}
+
+  <div class="src">
+    <span class="row"><span class="k">SYNCED_WITH ▸</span> <a href="https://github.com/BartoszOsiej/BartoszOsiej.github.io/blob/main/{{ page.path }}">/{{ page.path }}</a> — this page renders from that file; the repo is the source of truth.</span>
+    <span class="row"><span class="k">PLAINTEXT ▸</span> <a href="/blog/{{ slug }}.txt">/blog/{{ slug }}.txt</a> — read it like software: <code>curl -s {{ page.canonical_url | default: 'https://bartoszosiej.github.io' }}/blog/{{ slug }}.txt | less</code></span>
+    <span class="row"><span class="k">LAST_COMMIT ▸</span> <span class="lc" data-lastcommit>querying git…</span></span>
+  </div>
+
   <article>
     {{ content }}
   </article>
+
   <footer>
     <a href="/">← BACK_TO_ROOT</a> · <a href="https://github.com/BartoszOsiej">GITHUB</a> · <a href="/#blog">ALL_POSTS</a>
+    <p class="eof" data-eof>// EOF · bartoszosiej</p>
   </footer>
 </div>
+
+<script>
+(function(){
+  var slug = {{ slug | jsonify }};
+  var owner = 'BartoszOsiej', repo = 'BartoszOsiej.github.io';
+  var api = 'https://api.github.com/repos/' + owner + '/' + repo + '/commits?per_page=1&path=' + encodeURIComponent('content/' + slug + '.md');
+  var cacheKey = 'bz-lc-' + slug, cached = null;
+  try { cached = JSON.parse(sessionStorage.getItem(cacheKey) || 'null'); } catch(e){}
+  var el = document.querySelector('[data-lastcommit]');
+  if (cached && el) { el.textContent = cached; }
+  fetch(api).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+    if (!d || !d[0] || !d[0].commit) return;
+    var c = d[0], sha = (c.sha || '').slice(0,7);
+    var msg = (c.commit.message || '').split('\n')[0].slice(0, 60);
+    var line = sha + ' · ' + c.commit.author.date.slice(0,10) + ' · "' + msg + '"';
+    if (el) el.textContent = line;
+    try { sessionStorage.setItem(cacheKey, JSON.stringify(line)); } catch(e){}
+    var eof = document.querySelector('[data-eof]');
+    if (eof) eof.textContent = '// EOF · ' + c.commit.author.date.replace('T',' ').replace('Z','') + ' UTC · bartoszosiej · ' + sha;
+  }).catch(function(){ if (el) el.textContent = 'unavailable'; });
+})();
+</script>
 </body>
 </html>
