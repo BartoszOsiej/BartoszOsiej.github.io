@@ -374,6 +374,7 @@ a{color:inherit}
 .authrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 8px}
 .authin{flex:1;min-width:160px;background:#0d0d12;border:1px solid #22222a;color:var(--bone);font:inherit;font-size:12px;padding:7px 10px}
 .authin:focus{outline:2px solid #F15A24;outline-offset:1px}
+.codespre{margin:0;padding:10px 12px;background:#0d0d12;border:1px dashed #F15A24;color:#e8e8ef;font:inherit;font-size:12px;line-height:1.7;white-space:pre;overflow-x:auto}
 #auth-status b{color:#F15A24;font-weight:400}
 .post{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:16px;border:1px solid #22222a;background:rgba(255,255,255,.01);padding:16px 18px;transition:border-color .12s linear,transform .12s linear}
 .post:hover{border-color:#3a3a44;transform:translate(-2px,-2px)}
@@ -1058,6 +1059,15 @@ a{color:inherit}
         <button type="submit" class="sortbtn" data-auth-mode="register">REGISTER</button>
       </form>
       <span class="lab text-[11px]" id="auth-msg"></span>
+      <div class="authrow" style="margin:8px 0 0">
+        <button type="button" class="sortbtn" data-forgot>FORGOT_PASSWORD?</button>
+      </div>
+      <form id="reset-form" class="authrow" hidden>
+        <input id="reset-user" class="authin" type="text" autocomplete="username" placeholder="username" maxlength="24">
+        <input id="reset-code" class="authin" type="text" placeholder="recovery code (20 hex)" maxlength="64">
+        <input id="reset-pass" class="authin" type="password" autocomplete="new-password" placeholder="new password (min 8)" maxlength="128">
+        <button type="submit" class="sortbtn">RESET</button>
+      </form>
     </div>
 
     <div id="postlist" class="border border-[#22222a]">
@@ -1592,11 +1602,55 @@ a{color:inherit}
             try { localStorage.setItem('bz-token', res.j.token); } catch (e) {}
             paint(res.j.username, res.j.role);
             var box = document.getElementById('authbox'); if (box) box.hidden = true;
+            if (res.j.recovery_codes && res.j.recovery_codes.length) renderCodes(res.j.recovery_codes);
           } else if (msg) {
             msg.textContent = '// ERR: ' + (res.j && res.j.error || 'failed');
           }
         })
         .catch(function () { if (msg) msg.textContent = '// ERR: network'; });
+    });
+    function renderCodes(codes) {
+      var old = document.getElementById('codesbox'); if (old) old.remove();
+      var box = document.createElement('div');
+      box.id = 'codesbox'; box.className = 'authbox'; box.style.borderColor = '#F15A24';
+      box.innerHTML =
+        '<div class="authrow" style="margin:0 0 8px"><span class="lab text-[11px]" style="color:#F15A24">// RECOVERY_CODES — save them NOW, each works once, shown only this once</span></div>' +
+        '<pre class="codespre" id="codespre"></pre>' +
+        '<div class="authrow" style="margin:8px 0 0"><button type="button" class="sortbtn" data-codes-copy>COPY</button><button type="button" class="sortbtn" data-codes-done>DONE_SAVED</button></div>';
+      box.querySelector('#codespre').textContent = codes.join('\n');
+      var anchor = document.getElementById('authbox');
+      if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(box, anchor.nextSibling);
+      box.querySelector('[data-codes-copy]').addEventListener('click', function () {
+        var t = codes.join('\n');
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function () {}, function () {});
+        else { var ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} ta.remove(); }
+        this.textContent = 'COPIED';
+      });
+      box.querySelector('[data-codes-done]').addEventListener('click', function () { box.remove(); });
+    }
+    var rf = document.getElementById('reset-form');
+    var forgot = bar.querySelector('[data-forgot]');
+    if (forgot && rf) forgot.addEventListener('click', function () {
+      rf.hidden = !rf.hidden;
+      if (!rf.hidden) rf.querySelector('input').focus();
+    });
+    if (rf) rf.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var m = document.getElementById('auth-msg');
+      if (m) m.textContent = '// resetting…';
+      fetch(api + '/auth/reset', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ username: document.getElementById('reset-user').value.trim(), recovery_code: document.getElementById('reset-code').value.trim(), new_password: document.getElementById('reset-pass').value })
+      }).then(function (r) { return r.json().then(function (j) { return { status: r.status, j: j }; }); })
+        .then(function (res) {
+          if (res.status === 200) {
+            try { localStorage.removeItem('bz-token'); } catch (e) {}
+            paint(null);
+            rf.hidden = true;
+            if (m) m.textContent = '// ' + (res.j.msg || 'password reset — log in with the new password');
+          } else if (m) m.textContent = '// ERR: ' + (res.j && res.j.error || 'failed');
+        })
+        .catch(function () { if (m) m.textContent = '// ERR: network'; });
     });
   })();
 

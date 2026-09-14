@@ -9,6 +9,7 @@
  *   vstate:<slug>:<voter>  {d,t}                             voter = u:<name> | ip:<hash16>
  *   rd:<slug>:<voter>      1                                 TTL 24h (read dedupe)
  *   karma:<slug>           [[ymd,score],...]                 cap 180 days
+ *   rec:<name>:<6hex>      sha256(name:code)                 recovery codes, TTL 365d
  *   disc:<slug>            [{id,u,t,body,iph}]               cap 500
  *   reg:<iph> log:<iph> fb:<iph>                        rate counters
  *   idx                    {t, data}                         origin index cache
@@ -50,6 +51,32 @@ const tok = () => [...crypto.getRandomValues(new Uint8Array(32))].map(b => b.toS
 /* ── kv helpers ────────────────────────────────────────────────────────── */
 const kvGet = (env, k, type) => env.BZ_KV.get(k, type);
 const kvPut = (env, k, v, ttl) => env.BZ_KV.put(k, typeof v === 'string' ? v : JSON.stringify(v), ttl ? { expirationTtl: ttl } : undefined);
+
+/* ── recovery codes (hashed at rest, shown exactly once) ───────────────── */
+async function genRecoveryCodes(env, name, n) {
+  const codes = [];
+  for (let i = 0; i < n; i++) {
+    const raw = [...crypto.getRandomValues(new Uint8Array(10))].map(b => b.toString(16).padStart(2, '0')).join('');
+    const h = await sha256hex(name + ':' + raw);
+    let k = 'rec:' + name + ':' + h.slice(0, 6);
+    if (await kvGet(env, k, 'text')) k = 'rec:' + name + ':' + h.slice(6, 12);
+    if (await kvGet(env, k, 'text')) continue; // astronomically unlikely; skip rather than double-store
+    await kvPut(env, k, h, 365 * DAY);
+    codes.push(raw);
+  }
+  return codes;
+}
+async function revokeSessions(env, name) {
+  let cursor = '';
+  do {
+    const page = await env.BZ_KV.list({ prefix: 'sess:', cursor });
+    for (const key of page.keys) {
+      const s = await env.BZ_KV.get(key.name, 'json');
+      if (s && s.u === name) await env.BZ_KV.delete(key.name);
+    }
+    cursor = page.list_complete ? '' : page.cursor;
+  } while (cursor);
+}
 
 /* ── auth ──────────────────────────────────────────────────────────────── */
 async function userFromReq(env, req) {
@@ -107,7 +134,7 @@ export default {
 
       /* ---- accounts ---- */
       if (p === '/auth/register' && req.method === 'POST') {
-        if (!(await rateOk(env, req, 'reg', 3, DAY))) return json({ error: 'registration limit reached, try tomorrow' }, 429);
+        if (!(await rateOk(env, req, 'reg', 10, DAY))) return json({ error: 'registration limit reached, try tomorrow' }, 429);
         const b = await req.json().catch(() => ({}));
         const name = String(b.username || '');
         if (!/^[a-zA-Z0-9_]{3,24}$/.test(name)) return json({ error: 'username: 3-24 chars, a-z0-9_' }, 400);
@@ -116,9 +143,10 @@ export default {
         const salt = tok().slice(0, 24);
         const role = name === (env.ADMIN_USER || 'bartoszosiej') ? 'admin' : 'user';
         await kvPut(env, 'user:' + name, { hash: await pbkdf2(b.password, salt), salt, created: new Date().toISOString(), role });
+        const codes = await genRecoveryCodes(env, name, 6);
         const t = tok();
         await kvPut(env, 'sess:' + t, { u: name, role }, 30 * DAY);
-        return json({ ok: true, token: t, username: name, role });
+        return json({ ok: true, token: t, username: name, role, recovery_codes: codes });
       }
       if (p === '/auth/login' && req.method === 'POST') {
         if (!(await rateOk(env, req, 'log', 10, 600))) return json({ error: 'too many attempts, cool down' }, 429);
@@ -140,6 +168,7 @@ export default {
       if (p === '/auth/password' && req.method === 'POST') {
         const user = await userFromReq(env, req);
         if (!user) return json({ error: 'unauthorized' }, 401);
+        if (!(await rateOk(env, req, 'pw', 5, 3600))) return json({ error: 'too many attempts, cool down' }, 429);
         const b = await req.json().catch(() => ({}));
         const row = await kvGet(env, 'user:' + user.name, 'json');
         if (!row || !safeEq(await pbkdf2(String(b.old_password || ''), row.salt), row.hash))
@@ -147,7 +176,54 @@ export default {
         if (String(b.new_password || '').length < 8) return json({ error: 'new password: min 8 chars' }, 400);
         row.hash = await pbkdf2(b.new_password, row.salt);
         await kvPut(env, 'user:' + user.name, row);
-        return json({ ok: true });
+        await revokeSessions(env, user.name);
+        const t = tok();
+        await kvPut(env, 'sess:' + t, { u: user.name, role: row.role }, 30 * DAY);
+        return json({ ok: true, token: t });
+      }
+
+      /* ---- password reset via recovery code (identity = possession of code) ---- */
+      if (p === '/auth/reset' && req.method === 'POST') {
+        if (!(await rateOk(env, req, 'rst', 5, 3600))) return json({ error: 'too many attempts, cool down' }, 429);
+        const b = await req.json().catch(() => ({}));
+        const name = String(b.username || '');
+        const code = String(b.recovery_code || '').toLowerCase().replace(/[^0-9a-f]/g, '');
+        const np = String(b.new_password || '');
+        if (!/^[a-zA-Z0-9_]{3,24}$/.test(name)) return json({ error: 'bad username' }, 400);
+        if (np.length < 8) return json({ error: 'new password: min 8 chars' }, 400);
+        if (code.length !== 20) return json({ error: 'invalid recovery code' }, 401);
+        const u = await kvGet(env, 'user:' + name, 'json');
+        if (!u) return json({ error: 'invalid recovery code' }, 401);
+        const h = await sha256hex(name + ':' + code);
+        for (const off of [0, 6]) {
+          const k = 'rec:' + name + ':' + h.slice(off, off + 6);
+          if (await kvGet(env, k, 'text')) {
+            await env.BZ_KV.delete(k);
+            u.hash = await pbkdf2(np, u.salt);
+            await kvPut(env, 'user:' + name, u);
+            await revokeSessions(env, name);
+            return json({ ok: true, msg: 'password changed — all previous sessions revoked, log in again' });
+          }
+        }
+        return json({ error: 'invalid recovery code' }, 401);
+      }
+      if (p === '/auth/recovery/regen' && req.method === 'POST') {
+        const user = await userFromReq(env, req);
+        if (!user) return json({ error: 'unauthorized' }, 401);
+        const codes = await genRecoveryCodes(env, user.name, 6);
+        return json({ ok: true, recovery_codes: codes });
+      }
+      if (p === '/admin/unlock' && req.method === 'POST') {
+        const user = await userFromReq(env, req);
+        if (!user || user.role !== 'admin') return json({ error: 'admin only' }, 403);
+        const b = await req.json().catch(() => ({}));
+        const name = String(b.username || '');
+        if (!/^[a-zA-Z0-9_]{3,24}$/.test(name)) return json({ error: 'bad username' }, 400);
+        const u = await kvGet(env, 'user:' + name, 'json');
+        if (!u) return json({ error: 'no such user' }, 404);
+        await revokeSessions(env, name);
+        await env.BZ_KV.delete('user:' + name);
+        return json({ ok: true, msg: 'account deleted — username is free for re-registration with fresh codes' });
       }
 
       /* ---- votes (server-enforced: one net vote per voter, exact retract/flip) ---- */
