@@ -1,18 +1,37 @@
----
-permalink: /blog/index.json
----
-[
-{%- assign posts = site.content | where: "published", true | sort: "date" | reverse -%}
-{%- for post in posts -%}
-  {
-    "slug": {{ post.path | split: "/" | last | split: "." | first | jsonify }},
-    "title": {{ post.title | jsonify }},
-    "tldr": {{ post.tldr | jsonify }},
-    "date": "{{ post.date | date: '%Y-%m-%d' }}",
-    "tags": [{% for t in post.tags %}{{ t | jsonify }}{% unless forloop.last %}, {% endunless %}{% endfor %}],
-    "html": {{ post.content | jsonify }},
-    "words": {{ post.content | strip_html | split: " " | size }},
-    "source": {{ post.path | jsonify }}
-  }{% unless forloop.last %},{% endunless %}
-{%- endfor -%}
-]
+{
+  "generated": "2026-09-14",
+  "note": "regenerate with: python3 scripts/gen-index.py",
+  "posts": [
+    {
+      "slug": "ai-crawler-seo-playbook",
+      "title": "I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack",
+      "tldr": "llms.txt + JSON-LD entity graphs + IndexNow make a zero-budget GitHub Pages site citable by answer engines, and a git-push pipeline cross-posts every article to 9 platforms for free.",
+      "date": "2026-09-13",
+      "tags": [
+        "seo",
+        "ai",
+        "llms",
+        "automation",
+        "indiehackers",
+        "githubactions"
+      ],
+      "words": 707,
+      "source": "content/ai-crawler-seo-playbook.md"
+    },
+    {
+      "slug": "ebpf-ransomware-monitor-lessons",
+      "title": "Catching ransomware with eBPF: what execve/openat tracing taught me about false positives",
+      "tldr": "Behavioural eBPF tracing (execve/openat + per-CPU perf buffers) catches ransomware by the shape of its damage — the hard part is scoring patterns without crying wolf on every cargo build.",
+      "date": "2026-09-13",
+      "tags": [
+        "ebpf",
+        "rust",
+        "linux",
+        "security",
+        "ransomware"
+      ],
+      "words": 452,
+      "source": "content/ebpf-ransomware-monitor-lessons.md"
+    }
+  ]
+}
