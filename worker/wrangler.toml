@@ -1,0 +1,21 @@
+# bz-blog worker — accounts, hard votes, karma, discussions, terminal API
+name = "bz-blog"
+main = "src/worker.js"
+compatibility_date = "2026-08-01"
+
+# free tier: 100k req/day — plenty. workers.dev subdomain, no custom domain needed.
+
+[[kv_namespaces]]
+binding = "BZ_KV"
+id = "REPLACE_WITH_KV_ID"      # `npx wrangler kv namespace create BZ_KV` → paste id here
+
+[triggers]
+crons = ["5 0 * * *"]          # daily karma snapshot 00:05 UTC
+
+[vars]
+# ADMIN_USER = "bartoszosiej"  # account with this username becomes admin (role: admin)
+# ORIGIN = "https://bartoszosiej.github.io"
+
+# Secrets (set via `npx wrangler secret put NAME`):
+#   IP_PEPPER  — random string; salts IP hashes so raw IPs are never stored
+#   GH_TOKEN   — fine-grained PAT (issues: write on BartoszOsiej.github.io) for feedback→issue

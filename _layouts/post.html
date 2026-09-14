@@ -52,10 +52,31 @@ footer{border-top:1px solid #1c1c24;margin-top:56px;padding-top:24px;font-size:1
 footer a{color:var(--rust)}
 footer a:hover{color:var(--blood)}
 .eof{font-size:10px;letter-spacing:.12em;color:#66708a;text-transform:uppercase;margin-top:14px}
+.disc{border:1px solid #1c1c24;margin-top:48px}
+.disc-h{padding:12px 16px;border-bottom:1px solid #1c1c24;font-size:11px;letter-spacing:.15em;color:var(--slate);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.disc-h b{color:var(--rust);font-weight:400}
+.disc-list{padding:6px 0}
+.disc-c{padding:12px 16px;border-bottom:1px solid #16161a}
+.disc-c:last-child{border-bottom:0}
+.disc-meta{font-size:10px;letter-spacing:.12em;color:var(--slate);text-transform:uppercase;display:flex;justify-content:space-between;gap:10px}
+.disc-meta .del{background:none;border:0;color:#565f78;font:inherit;font-size:10px;letter-spacing:.12em;cursor:pointer;padding:0}
+.disc-meta .del:hover{color:var(--blood)}
+.disc-body{margin:6px 0 0;font-size:13.5px;line-height:1.7;color:#d9d3c8;white-space:pre-wrap;word-wrap:break-word}
+.disc-empty{padding:16px;font-size:11px;letter-spacing:.12em;color:#66708a;text-transform:uppercase}
+.disc-form{padding:14px 16px;border-top:1px solid #1c1c24}
+.disc-form textarea{width:100%;min-height:84px;resize:vertical;background:#0d0d12;border:1px solid #22222a;color:var(--bone);font:inherit;font-size:13px;padding:10px 12px;line-height:1.6}
+.disc-form textarea:focus{outline:2px solid var(--rust);outline-offset:1px}
+.disc-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.btn{background:none;border:1px solid #26262e;color:var(--slate);font:inherit;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;cursor:pointer;transition:.1s linear}
+.btn:hover{color:var(--rust);border-color:var(--rust)}
+.btn:disabled{opacity:.45;cursor:default}
+.disc-note{font-size:10px;letter-spacing:.1em;color:#66708a;text-transform:uppercase}
+.disc-note a{color:var(--rust);text-decoration:underline;text-underline-offset:3px}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
+<script>if('__BZ_API__'!=='__BZ'+'_API__')document.body.setAttribute('data-bz-api','__BZ_API__');</script>
 {% assign slug = page.path | split: "/" | last | split: "." | first %}
 <div class="wrap">
   <p class="back"><a href="/">← BARTOSZ_OSIEJ // ROOT</a></p>
@@ -78,8 +99,23 @@ footer a:hover{color:var(--blood)}
     {{ content }}
   </article>
 
+  <section class="disc" id="disc" data-disc-slug="{{ slug }}" hidden>
+    <div class="disc-h">
+      <span>DISCUSSION — <b data-disc-count>0</b> COMMENTS</span>
+      <span class="disc-note">accounts are global, password is salted+hashed (PBKDF2), no tracking</span>
+    </div>
+    <div class="disc-list" data-disc-list></div>
+    <form class="disc-form" data-disc-form>
+      <textarea data-disc-body maxlength="1000" placeholder="join the discussion — be the kind of terminal citizen you want to see in the world"></textarea>
+      <div class="disc-actions">
+        <span class="disc-note" data-disc-note>login required to comment</span>
+        <button type="submit" class="btn" data-disc-send disabled>POST_COMMENT</button>
+      </div>
+    </form>
+  </section>
+
   <footer>
-    <a href="/">← BACK_TO_ROOT</a> · <a href="https://github.com/BartoszOsiej">GITHUB</a> · <a href="/#blog">ALL_POSTS</a>
+    <a href="/">← BACK_TO_ROOT</a> · <a href="https://github.com/BartoszOsiej">GITHUB</a> · <a href="/#blog">ALL_POSTS</a> · <a href="#" data-report-issue>REPORT_ISSUE</a>
     <p class="eof" data-eof>// EOF · bartoszosiej</p>
   </footer>
 </div>
@@ -93,6 +129,7 @@ footer a:hover{color:var(--blood)}
   try { cached = JSON.parse(sessionStorage.getItem(cacheKey) || 'null'); } catch(e){}
   var el = document.querySelector('[data-lastcommit]');
   if (cached && el) { el.textContent = cached; }
+  var api = document.body.getAttribute('data-bz-api') || '';
   fetch(api).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
     if (!d || !d[0] || !d[0].commit) return;
     var c = d[0], sha = (c.sha || '').slice(0,7);
@@ -103,6 +140,101 @@ footer a:hover{color:var(--blood)}
     var eof = document.querySelector('[data-eof]');
     if (eof) eof.textContent = '// EOF · ' + c.commit.author.date.replace('T',' ').replace('Z','') + ' UTC · bartoszosiej · ' + sha;
   }).catch(function(){ if (el) el.textContent = 'unavailable'; });
+})();
+
+/* ── DISCUSSION + REPORT_ISSUE (active only with worker backend injected) ── */
+(function(){
+  var api = document.body.getAttribute('data-bz-api') || '';
+  var sec = document.getElementById('disc');
+  var token = null; try { token = localStorage.getItem('bz-token'); } catch(e){}
+
+  /* REPORT_ISSUE — feedback → GitHub issue via worker (anon allowed, rate-limited) */
+  var rep = document.querySelector('[data-report-issue]');
+  if (rep) rep.addEventListener('click', function(ev){
+    ev.preventDefault();
+    if (!api) { window.open('https://github.com/BartoszOsiej/BartoszOsiej.github.io/issues/new', '_blank', 'noopener'); return; }
+    var title = prompt('issue title (min 4 chars):');
+    if (!title || title.trim().length < 4) return;
+    var body = prompt('describe it (min 4 chars):');
+    if (!body || body.trim().length < 4) return;
+    fetch(api + '/feedback', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ title: title.trim(), body: body.trim() })
+    }).then(function(r){ return r.json(); }).then(function(j){
+      alert(j.ok ? 'issue filed: ' + j.issue : 'failed: ' + (j.error || 'unknown'));
+    }).catch(function(){ alert('network error'); });
+  });
+
+  if (!sec) return;               // layout without discussion
+  if (!api) { sec.hidden = true; return; }   // no worker backend → hide entirely
+  sec.hidden = false;
+  var slug = sec.getAttribute('data-disc-slug');
+  var listEl = sec.querySelector('[data-disc-list]');
+  var countEl = sec.querySelector('[data-disc-count]');
+  var form = sec.querySelector('[data-disc-form]');
+  var ta = sec.querySelector('[data-disc-body]');
+  var send = sec.querySelector('[data-disc-send]');
+  var note = sec.querySelector('[data-disc-note]');
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function fmt(ts){ return new Date(ts*1000).toISOString().replace('T',' ').slice(0,16) + ' UTC'; }
+  function me(){
+    return token ? fetch(api + '/auth/me', { headers: { authorization: 'Bearer ' + token } })
+      .then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; })
+      : Promise.resolve(null);
+  }
+  function load(){
+    return fetch(api + '/disc/' + slug).then(function(r){ return r.json(); }).then(function(j){
+      countEl.textContent = String(j.count);
+      listEl.innerHTML = j.comments.length
+        ? j.comments.map(function(c){
+            return '<div class="disc-c" data-id="' + esc(c.id) + '">' +
+              '<div class="disc-meta"><span>' + esc(c.u) + ' · ' + fmt(c.t) + '</span>' +
+              '<span class="delwrap"></span></div>' +
+              '<p class="disc-body">' + esc(c.body) + '</p></div>';}).join('')
+        : '<div class="disc-empty">no comments yet — first terminal citizen wins</div>';
+    });
+  }
+  function paintComposer(user){
+    if (user) {
+      note.innerHTML = 'commenting as <b>' + esc(user.username) + '</b>';
+      send.disabled = false;
+      listEl.querySelectorAll('.disc-c').forEach(function(row){
+        var cu = row.querySelector('.disc-meta span');
+        var del = document.createElement('button');
+        del.type = 'button'; del.className = 'del'; del.textContent = 'DELETE';
+        del.addEventListener('click', function(){
+          if (!confirm('delete this comment?')) return;
+          fetch(api + '/disc/' + slug + '/' + row.getAttribute('data-id'), {
+            method: 'DELETE', headers: { authorization: 'Bearer ' + token }
+          }).then(function(r){ if (r.ok) load(); });
+        });
+        row.querySelector('.delwrap').appendChild(del);
+      });
+    } else {
+      note.textContent = 'login required to comment — use LOGIN/REGISTER on the home page, then come back';
+      send.disabled = true;
+    }
+  }
+  me().then(function(user){
+    load().then(function(){ paintComposer(user); });
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var body = ta.value.trim();
+      if (body.length < 2 || !token) return;
+      send.disabled = true;
+      fetch(api + '/disc/' + slug, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', authorization: 'Bearer ' + token },
+        body: JSON.stringify({ body: body })
+      }).then(function(r){ return r.json().then(function(j){ return { status: r.status, j: j }; }); })
+        .then(function(res){
+          if (res.status === 200) { ta.value = ''; load().then(function(){ paintComposer(user); }); }
+          else alert('failed: ' + (res.j && res.j.error || 'unknown'));
+        })
+        .catch(function(){ alert('network error'); })
+        .then(function(){ send.disabled = false; });
+    });
+  });
 })();
 </script>
 </body>

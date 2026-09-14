@@ -369,6 +369,12 @@ a{color:inherit}
 .sortbtn[aria-pressed="true"]{color:#F15A24;border-color:#F15A24}
 .netmode{font-size:10px;letter-spacing:.12em;color:#66708a;text-transform:uppercase;margin-left:auto}
 .netmode b{color:#F15A24;font-weight:400}
+.authbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.authbox{border:1px solid #1c1c24;background:rgba(255,255,255,.01);padding:12px 14px;margin-bottom:12px}
+.authrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 8px}
+.authin{flex:1;min-width:160px;background:#0d0d12;border:1px solid #22222a;color:var(--bone);font:inherit;font-size:12px;padding:7px 10px}
+.authin:focus{outline:2px solid #F15A24;outline-offset:1px}
+#auth-status b{color:#F15A24;font-weight:400}
 .post{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:16px;border:1px solid #22222a;background:rgba(255,255,255,.01);padding:16px 18px;transition:border-color .12s linear,transform .12s linear}
 .post:hover{border-color:#3a3a44;transform:translate(-2px,-2px)}
 .post .pt{display:block;font-size:14px;font-weight:700;color:var(--bone);margin:6px 0 6px}
@@ -532,6 +538,7 @@ a{color:inherit}
 </div>
 
 <main id="top" class="max-w-6xl mx-auto px-5" itemscope itemtype="https://schema.org/Person">
+<script>if('__BZ_API__'!=='__BZ'+'_API__')document.body.setAttribute('data-bz-api','__BZ_API__');</script>
 
   <!-- ─────── HERO ─────── -->
   <section class="pt-16 sm:pt-28 pb-16 border-b border-[#1c1c24] min-h-[60vh] sm:min-h-[88vh] flex flex-col justify-center">
@@ -1039,6 +1046,20 @@ a{color:inherit}
       <span class="netmode" data-netmode>SYNCING // VOTE_STATE</span>
     </div>
 
+    <div class="authbar" data-authbar>
+      <span id="auth-status" class="lab text-[11px]">// ACCOUNT: ANON — voting is open, discussions need an account</span>
+      <button type="button" class="sortbtn" data-auth-open>LOGIN/REGISTER</button>
+    </div>
+    <div class="authbox" id="authbox" hidden>
+      <form id="auth-form" class="authrow">
+        <input id="auth-user" class="authin" type="text" autocomplete="username" placeholder="username (3-24 a-z0-9_)" maxlength="24">
+        <input id="auth-pass" class="authin" type="password" autocomplete="current-password" placeholder="password (min 8)" maxlength="128">
+        <button type="submit" class="sortbtn" data-auth-mode="login">LOGIN</button>
+        <button type="submit" class="sortbtn" data-auth-mode="register">REGISTER</button>
+      </form>
+      <span class="lab text-[11px]" id="auth-msg"></span>
+    </div>
+
     <div id="postlist" class="border border-[#22222a]">
       <article class="post reveal" data-slug="ebpf-ransomware-monitor-lessons" data-date="2026-09-13">
         <div class="vote" data-vote>
@@ -1176,6 +1197,19 @@ a{color:inherit}
     var store = {};
     try { store = JSON.parse(localStorage.getItem(LS) || '{}'); } catch (e) { store = {}; }
     var online = navigator.onLine !== false;
+    // BZ_API: workers.dev URL injected at deploy time (data-bz-api on body) — empty = Abacus-only mode
+    var BZ_API = document.body.getAttribute('data-bz-api') || '';
+    var bzToken = null;
+    try { bzToken = localStorage.getItem('bz-token'); } catch (e) {}
+    function bz(path, opts) {
+      opts = opts || {};
+      opts.headers = Object.assign({}, opts.headers || {},
+        bzToken ? { authorization: 'Bearer ' + bzToken } : {});
+      return fetch(BZ_API + path, opts).then(function (r) {
+        if (r.status === 401 && bzToken) { try { localStorage.removeItem('bz-token'); } catch (e) {} bzToken = null; }
+        return r;
+      });
+    }
 
     function saveStore(){ try { localStorage.setItem(LS, JSON.stringify(store)); } catch (e) {} }
     function abacus(path){
@@ -1242,6 +1276,25 @@ a{color:inherit}
       var target = (mine === dir) ? 0 : dir;         // same arrow again → retract
       var d = target - mine;
       if (!d) return;
+      if (BZ_API) {
+        // server-enforced path: API is authoritative (1 net vote per voter, KV-backed)
+        inflight[slug] = true; e.up.disabled = true; e.down.disabled = true;
+        store[slug] = target; saveStore();
+        bz('/vote/' + slug, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ dir: target }) })
+          .then(function (r) { return r.json().then(function (j) { return { status: r.status, j: j }; }); })
+          .then(function (res) {
+            if (res.status !== 200) throw new Error((res.j && res.j.error) || 'vote failed');
+            sortState.up[slug] = res.j.u; sortState.dn[slug] = res.j.dn;
+            paintVotes(slug); paintSignals(); bump(e.score);
+            flash(e.score, d > 0 ? '+1' : '−1');
+          })
+          .catch(function () {
+            store[slug] = mine; saveStore();
+            flash(e.score, 'SYNC_ERR');
+          })
+          .then(function () { inflight[slug] = false; paintVotes(slug); });
+        return;
+      }
       if (!budgetOk(Math.abs(d))) { flash(e.score, 'SLOW_DOWN'); return; }
       // optimistic: apply locally now, reconcile when the network answers —
       // rapid clicks can never re-read a stale state because of the inflight lock
@@ -1287,6 +1340,18 @@ a{color:inherit}
         if (store['read_' + slug] || !online) return;
         store['read_' + slug] = 1;
         saveStore();
+        if (BZ_API) {
+          bz('/read/' + slug, { method: 'POST' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (j) {
+              if (j && typeof j.reads === 'number') {
+                sortState.reads[slug] = j.reads;
+                var r = e.reads; if (r) r.textContent = 'READS ' + j.reads;
+                paintSignals();
+              }
+            }).catch(function () {});
+          return;
+        }
         abacus('/hit/' + NS + '/reads_' + slug)
           .then(function (v) {
             sortState.reads[slug] = v;
@@ -1342,7 +1407,23 @@ a{color:inherit}
     setMode();
     // instant honest paint from local state (my vote) before server numbers land
     posts.forEach(function (p) { paintVotes(p.dataset.slug); });
-    var pending = posts.map(function (p) {
+    if (BZ_API) {
+      // worker backend: authoritative counters + discussion counts in one call
+      bz('/votes').then(function (r) { return r.ok ? r.json() : null; }).then(function (v) {
+        if (!v) { setMode(); return; }
+        posts.forEach(function (p) {
+          var s = p.dataset.slug, d = v[s];
+          if (!d) return;
+          sortState.up[s] = d.u; sortState.dn[s] = d.dn; sortState.reads[s] = d.reads;
+          var r = sortState.els[s].reads; if (r) r.textContent = 'READS ' + d.reads;
+          if (d.disc) { var m = p.querySelector('[data-disc]'); if (m) m.textContent = d.disc + '_COMMENTS'; }
+        });
+        synced = true;
+        posts.forEach(function (p) { paintVotes(p.dataset.slug); });
+        resort(); paintSignals(); setMode();
+      }).catch(function () { setMode(); });
+    } else {
+      var pending = posts.map(function (p) {
       var slug = p.dataset.slug;
       return abacus('/get/' + NS + '/vote_' + slug + '_up')
         .then(function (v) { sortState.up[slug] = v; })
@@ -1379,6 +1460,7 @@ a{color:inherit}
       paintSignals();
       setMode();
     });
+    }
 
     // aggregate signal total from numbers already in memory — zero extra requests
     function paintSignals(){
@@ -1449,6 +1531,74 @@ a{color:inherit}
     window.addEventListener('online',  function(){ online = true;  setMode(); posts.forEach(function(p){ paintVotes(p.dataset.slug); }); });
     window.addEventListener('offline', function(){ online = false; setMode(); });
   }
+
+  /* ── ACCOUNTS: login/register/logout (active only when BZ_API is injected) ── */
+  (function () {
+    var bar = document.querySelector('[data-authbar]');
+    if (!bar) return;
+    var api = document.body.getAttribute('data-bz-api') || '';
+    if (!api) { bar.hidden = true; return; }
+    function req(path, body) {
+      var t = null; try { t = localStorage.getItem('bz-token'); } catch (e) {}
+      return fetch(api + path, {
+        method: body ? 'POST' : 'GET',
+        headers: Object.assign({ 'content-type': 'application/json' }, t ? { authorization: 'Bearer ' + t } : {}),
+        body: body ? JSON.stringify(body) : undefined
+      }).then(function (r) { return r.json().then(function (j) { return { status: r.status, j: j }; }); });
+    }
+    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    function paint(name, role) {
+      var st = document.getElementById('auth-status');
+      if (!st) return;
+      if (name) {
+        st.innerHTML = '// ACCOUNT: <b>' + esc(name) + '</b>' + (role === 'admin' ? ' · ADMIN' : '') + ' — you can discuss under every post';
+        var btn = bar.querySelector('[data-auth-open]');
+        if (btn) btn.textContent = 'LOGOUT';
+      } else {
+        st.textContent = '// ACCOUNT: ANON — voting is open, discussions need an account';
+        var btn2 = bar.querySelector('[data-auth-open]');
+        if (btn2) btn2.textContent = 'LOGIN/REGISTER';
+      }
+    }
+    var t0 = null; try { t0 = localStorage.getItem('bz-token'); } catch (e) {}
+    if (t0) req('/auth/me').then(function (r) {
+      if (r.status === 200) paint(r.j.username, r.j.role);
+      else { try { localStorage.removeItem('bz-token'); } catch (e) {} }
+    }).catch(function () {});
+    bar.querySelector('[data-auth-open]').addEventListener('click', function () {
+      var t = null; try { t = localStorage.getItem('bz-token'); } catch (e) {}
+      if (t) {  // button acts as LOGOUT when logged in
+        try { localStorage.removeItem('bz-token'); } catch (e) {}
+        paint(null);
+        return;
+      }
+      var box = document.getElementById('authbox');
+      if (box) box.hidden = !box.hidden;
+    });
+    var form = document.getElementById('auth-form');
+    if (form) form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var mode = ev.submitter && ev.submitter.getAttribute('data-auth-mode') || 'login';
+      var u = document.getElementById('auth-user').value.trim();
+      var p = document.getElementById('auth-pass').value;
+      var msg = document.getElementById('auth-msg');
+      if (msg) msg.textContent = '// ' + (mode === 'register' ? 'registering' : 'logging in') + '…';
+      fetch(api + '/auth/' + mode, {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ username: u, password: p })
+      }).then(function (r) { return r.json().then(function (j) { return { status: r.status, j: j }; }); })
+        .then(function (res) {
+          if (res.status === 200 && res.j.token) {
+            try { localStorage.setItem('bz-token', res.j.token); } catch (e) {}
+            paint(res.j.username, res.j.role);
+            var box = document.getElementById('authbox'); if (box) box.hidden = true;
+          } else if (msg) {
+            msg.textContent = '// ERR: ' + (res.j && res.j.error || 'failed');
+          }
+        })
+        .catch(function () { if (msg) msg.textContent = '// ERR: network'; });
+    });
+  })();
 
   // site sessions: real visits, one hit per tab session (sessionStorage guard)
   var sessEl = document.querySelector('[data-sessions]');
