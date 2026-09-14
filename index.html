@@ -1049,6 +1049,7 @@ a{color:inherit}
 
     <div class="authbar" data-authbar>
       <span id="auth-status" class="lab text-[11px]">// ACCOUNT: ANON — voting is open, discussions need an account</span>
+      <button type="button" class="sortbtn" data-regen hidden>REGEN_CODES</button>
       <button type="button" class="sortbtn" data-auth-open>LOGIN/REGISTER</button>
     </div>
     <div class="authbox" id="authbox" hidden>
@@ -1560,14 +1561,17 @@ a{color:inherit}
     function paint(name, role) {
       var st = document.getElementById('auth-status');
       if (!st) return;
+      var rb = bar.querySelector('[data-regen]');
       if (name) {
         st.innerHTML = '// ACCOUNT: <b>' + esc(name) + '</b>' + (role === 'admin' ? ' · ADMIN' : '') + ' — you can discuss under every post';
         var btn = bar.querySelector('[data-auth-open]');
         if (btn) btn.textContent = 'LOGOUT';
+        if (rb) rb.hidden = false;
       } else {
         st.textContent = '// ACCOUNT: ANON — voting is open, discussions need an account';
         var btn2 = bar.querySelector('[data-auth-open]');
         if (btn2) btn2.textContent = 'LOGIN/REGISTER';
+        if (rb) rb.hidden = true;
       }
     }
     var t0 = null; try { t0 = localStorage.getItem('bz-token'); } catch (e) {}
@@ -1633,6 +1637,13 @@ a{color:inherit}
     if (forgot && rf) forgot.addEventListener('click', function () {
       rf.hidden = !rf.hidden;
       if (!rf.hidden) rf.querySelector('input').focus();
+    });
+    var regenBtn = bar.querySelector('[data-regen]');
+    if (regenBtn) regenBtn.addEventListener('click', function () {
+      if (!confirm('generate 6 NEW recovery codes? old codes stay valid until used — save the new set now')) return;
+      req('/auth/recovery/regen', {}).then(function (r) {
+        if (r.status === 200 && r.j.recovery_codes) renderCodes(r.j.recovery_codes);
+      }).catch(function () {});
     });
     if (rf) rf.addEventListener('submit', function (ev) {
       ev.preventDefault();
