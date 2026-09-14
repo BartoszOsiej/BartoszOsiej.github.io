@@ -115,7 +115,7 @@ footer a:hover{color:var(--blood)}
   </section>
 
   <footer>
-    <a href="/">← BACK_TO_ROOT</a> · <a href="https://github.com/BartoszOsiej">GITHUB</a> · <a href="/#blog">ALL_POSTS</a> · <a href="#" data-report-issue>REPORT_ISSUE</a>
+    <a href="/">← BACK_TO_ROOT</a> · <a href="https://github.com/BartoszOsiej">GITHUB</a> · <a href="/blog/">ALL_POSTS</a> · <a href="#" data-report-issue>REPORT_ISSUE</a>
     <p class="eof" data-eof>// EOF · bartoszosiej</p>
   </footer>
 </div>
@@ -210,7 +210,7 @@ footer a:hover{color:var(--blood)}
         row.querySelector('.delwrap').appendChild(del);
       });
     } else {
-      note.textContent = 'login required to comment — use LOGIN/REGISTER on the home page, then come back';
+      note.textContent = 'login required to comment — use LOGIN/REGISTER on the blog page, then come back';
       send.disabled = true;
     }
   }
@@ -236,5 +236,9 @@ footer a:hover{color:var(--blood)}
   });
 })();
 </script>
+<!-- Spotify Now Playing — lazy, deferred, 0 layout shift -->
+<script src="/js/spotify-now-playing.js?v=20260914e" defer></script>
+<script>if('https://bz-blog.metaforicmail.workers.dev'!=='__BZ'+'_API__')document.body.setAttribute('data-bz-api','https://bz-blog.metaforicmail.workers.dev');</script>
+<script src="/js/blog.js?v=20260914a" defer></script>
 </body>
 </html>

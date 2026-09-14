@@ -1,0 +1,115 @@
+---
+permalink: /blog/
+title: BLOG — BARTOSZ OSIEJ
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLOG — BARTOSZ OSIEJ</title>
+<meta name="description" content="Engineering notes: eBPF, Rust, Linux kernel, security and AI-crawler SEO — with reddit-grade voting, real accounts and discussions under every post.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#050505">
+<link rel="canonical" href="https://bartoszosiej.github.io/blog/">
+<link rel="icon" type="image/png" href="/img/bartosz-osiej.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css?v=20260914a">
+<style>
+/* page-level shims — this page does not load the root stylesheet */
+:root{--void:#050505;--rust:#F15A24;--blood:#E04855;--slate:#8B93A3;--slate2:#8B93A3;--bone:#E8E6E3}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid #F15A24;outline-offset:2px}
+.text-bone{color:var(--bone)}.text-slate2{color:var(--slate2)}.text-rust{color:var(--rust)}.text-blood{color:var(--blood)}
+.lab{font-size:11px;letter-spacing:.12em;color:#8B93A3}
+.text-\[11px\]{font-size:11px}
+.text-\[12px\]{font-size:12px}
+.text-3xl{font-size:30px;line-height:1.2;font-weight:700;letter-spacing:-.02em}
+.text-4xl{font-size:36px;line-height:1.2;font-weight:700;letter-spacing:-.02em}
+.mt-3{margin-top:12px}.mb-10{margin-bottom:40px}.mt-8{margin-top:32px}
+.max-w-6xl{max-width:72rem}.mx-auto{margin-left:auto;margin-right:auto}
+.px-5{padding-left:20px;padding-right:20px}
+.pt-16{padding-top:64px}.pb-12{padding-bottom:48px}
+.border{border-width:1px;border-style:solid}
+.border-\[\#22222a\]{border-color:#22222a}
+.min-w-0{min-width:0}
+.font-bold{font-weight:700}.tracking-tight{letter-spacing:-.025em}
+.hover\:underline:hover{text-decoration:underline}
+@media (min-width:640px){.sm\:pt-28{padding-top:112px}.md\:text-4xl{font-size:36px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+</head>
+<body style="background:#050505;color:#E8E6E3;font-family:'Space Mono','JetBrains Mono',monospace;-webkit-font-smoothing:antialiased;overflow-x:hidden">
+<script>if('https://bz-blog.metaforicmail.workers.dev'!=='__BZ'+'_API__')document.body.setAttribute('data-bz-api','https://bz-blog.metaforicmail.workers.dev');</script>
+
+<main class="max-w-6xl mx-auto px-5 pt-16 sm:pt-28 pb-12">
+
+  <p class="eyebrow text-[12px]"><span class="pin">[06]</span> // BLOG // WRITEUPS</p>
+  <h1 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 mb-10">ENGINEERING_<span class="text-blood">NOTES.</span></h1>
+
+  <div class="sortbar" role="group" aria-label="Sort posts">
+    <button type="button" class="sortbtn" data-sort="hot" aria-pressed="true">HOT</button>
+    <button type="button" class="sortbtn" data-sort="new" aria-pressed="false">NEW</button>
+    <span class="netmode" data-netmode>SYNCING // VOTE_STATE</span>
+  </div>
+
+  <div class="authbar" data-authbar>
+    <span id="auth-status" class="lab text-[11px]">// ACCOUNT: ANON — voting is open, discussions need an account</span>
+    <button type="button" class="sortbtn" data-regen hidden>REGEN_CODES</button>
+    <button type="button" class="sortbtn" data-auth-open>LOGIN/REGISTER</button>
+  </div>
+  <div class="authbox" id="authbox" hidden>
+    <form id="auth-form" class="authrow">
+      <input id="auth-user" class="authin" type="text" autocomplete="username" placeholder="username (3-24 a-z0-9_)" maxlength="24">
+      <input id="auth-pass" class="authin" type="password" autocomplete="current-password" placeholder="password (min 8)" maxlength="128">
+      <button type="submit" class="sortbtn" data-auth-mode="login">LOGIN</button>
+      <button type="submit" class="sortbtn" data-auth-mode="register">REGISTER</button>
+    </form>
+    <span class="lab text-[11px]" id="auth-msg"></span>
+    <div class="authrow" style="margin:8px 0 0">
+      <button type="button" class="sortbtn" data-forgot>FORGOT_PASSWORD?</button>
+    </div>
+    <form id="reset-form" class="authrow" hidden>
+      <input id="reset-user" class="authin" type="text" autocomplete="username" placeholder="username" maxlength="24">
+      <input id="reset-code" class="authin" type="text" placeholder="recovery code (20 hex)" maxlength="64">
+      <input id="reset-pass" class="authin" type="password" autocomplete="new-password" placeholder="new password (min 8)" maxlength="128">
+      <button type="submit" class="sortbtn">RESET</button>
+    </form>
+  </div>
+
+  <div id="postlist" class="border border-[#22222a]">
+    {% assign bposts = site.pages | where: "published", true | sort: "date" | reverse %}
+    {% for p in bposts %}
+    {% assign pslug = p.url | split: "/" | last %}
+    <article class="post" data-slug="{{ pslug }}" data-date="{{ p.date | date: '%Y-%m-%d' }}">
+      <div class="vote" data-vote>
+        <button type="button" data-up aria-label="Upvote: {{ p.title | escape }}" aria-pressed="false">▲</button>
+        <span class="score" data-score aria-label="Score">0</span>
+        <button type="button" data-down aria-label="Downvote: {{ p.title | escape }}" aria-pressed="false">▼</button>
+      </div>
+      <div class="min-w-0">
+        <span class="pd">{{ p.date | date: "%Y-%m-%d" }} · {% for t in p.tags limit: 3 %}<span class="tag">#{{ t | upcase }}</span> {% endfor %} · {{ p.read_time | default: 3 }}_MIN_READ</span>
+        <span class="pt"><a class="ptlink" href="{{ p.url }}">{{ p.title }}</a></span>
+        <span class="signal">SIGNAL ▸ <b data-reads>—</b></span>
+        <span class="ship" data-ship>SHIP_METER ▸ GIT_HISTORY</span>
+        <span class="mirror" data-mirror>MIRROR ▸ DEV_TO: PENDING · HASHNODE: PENDING · BLUESKY: PENDING · MASTODON: PENDING</span>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+
+  <p class="mt-8 text-[11px] text-slate2">// FULL_ARCHIVE: <a href="https://dev.to/bartoszosiej" class="text-rust hover:underline">dev.to/bartoszosiej</a> · // ONE_VOTE_PER_VISITOR · NO_TRACKERS · NO_COOKIES · // SITE_SESSIONS: <b data-sessions>—</b> · // GRAVEYARD: EMPTY — 0_ABANDONED, EVERYTHING_ON_THE_ACCOUNT_IS_ALIVE</p>
+
+</main>
+
+<script src="/js/blog.js?v=20260914a" defer></script>
+</body>
+</html>
