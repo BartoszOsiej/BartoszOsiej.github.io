@@ -1,7 +1,52 @@
 {
-  "generated": "2026-09-14",
+  "generated": "2026-09-15",
   "note": "regenerate with: python3 scripts/gen-index.py",
   "posts": [
+    {
+      "slug": "aurora-postmortem",
+      "title": "A web OS that 'never booted': the two bugs that looked like kernel failures but were 404s and z-index",
+      "tldr": "Aurora 'stuck on kernel init' was dist/ being gitignored (GitHub Pages serves the repo, not your build output) — and the follow-up 'icons don't click' was a full-bleed z-index:2 overlay swallowing pointer events. Two boring bugs, two days of 'the OS is broken'.",
+      "date": "2026-09-15",
+      "tags": [
+        "web",
+        "typescript",
+        "debugging",
+        "deploy",
+        "github-pages"
+      ],
+      "words": 497,
+      "source": "content/aurora-postmortem.md"
+    },
+    {
+      "slug": "trustnode-validator-lessons",
+      "title": "Building a Solana-like validator in Rust: what PoH, Tower BFT and Sealevel actually force you to think about",
+      "tldr": "Re-implementing a Solana-like node in Rust teaches more than the whitepaper does: the PoH clock is a schedule problem, Tower BFT is a voting-height game, and Sealevel parallelism lives or dies on account locks.",
+      "date": "2026-09-15",
+      "tags": [
+        "rust",
+        "blockchain",
+        "consensus",
+        "systems",
+        "architecture"
+      ],
+      "words": 721,
+      "source": "content/trustnode-validator-lessons.md"
+    },
+    {
+      "slug": "ebpf-verifier-design-constraint",
+      "title": "eBPF verifier limits are a design constraint: what CO-RE field offsets and bounded loops taught me",
+      "tldr": "The eBPF verifier is not a linter you appease — it's a constraint you design around. CO-RE field offsets break across kernel versions, bounded loops force you to restructure agents, and the verification story has to live in CI, not in your head.",
+      "date": "2026-09-14",
+      "tags": [
+        "ebpf",
+        "rust",
+        "kernel",
+        "linux",
+        "verification"
+      ],
+      "words": 544,
+      "source": "content/ebpf-verifier-design-constraint.md"
+    },
     {
       "slug": "ai-crawler-seo-playbook",
       "title": "I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack",

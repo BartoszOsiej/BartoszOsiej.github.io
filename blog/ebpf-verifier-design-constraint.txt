@@ -1,0 +1,53 @@
+==============================================================
+eBPF verifier limits are a design constraint: what CO-RE field offsets and bounded loops taught me
+==============================================================
+
+PUBLISHED : 2026-09-14 (UTC)
+AUTHOR    : bartoszosiej
+SOURCE    : https://bartoszosiej.github.io/content/ebpf-verifier-design-constraint
+PLAINTEXT : https://bartoszosiej.github.io/blog/ebpf-verifier-design-constraint.txt
+REPO      : https://github.com/BartoszOsiej/BartoszOsiej.github.io/blob/main/content/ebpf-verifier-design-constraint.md
+
+TL;DR
+--------------------------------------------------------------
+  The eBPF verifier is not a linter you appease — it's a constraint you design around. CO-RE field offsets break across kernel versions, bounded loops force you to restructure agents, and the verification story has to live in CI, not in your head.
+--------------------------------------------------------------
+
+TL;DR
+
+Working on talus-process-monitor (Rust userspace + libbpf/C eBPF) I kept bumping into the same three walls: CO-RE field offsets shifting between kernel versions, the verifier refusing anything that looks like an unbounded loop, and map access patterns that get rejected at load time. All three are design constraints, not compiler annoyances. This post is what changed in my approach once I stopped fighting them.
+
+CO-RE relocation is a promise you have to verify
+
+Portable BPF (Compile Once - Run Everywhere) means the kernel rewrites your field accesses based on its own BTF. In theory: compile once, run on kernel 6.x. In practice I chased two classes of bugs:
+
+1. struct file layout differences — an offset that's valid on kernel A and wrong on kernel B. The relocation did its job; I had assumed a field meant what it meant.
+2. Unavailable BTF — if the target kernel doesn't ship BTF, relocation fails at load with a cryptic error. It's a deployment check, not a code bug.
+
+What made this tractable: a verification matrix in CI — the same source compiled and loaded against a set of kernels, with the load result asserted. When a field offset drifts, the pipeline turns red before a cluster does.
+
+Body of the lesson: "portable" is a claim that must be tested per-kernel, or it's just hope. A build that passes on one kernel is a demo, not portability.
+
+The verifier forbids unbounded loops. That's fine; it teaches you state machines.
+
+The verifier allows bounded loops (with a maximum iteration count) and rejects anything unverifiable. If you want to scan "all entries in this hash map" you get rejected at load time. The productive response is to stop thinking "iterate until done" and think "fixed horizon, amortized":
+
+- Lease the map. Instead of iterating the whole map per event, keep a fixed-size sliding window of state and, on overflow, process the oldest batch — a bounded, verifier-friendly step.
+- Folding state into the map entry. Store the running score in the entry being updated, so decisions don't require iterating unrelated entries.
+- Push the unbounded part userspace. The kernel probe exports a summary; the Rust side does the arbitrary-loop reasoning.
+
+This mirrors how real agents behave: kernel-side reaction is quick and bounded; the risky/flexible analysis happens outside the hot path.
+
+Map access patterns decide load-time rejection
+
+Two patterns get rejected at unexpected places: holding an entry pointer across a perf output call, and nested lookup while a lookup key is pinned. The verifier tracks what you are allowed to do while a value pointer is live. Restructure: copy the fields you need into stack-local values, then emit events. It's the difference between "loads everywhere" and "loads only when the code is shaped right."
+
+Verification has to live in CI, not in your head
+
+The current talus trunk carries a verification document (field-offset matrix, per-kernel load expectations) plus CI that compiles and asserts. The single highest-value commit this project got was not a feature — it was the CI job that turned "should work on this kernel" into a machine-checked statement.
+
+Repo
+
+talus-process-monitor — Rust + libbpf/C eBPF endpoint security agent with a MeMLP neural detection engine; verification matrix lives in VERIFICATION-EBPF.md.
+
+// EOF · bartoszosiej · 544 words · #ebpf #rust #kernel #linux #verification · read the blog like software: curl | less
