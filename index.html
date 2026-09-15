@@ -989,19 +989,10 @@ a{color:inherit}
 
   <section id="blog" class="py-16 border-t border-[#1c1c24]">
     <p class="eyebrow text-[12px] reveal"><span class="pin">[06]</span> // BLOG // WRITEUPS</p>
-    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 mb-10 reveal">ENGINEERING_<span class="text-blood">NOTES.</span></h2>
-    <div class="grid gap-10">
-      {% assign bposts = site.pages | where: "published", true | sort: "date" | reverse %}
-      {% for bpost in bposts limit: 2 %}
-      <a class="block group" href="{{ bpost.url | replace: ".html", "" }}">
-        <span class="pd text-[11px] tracking-[.12em] uppercase text-slate2 block">{{ bpost.date | date: "%Y-%m-%d" }} · {% for t in bpost.tags limit: 3 %}<span class="tag">#{{ t | upcase }}</span> {% endfor %} · {{ bpost.read_time | default: 3 }}_MIN_READ</span>
-        <span class="block text-lg font-bold text-bone mt-2 group-hover:text-rust transition-colors">{{ bpost.title }}</span>
-        <span class="block text-[12px] text-slate2 mt-1 max-w-[240px] sm:max-w-md">{{ bpost.tldr | default: bpost.description | truncatewords: 26 }}</span>
-        <span class="block text-[11px] tracking-[.14em] uppercase text-rust mt-3">READ ▸ + VOTE + DISCUSS ↗</span>
-      </a>
-      {% endfor %}
-    </div>
-    <p class="mt-8 text-[11px] text-slate2 reveal"><a href="/blog/" class="text-rust hover:underline">→ FULL_ARCHIVE: /blog/</a> · HOT/NEW SORTING · REDDIT-GRADE VOTING · ACCOUNTS + DISCUSSIONS UNDER EVERY POST · NO_TRACKERS · NO_COOKIES</p>
+    <p class="mt-8 text-[13px] leading-relaxed text-slate2 reveal">
+      Blog was moved to <a href="/blog/" class="text-rust hover:underline">/blog/</a> — full archive with
+      reddit-grade voting, accounts and discussions under every post.
+    </p>
   </section>
 
 </main>
