@@ -174,19 +174,35 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       });
     });
 
-    // mirror status: does dev.to already carry this post? live check; honest PENDING otherwise
-    fetch('https://dev.to/api/articles?username=bartoszosiej&per_page=30')
-      .then(function (r) { return r.ok ? r.json() : []; })
-      .then(function (arts) {
+    // mirror status: read real state from blog/mirror.json (updated by crier CI)
+    (function () {
+      var CK = 'bz-mirror', cached = null;
+      try { cached = JSON.parse(sessionStorage.getItem(CK) || 'null'); } catch (e) {}
+      function render(mirror) {
+        var display = { devto: 'DEV_TO', mastodon: 'MASTODON', hashnode: 'HASHNODE', bluesky: 'BLUESKY' };
         posts.forEach(function (p) {
           var el = p.querySelector('[data-mirror]'); if (!el) return;
-          var hit = null;
-          (arts || []).forEach(function (a) {
-            if (!hit && a.url && (a.slug || '').indexOf(p.dataset.slug) === 0) hit = a;
+          var slug = p.dataset.slug, entry = (mirror.posts || {})[slug];
+          if (!entry) { el.innerHTML = 'MIRROR ▸ no data'; return; }
+          var parts = [];
+          Object.keys(display).forEach(function (k) {
+            var v = entry[k], label = display[k];
+            if (v && v.url) parts.push('<a class="ok" href="' + v.url + '" target="_blank" rel="noopener">' + label + ': LIVE ↗</a>');
+            else if (v && v.error) parts.push('<span class="err">' + label + ': FAIL</span>');
+            else parts.push(label + ': —');
           });
-          if (hit) el.innerHTML = 'MIRROR ▸ <a class="ok" href="' + hit.url + '" target="_blank" rel="noopener">DEV_TO: LIVE ↗</a> · HASHNODE: PENDING · BLUESKY: PENDING · MASTODON: PENDING';
+          el.innerHTML = 'MIRROR ▸ ' + parts.join(' · ');
         });
-      }).catch(function () {});
+      }
+      if (cached && Date.now() - cached.t < 3600000) { render(cached.data); return; }
+      fetch('/blog/mirror.json?' + Date.now())
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d) return;
+          try { sessionStorage.setItem(CK, JSON.stringify({ t: Date.now(), data: d })); } catch (e) {}
+          render(d);
+        }).catch(function () {});
+    })();
 
     // ship meter: real commit history per post from the GitHub API (1h sessionStorage cache)
     posts.forEach(function (p) {

@@ -1,9 +1,10 @@
 name: Cross-post (crier)
 
-# Method #1-9: content syndication / cross-posting.
-# Writes an article in content/, push to main -> crier publishes it to every
-# configured platform (batch, API-only). Registry is cached AND committed back
-# so posts are never duplicated.
+# Content syndication / cross-posting.
+# Push to main touching content/*.md -> crier publishes to every configured
+# platform (batch, API-only). Registry (SQLite) is cached + committed back
+# so posts are never duplicated. Mirror status exported to blog/mirror.json
+# for the frontend to render real LIVE/PENDING/NOT_CONFIGURED per platform.
 
 on:
   push:
@@ -54,53 +55,58 @@ jobs:
       - name: Install crier
         run: pip install crier
 
-      - name: Write crier config
+      - name: Configure crier (CLI — not manual YAML)
         run: |
+          # crier reads ~/.config/crier/config.yaml — override HOME so it
+          # lands in the cached .crier-home directory.
           mkdir -p "$CRIER_HOME/.config/crier"
-          cat > "$CRIER_HOME/.config/crier/config.yaml" <<'YAML'
-          site_root: __WORKSPACE__
-          site_base_url: https://bartoszosiej.github.io
-          content_paths:
-            - content
-          file_extensions:
-            - .md
-          exclude_patterns:
-            - _drafts/*
-            - bip-calendar.md   # BIP prompts, not publishable content
-          default_profile: everything
-          platforms:
-            medium:
-              api_key: import   # Medium import needs a browser -> manual checklist
-            twitter:
-              api_key: manual   # X has no free write API -> copy-paste mode
-          profiles:
-            blogs:
-              - devto
-              - hashnode
-            social:
-              - bluesky
-              - mastodon
-            channels:
-              - telegram
-              - discord
-            everything:
-              - blogs
-              - social
-              - channels
-              - linkedin
-              - threads
-          YAML
-          sed -i "s|__WORKSPACE__|$GITHUB_WORKSPACE|" "$CRIER_HOME/.config/crier/config.yaml"
+          export HOME="$CRIER_HOME"
+
+          crier config content set "$GITHUB_WORKSPACE/content"
+          crier config set site_base_url "https://bartoszosiej.github.io"
+          crier config set exclude_patterns "_drafts/*"
+
+          # --- platform keys (env -> crier config, skip empty) ---
+          if [ -n "$CRIER_MASTODON_API_KEY" ]; then
+            # crier mastodon api_key format: "instance:token" OR just "token" (defaults to mastodon.social)
+            crier config set mastodon.api_key "$CRIER_MASTODON_API_KEY"
+          fi
+          if [ -n "$CRIER_DEVTO_API_KEY" ]; then
+            crier config set devto.api_key "$CRIER_DEVTO_API_KEY"
+          fi
+          if [ -n "$CRIER_HASHNODE_API_KEY" ]; then
+            crier config set hashnode.api_key "$CRIER_HASHNODE_API_KEY"
+          fi
+          if [ -n "$CRIER_BLUESKY_API_KEY" ]; then
+            crier config set bluesky.api_key "$CRIER_BLUESKY_API_KEY"
+          fi
+          if [ -n "$CRIER_LINKEDIN_API_KEY" ]; then
+            crier config set linkedin.api_key "$CRIER_LINKEDIN_API_KEY"
+          fi
+          if [ -n "$CRIER_THREADS_API_KEY" ]; then
+            crier config set threads.api_key "$CRIER_THREADS_API_KEY"
+          fi
+          if [ -n "$CRIER_TELEGRAM_API_KEY" ]; then
+            crier config set telegram.api_key "$CRIER_TELEGRAM_API_KEY"
+          fi
+          if [ -n "$CRIER_DISCORD_API_KEY" ]; then
+            crier config set discord.api_key "$CRIER_DISCORD_API_KEY"
+          fi
+
+          echo "=== crier config ==="
+          crier config show
 
       - name: Guard — at least one platform configured
         id: guard
         run: |
-          COUNT=$(env | grep -cE '^CRIER_[A-Z_]+=..' || true)
+          export HOME="$CRIER_HOME"
+          crier platforms 2>/dev/null | grep -c "Configured" > /tmp/cfg_count.txt || true
+          COUNT=$(cat /tmp/cfg_count.txt)
           echo "platforms configured: $COUNT"
           if [ "$COUNT" -eq 0 ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "### Cross-post skipped: no CRIER_* secrets configured yet." >> "$GITHUB_STEP_SUMMARY"
-            echo "Add DEVTO_API_KEY / HASHNODE_API_KEY / BLUESKY_API_KEY / MASTODON_API_KEY ... in repo Settings → Secrets → Actions, then re-run." >> "$GITHUB_STEP_SUMMARY"
+            echo "### Cross-post skipped: no platform API keys configured." >> "$GITHUB_STEP_SUMMARY"
+            echo "Set MASTODON_API_KEY / DEVTO_API_KEY / HASHNODE_API_KEY / BLUESKY_API_KEY in repo Settings → Secrets → Actions, then re-run." >> "$GITHUB_STEP_SUMMARY"
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
@@ -108,6 +114,7 @@ jobs:
       - name: Publish (batch, API platforms only)
         if: steps.guard.outputs.skip != 'true'
         run: |
+          export HOME="$CRIER_HOME"
           set +e
           crier audit --publish --batch --only-api --json > crier-results.json
           CODE=$?
@@ -123,7 +130,6 @@ jobs:
           if not os.path.exists(path):
               print("no results file"); raise SystemExit(0)
           raw = open(path).read().strip()
-          # crier may print human text when nothing matched; only parse if it looks like JSON
           if not raw.startswith("{"):
               print("crier output (non-JSON):", raw[:300])
               raise SystemExit(0)
@@ -131,12 +137,64 @@ jobs:
           lines = ["## Cross-post results", ""]
           for r in data.get("results", []):
               mark = "✅" if r.get("success") else "❌"
-              lines.append(f"- {mark} {r.get('platform')}: {r.get('url', 'failed')}")
+              lines.append(f"- {mark} {r.get('platform')}: {r.get('url', r.get('error', 'failed'))}")
           s = data.get("summary", {})
           lines.append("")
           lines.append(f"Succeeded: {s.get('succeeded', '?')} · Failed: {s.get('failed', '?')} · Skipped: {s.get('skipped', '?')}")
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
               f.write("\n".join(lines) + "\n")
+          PY
+
+      - name: Export mirror.json (real status for frontend)
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os, glob
+          """Build blog/mirror.json from crier-results.json + crier DB."""
+          results_path = "crier-results.json"
+          mirror_path = "blog/mirror.json"
+          post_slugs = []
+
+          # Discover all content slugs from content/ directory
+          for f in glob.glob("content/*.md"):
+              slug = os.path.splitext(os.path.basename(f))[0]
+              if slug.startswith("_") or slug == "bip-calendar":
+                  continue
+              post_slugs.append(slug)
+
+          # Parse crier results
+          results = {}
+          if os.path.exists(results_path):
+              raw = open(results_path).read().strip()
+              if raw.startswith("{"):
+                  data = json.loads(raw)
+                  for r in data.get("results", []):
+                      fname = os.path.basename(r.get("file", ""))
+                      slug = os.path.splitext(fname)[0]
+                      platform = r.get("platform", "")
+                      if slug not in results:
+                          results[slug] = {}
+                      if r.get("success"):
+                          results[slug][platform] = {"url": r.get("url", ""), "ts": r.get("timestamp", "")}
+                      else:
+                          results[slug][platform] = {"error": r.get("error", "failed")}
+
+          # Build mirror.json
+          mirror = {"updated": __import__("datetime").datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"), "posts": {}}
+          for slug in sorted(set(post_slugs)):
+              entry = {}
+              if slug in results:
+                  for platform, status in results[slug].items():
+                      entry[platform] = status
+              # Platforms with no attempt are NOT_CONFIGURED (not PENDING)
+              for p in ["devto", "hashnode", "bluesky", "mastodon", "linkedin", "threads", "telegram", "discord"]:
+                  if p not in entry:
+                      entry[p] = None
+              mirror["posts"][slug] = entry
+
+          with open(mirror_path, "w") as f:
+              json.dump(mirror, f, indent=2)
+          print(f"mirror.json: {len(mirror['posts'])} posts, {sum(1 for p in mirror['posts'].values() for v in p.values() if v and v != 'pending')} live links")
           PY
 
       - name: Upload results
@@ -146,11 +204,11 @@ jobs:
           name: crier-results
           path: crier-results.json
 
-      - name: Commit registry back (durable idempotency)
+      - name: Commit registry + mirror back (durable idempotency)
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .crier-home
-          git diff --cached --quiet || git commit -m "ci(cross-post): update crier registry [skip ci]"
+          git add .crier-home blog/mirror.json
+          git diff --cached --quiet || git commit -m "ci(cross-post): update crier registry + mirror.json [skip ci]"
           git push

@@ -26,6 +26,7 @@
 .post .ship,.post .mirror{display:block;font-size:10px;letter-spacing:.1em;color:#565f78;text-transform:uppercase;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .post .ship b{color:#8b95a8;font-weight:400}
 .post .mirror .ok{color:#F15A24}
+.post .mirror .err{color:#cc3333}
 .post .mirror .no{color:#565f78}
 .post + .post{margin-top:10px}
 .vote{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:44px;padding:4px 0;user-select:none}
