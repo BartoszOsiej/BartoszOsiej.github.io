@@ -145,56 +145,52 @@ jobs:
               f.write("\n".join(lines) + "\n")
           PY
 
-      - name: Export mirror.json (real status for frontend)
+      - name: Export mirror.json (real status from crier SQLite DB)
         if: always()
         run: |
           python3 - <<'PY'
-          import json, os, glob
-          """Build blog/mirror.json from crier-results.json + crier DB."""
-          results_path = "crier-results.json"
+          import json, os, glob, sqlite3, datetime
+          """Build blog/mirror.json from the crier registry (SQLite).
+
+          crier.publications(slug, platform, url, published_at) is the real
+          source of truth: it records what was actually published where."""
+          DB = os.path.join(os.environ.get("CRIER_HOME", ""), ".config", "crier", "crier.db")
           mirror_path = "blog/mirror.json"
           post_slugs = []
 
-          # Discover all content slugs from content/ directory
           for f in glob.glob("content/*.md"):
               slug = os.path.splitext(os.path.basename(f))[0]
               if slug.startswith("_") or slug == "bip-calendar":
                   continue
               post_slugs.append(slug)
 
-          # Parse crier results
+          hrs = ["devto", "hashnode", "bluesky", "mastodon", "linkedin", "threads", "telegram", "discord"]
           results = {}
-          if os.path.exists(results_path):
-              raw = open(results_path).read().strip()
-              if raw.startswith("{"):
-                  data = json.loads(raw)
-                  for r in data.get("results", []):
-                      fname = os.path.basename(r.get("file", ""))
-                      slug = os.path.splitext(fname)[0]
-                      platform = r.get("platform", "")
-                      if slug not in results:
-                          results[slug] = {}
-                      if r.get("success"):
-                          results[slug][platform] = {"url": r.get("url", ""), "ts": r.get("timestamp", "")}
-                      else:
-                          results[slug][platform] = {"error": r.get("error", "failed")}
 
-          # Build mirror.json
-          mirror = {"updated": __import__("datetime").datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"), "posts": {}}
+          if os.path.exists(DB):
+              conn = sqlite3.connect(DB)
+              rows = conn.execute(
+                  "SELECT slug, platform, url, published_at, last_error "
+                  "FROM publications WHERE deleted_at IS NULL"
+              ).fetchall()
+              conn.close()
+              for slug, platform, url, published_at, last_error in rows:
+                  results.setdefault(slug, {})[platform] = url or ({"error": last_error} if last_error else None)
+          else:
+              print("warning: crier.db not found at", DB)
+
+          mirror = {"updated": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"), "posts": {}}
           for slug in sorted(set(post_slugs)):
-              entry = {}
-              if slug in results:
-                  for platform, status in results[slug].items():
-                      entry[platform] = status
-              # Platforms with no attempt are NOT_CONFIGURED (not PENDING)
-              for p in ["devto", "hashnode", "bluesky", "mastodon", "linkedin", "threads", "telegram", "discord"]:
+              entry = dict(results.get(slug, {}))
+              for p in hrs:
                   if p not in entry:
-                      entry[p] = None
+                      entry[p] = None       # NOT_CONFIGURED — honest, not PENDING
               mirror["posts"][slug] = entry
 
           with open(mirror_path, "w") as f:
               json.dump(mirror, f, indent=2)
-          print(f"mirror.json: {len(mirror['posts'])} posts, {sum(1 for p in mirror['posts'].values() for v in p.values() if v and v != 'pending')} live links")
+          live = sum(1 for p in mirror["posts"].values() for v in p.values() if v and "error" not in v)
+          print(f"mirror.json: {len(mirror['posts'])} posts, {live} live mirror links, db={os.path.exists(DB)}")
           PY
 
       - name: Upload results
