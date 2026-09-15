@@ -145,20 +145,18 @@ jobs:
               f.write("\n".join(lines) + "\n")
           PY
 
-      - name: Export mirror.json (real status from crier SQLite DB)
+      - name: Export mirror.json (real status from crier DB + live dev.to API)
         if: always()
         run: |
           python3 - <<'PY'
-          import json, os, glob, sqlite3, datetime
-          """Build blog/mirror.json from the crier registry (SQLite).
+          import json, os, glob, sqlite3, datetime, urllib.request
 
-          crier.publications(slug, platform, url, published_at) is the real
-          source of truth: it records what was actually published where."""
           DB = os.path.join(os.environ.get("CRIER_HOME", ""), ".config", "crier", "crier.db")
           mirror_path = "blog/mirror.json"
-          post_slugs = []
 
-          for f in glob.glob("content/*.md"):
+          # --- discover content slugs ---
+          post_slugs = []
+          for f in sorted(glob.glob("content/*.md")):
               slug = os.path.splitext(os.path.basename(f))[0]
               if slug.startswith("_") or slug == "bip-calendar":
                   continue
@@ -167,6 +165,7 @@ jobs:
           hrs = ["devto", "hashnode", "bluesky", "mastodon", "linkedin", "threads", "telegram", "discord"]
           results = {}
 
+          # --- crier SQLite registry (source of truth for every publish) ---
           if os.path.exists(DB):
               conn = sqlite3.connect(DB)
               rows = conn.execute(
@@ -176,15 +175,31 @@ jobs:
               ).fetchall()
               conn.close()
               for canonical_url, platform, url, published_at, last_error in rows:
-                  slug = None
-                  if canonical_url and "/content/" in canonical_url:
-                      slug = canonical_url.rsplit("/content/", 1)[-1].rstrip("/")
+                  slug = canonical_url.rsplit("/content/", 1)[-1].rstrip("/") if canonical_url and "/content/" in canonical_url else None
                   if not slug:
                       continue
                   results.setdefault(slug, {})[platform] = url or ({"error": last_error} if last_error else None)
-          else:
-              print("warning: crier.db not found at", DB)
 
+          # --- live dev.to check: cache may restore a stale crier.db, API never lies ---
+          devto_key = os.environ.get("CRIER_DEVTO_API_KEY", "")
+          if devto_key:
+              try:
+                  req = urllib.request.Request(
+                      "https://dev.to/api/articles/me?per_page=30",
+                      headers={"api-key": devto_key},
+                  )
+                  arts = json.loads(urllib.request.urlopen(req, timeout=20).read())
+                  for a in arts:
+                      can = a.get("canonical_url", "")
+                      if "/content/" not in can:
+                          continue
+                      sl = can.rsplit("/content/", 1)[-1].rstrip("/")
+                      if sl in post_slugs:
+                          results.setdefault(sl, {})["devto"] = a.get("url", "")
+              except Exception as e:
+                  print("dev.to API check failed:", e)
+
+          # --- build mirror.json ---
           mirror = {"updated": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"), "posts": {}}
           for slug in sorted(set(post_slugs)):
               entry = dict(results.get(slug, {}))
@@ -195,8 +210,8 @@ jobs:
 
           with open(mirror_path, "w") as f:
               json.dump(mirror, f, indent=2)
-          live = sum(1 for p in mirror["posts"].values() for v in p.values() if v and "error" not in v)
-          print(f"mirror.json: {len(mirror['posts'])} posts, {live} live mirror links, db={os.path.exists(DB)}")
+          live = sum(1 for p in mirror["posts"].values() for v in p.values() if v and isinstance(v, str) and v.startswith("http"))
+          print(f"mirror.json: {len(mirror['posts'])} posts, {live} live mirror links")
           PY
 
       - name: Upload results
