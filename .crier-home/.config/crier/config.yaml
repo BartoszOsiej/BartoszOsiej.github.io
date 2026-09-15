@@ -1,31 +1,33 @@
-site_root: /home/runner/work/BartoszOsiej.github.io/BartoszOsiej.github.io
-site_base_url: https://bartoszosiej.github.io
 content_paths:
-  - content
-file_extensions:
-  - .md
-exclude_patterns:
-  - _drafts/*
-  - bip-calendar.md   # BIP prompts, not publishable content
+- /home/runner/work/BartoszOsiej.github.io/BartoszOsiej.github.io/content
 default_profile: everything
+exclude_patterns:
+- _drafts/*
+- bip-calendar.md
+file_extensions:
+- .md
 platforms:
+  mastodon:
+    api_key: mastodon.social:J867hvxj5Vw-5d15oIV07V7Nkbu1CRlDhLnCjXvPJO4
   medium:
-    api_key: import   # Medium import needs a browser -> manual checklist
+    api_key: import
   twitter:
-    api_key: manual   # X has no free write API -> copy-paste mode
+    api_key: manual
 profiles:
   blogs:
-    - devto
-    - hashnode
-  social:
-    - bluesky
-    - mastodon
+  - devto
+  - hashnode
   channels:
-    - telegram
-    - discord
+  - telegram
+  - discord
   everything:
-    - blogs
-    - social
-    - channels
-    - linkedin
-    - threads
+  - blogs
+  - social
+  - channels
+  - linkedin
+  - threads
+  social:
+  - bluesky
+  - mastodon
+site_base_url: https://bartoszosiej.github.io
+site_root: /home/runner/work/BartoszOsiej.github.io/BartoszOsiej.github.io

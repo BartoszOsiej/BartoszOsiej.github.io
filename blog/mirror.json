@@ -1,41 +1,55 @@
 {
-  "updated": "2026-09-15T17:30:00Z",
+  "updated": "2026-09-15T15:36:49Z",
   "posts": {
     "ai-crawler-seo-playbook": {
       "devto": null,
       "hashnode": null,
       "bluesky": null,
-      "mastodon": null
+      "mastodon": null,
+      "linkedin": null,
+      "threads": null,
+      "telegram": null,
+      "discord": null
     },
     "aurora-postmortem": {
       "devto": null,
       "hashnode": null,
       "bluesky": null,
-      "mastodon": null
-    },
-    "bip-calendar": {
-      "devto": null,
-      "hashnode": null,
-      "bluesky": null,
-      "mastodon": null
+      "mastodon": null,
+      "linkedin": null,
+      "threads": null,
+      "telegram": null,
+      "discord": null
     },
     "ebpf-ransomware-monitor-lessons": {
       "devto": null,
       "hashnode": null,
       "bluesky": null,
-      "mastodon": null
+      "mastodon": null,
+      "linkedin": null,
+      "threads": null,
+      "telegram": null,
+      "discord": null
     },
     "ebpf-verifier-design-constraint": {
       "devto": null,
       "hashnode": null,
       "bluesky": null,
-      "mastodon": null
+      "mastodon": null,
+      "linkedin": null,
+      "threads": null,
+      "telegram": null,
+      "discord": null
     },
     "trustnode-validator-lessons": {
       "devto": null,
       "hashnode": null,
       "bluesky": null,
-      "mastodon": null
+      "mastodon": null,
+      "linkedin": null,
+      "threads": null,
+      "telegram": null,
+      "discord": null
     }
   }
 }
