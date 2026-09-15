@@ -209,6 +209,11 @@ jobs:
       - name: Commit mirror.json back
         if: always()
         run: |
+          # Save our exported mirror.json, sync to latest main, then commit
+          cp blog/mirror.json /tmp/mirror-export.json
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/mirror-export.json blog/mirror.json
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add blog/mirror.json
