@@ -187,10 +187,21 @@ jobs:
           slugs = post_slugs()
           canon = {s: f"https://bartoszosiej.github.io/content/{s}" for s in slugs}
 
-          # 1) batch devto + mastodon (devto deduped by pre-seed step; mastodon
-          #    by the cached registry). Bluesky intentionally excluded here.
+          # platform targets = configured keys on this run (default core trio)
+          targets = ["devto", "mastodon"]
+          if os.environ.get("CRIER_THREADS_API_KEY"):
+              targets.append("threads")
+          if os.environ.get("CRIER_TELEGRAM_API_KEY"):
+              targets.append("telegram")
+          if os.environ.get("CRIER_DISCORD_API_KEY"):
+              targets.append("discord")
+          if os.environ.get("CRIER_LINKEDIN_API_KEY"):
+              targets.append("linkedin")
+          # bluesky handled separately below (per-article short text)
+
+          # 1) batch: all API platforms except bluesky (dedup via registry)
           batch = subprocess.run(
-              ["crier", "audit", "--publish", "--batch", "--to", "devto", "--to", "mastodon"],
+              ["crier", "audit", "--publish", "--batch", "--to", *targets],
               capture_output=True, text=True, timeout=600,
           )
           if batch.returncode not in (0, 2):
@@ -219,7 +230,7 @@ jobs:
           # 3) report results straight from the registry (source of truth)
           results = []
           for slug in slugs:
-              for plat in ("devto", "mastodon", "bluesky"):
+              for plat in targets + ["bluesky"]:
                   info = reg.get_publication_info(canon[slug], plat)
                   if info and info.get("article_id"):
                       results.append({"file": f"content/{slug}.md", "platform": plat,

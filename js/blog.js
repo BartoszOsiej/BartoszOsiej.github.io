@@ -179,7 +179,7 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       var CK = 'bz-mirror', cached = null;
       try { cached = JSON.parse(sessionStorage.getItem(CK) || 'null'); } catch (e) {}
       function render(mirror) {
-        var display = { devto: 'DEV_TO', mastodon: 'MASTODON', hashnode: 'HASHNODE', bluesky: 'BLUESKY' };
+        var display = { devto: 'DEV_TO', mastodon: 'MASTODON', hashnode: 'HASHNODE', bluesky: 'BLUESKY', threads: 'THREADS', telegram: 'TELEGRAM', discord: 'DISCORD', linkedin: 'LINKEDIN' };
         posts.forEach(function (p) {
           var el = p.querySelector('[data-mirror]'); if (!el) return;
           var slug = p.dataset.slug, entry = (mirror.posts || {})[slug];
