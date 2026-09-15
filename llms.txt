@@ -36,7 +36,6 @@
 - [The Stitcher](https://www.amazon.com/dp/B0HHY39314) — Book One, 2026, ASIN B0HHY39314
 - [The Curator](https://www.amazon.com/dp/B0HHXT2ZRZ) — Book Two, 2026, ASIN B0HHXT2ZRZ
 - [The Reckoning](https://www.amazon.com/dp/B0GX7CPY7H) — Book Three, 2026, ASIN B0GX7CPY7H
-- [LIFE — Volume I: Shadows of True Living](https://bartoszosiej.github.io/Mylife/) — essays on ownership, love, betrayal and the price of success
 
 ## Full document
 - [llms-full.txt](https://bartoszosiej.github.io/llms-full.txt) — complete text of this entity home page
