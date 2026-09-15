@@ -1,9 +1,9 @@
 {
-  "updated": "2026-09-15T16:01:04Z",
+  "updated": "2026-09-15T16:02:15Z",
   "posts": {
     "ai-crawler-seo-playbook": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117275794169403963",
-      "devto": null,
+      "devto": "https://dev.to/bartoszosiej/i-made-my-portfolio-readable-to-ai-crawlers-llmstxt-json-ld-and-a-40-method-distribution-stack-144p",
       "hashnode": null,
       "bluesky": null,
       "linkedin": null,
@@ -13,7 +13,7 @@
     },
     "aurora-postmortem": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117275794202336983",
-      "devto": null,
+      "devto": "https://dev.to/bartoszosiej/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-were-404s-and-1p3",
       "hashnode": null,
       "bluesky": null,
       "linkedin": null,
@@ -23,7 +23,7 @@
     },
     "ebpf-ransomware-monitor-lessons": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117275794248410289",
-      "devto": null,
+      "devto": "https://dev.to/bartoszosiej/catching-ransomware-with-ebpf-what-execveopenat-tracing-taught-me-about-false-positives-4676",
       "hashnode": null,
       "bluesky": null,
       "linkedin": null,
@@ -33,7 +33,7 @@
     },
     "ebpf-verifier-design-constraint": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117275794279724840",
-      "devto": null,
+      "devto": "https://dev.to/bartoszosiej/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounded-loops-taught-me-1akc",
       "hashnode": null,
       "bluesky": null,
       "linkedin": null,
@@ -43,7 +43,7 @@
     },
     "trustnode-validator-lessons": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117275794424736157",
-      "devto": null,
+      "devto": "https://dev.to/bartoszosiej/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actually-force-you-to-14h9",
       "hashnode": null,
       "bluesky": null,
       "linkedin": null,
