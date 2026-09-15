@@ -200,8 +200,12 @@ jobs:
           # bluesky handled separately below (per-article short text)
 
           # 1) batch: all API platforms except bluesky (dedup via registry)
+          # crier audit --to is a multi-value click option: each platform needs
+          # its own "--to <name>" flag (a single "--to devto mastodon discord"
+          # makes click treat "mastodon" as the positional PATH and exits rc=2).
+          to_args = [flag for p in targets for flag in ("--to", p)]
           batch = subprocess.run(
-              ["crier", "audit", "--publish", "--batch", "--to", *targets],
+              ["crier", "audit", "--publish", "--batch", *to_args],
               capture_output=True, text=True, timeout=600,
           )
           if batch.returncode not in (0, 2):
@@ -294,16 +298,44 @@ jobs:
           if os.path.exists(DB):
               conn = sqlite3.connect(DB)
               rows = conn.execute(
-                  "SELECT a.canonical_url, p.platform, p.url, p.published_at, p.last_error "
+                  "SELECT a.canonical_url, p.platform, p.url, p.platform_id, p.published_at, p.last_error "
                   "FROM publications p JOIN articles a ON a.slug = p.slug "
                   "WHERE p.deleted_at IS NULL"
               ).fetchall()
               conn.close()
-              for canonical_url, platform, url, published_at, last_error in rows:
+              for canonical_url, platform, url, platform_id, published_at, last_error in rows:
                   slug = canonical_url.rsplit("/content/", 1)[-1].rstrip("/") if canonical_url and "/content/" in canonical_url else None
                   if not slug:
                       continue
-                  results.setdefault(slug, {})[platform] = url or ({"error": last_error} if last_error else None)
+                  # webhook platforms (discord) return no URL — stash the message
+                  # id in the value so the discord link resolver below can use it
+                  if url:
+                      results.setdefault(slug, {}).setdefault(platform, url)
+                  elif platform_id and platform in ("discord", "telegram"):
+                      results.setdefault(slug, {}).setdefault(platform, platform_id)
+                  elif last_error:
+                      results.setdefault(slug, {}).setdefault(platform, {"error": last_error})
+
+          # --- discord: webhooks return only a message id — resolve the
+          # canonical message link from the webhook channel_id ---
+          disc_key = os.environ.get("CRIER_DISCORD_API_KEY", "")
+          disc_channel = None
+          if disc_key:
+              try:
+                  req = urllib.request.Request(
+                      "https://discord.com/api/webhooks/" + disc_key.split("/api/webhooks/")[-1],
+                      headers={"user-agent": "crier-bz/1.0"},
+                  )
+                  w = json.loads(urllib.request.urlopen(req, timeout=20).read())
+                  disc_channel = w.get("channel_id")
+              except Exception as e:
+                  print("discord webhook lookup failed:", e)
+          if disc_channel:
+              for entry in results.values():
+                  mid = entry.get("discord")
+                  if isinstance(mid, str) and mid.isdigit():
+                      entry["discord"] = (f"https://discord.com/channels/"
+                                          f"{disc_channel}/{disc_channel}/{mid}")
 
           # --- live dev.to check: cache may restore a stale crier.db, API never lies ---
           devto_key = os.environ.get("CRIER_DEVTO_API_KEY", "")
