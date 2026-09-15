@@ -111,15 +111,129 @@ jobs:
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Publish (batch, API platforms only)
+      - name: Pre-seed dev.to registry (idempotency vs stale cache)
         if: steps.guard.outputs.skip != 'true'
         run: |
           export HOME="$CRIER_HOME"
-          set +e
-          crier audit --publish --batch --only-api --json > crier-results.json
-          CODE=$?
-          echo "crier exit code: $CODE (0=ok, 2=partial — expected while some platforms are unconfigured)"
-          if [ "$CODE" -ge 3 ]; then exit "$CODE"; fi
+          python3 - <<'PY'
+          import os, json, glob, pathlib, urllib.request
+
+          # crier registry lives under $HOME/.config/crier/crier.db
+          os.environ["HOME"] = os.environ["CRIER_HOME"]
+          from crier.registry import record_publication
+
+          api_key = os.environ.get("CRIER_DEVTO_API_KEY", "")
+          if not api_key:
+              print("no DEVTO_API_KEY — nothing to pre-seed")
+              raise SystemExit(0)
+
+          post_slugs = [
+              pathlib.Path(f).stem for f in sorted(glob.glob("content/*.md"))
+              if not pathlib.Path(f).stem.startswith("_")
+                 and pathlib.Path(f).stem != "bip-calendar"
+          ]
+
+          req = urllib.request.Request(
+              "https://dev.to/api/articles/me?per_page=30",
+              headers={
+                  "api-key": api_key,
+                  "user-agent": "Mozilla/5.0 (X11; Linux x86_64) crier-bz/1.0",
+                  "accept": "application/json",
+              },
+          )
+          try:
+              arts = json.loads(urllib.request.urlopen(req, timeout=20).read())
+          except Exception as e:
+              print("dev.to API error:", e)
+              raise SystemExit(0)
+
+          seeded = 0
+          for a in arts:
+              can = a.get("canonical_url", "")
+              if "/content/" not in can:
+                  continue
+              slug = can.rsplit("/content/", 1)[-1].rstrip("/")
+              if slug not in post_slugs:
+                  continue
+              # UPSERT the publication row so crier's is_published() is True
+              record_publication(
+                  can, "devto", str(a.get("id", "")), a.get("url", ""),
+                  title=a.get("title", ""),
+                  source_file=f"content/{slug}.md",
+              )
+              seeded += 1
+          print(f"pre-seeded {seeded} dev.to publications into registry")
+          PY
+
+      - name: Publish (dedup devto/mastodon + bluesky per-article short text)
+        if: steps.guard.outputs.skip != 'true'
+        run: |
+          export HOME="$CRIER_HOME"
+          python3 - <<'PY'
+          import os, json, glob, pathlib, subprocess
+
+          # Must happen BEFORE crier.registry is imported so the SQLite registry
+          # is opened under the CRIER_HOME config dir.
+          os.environ["HOME"] = os.environ["CRIER_HOME"]
+          import crier.registry as reg
+
+          def post_slugs():
+              return [
+                  pathlib.Path(f).stem for f in sorted(glob.glob("content/*.md"))
+                  if not pathlib.Path(f).stem.startswith("_")
+                     and pathlib.Path(f).stem != "bip-calendar"
+              ]
+
+          slugs = post_slugs()
+          canon = {s: f"https://bartoszosiej.github.io/content/{s}" for s in slugs}
+
+          # 1) batch devto + mastodon (devto deduped by pre-seed step; mastodon
+          #    by the cached registry). Bluesky intentionally excluded here.
+          batch = subprocess.run(
+              ["crier", "audit", "--publish", "--batch", "--to", "devto", "--to", "mastodon"],
+              capture_output=True, text=True, timeout=600,
+          )
+          if batch.returncode not in (0, 2):
+              print("batch audit rc=", batch.returncode)
+              print(batch.stdout[-1200:])
+              print(batch.stderr[-1200:])
+
+          # 2) bluesky — one short post per article (per-article rewrite text)
+          for slug in slugs:
+              if reg.is_published(canon[slug], "bluesky"):
+                  continue
+              rewrite_file = f"bluesky/{slug}.txt"
+              if not os.path.exists(rewrite_file):
+                  print(f"[bluesky] no rewrite text for {slug} — skipped")
+                  continue
+              proc = subprocess.run(
+                  ["crier", "publish", f"content/{slug}.md", "--to", "bluesky",
+                   "--rewrite-file", rewrite_file, "--yes", "--json"],
+                  capture_output=True, text=True, timeout=300,
+              )
+              print(f"[bluesky] {slug}: rc={proc.returncode}")
+              if proc.returncode != 0:
+                  print(proc.stdout[-500:])
+                  print(proc.stderr[-500:])
+
+          # 3) report results straight from the registry (source of truth)
+          results = []
+          for slug in slugs:
+              for plat in ("devto", "mastodon", "bluesky"):
+                  info = reg.get_publication_info(canon[slug], plat)
+                  if info and info.get("article_id"):
+                      results.append({"file": f"content/{slug}.md", "platform": plat,
+                                      "success": True, "url": info.get("url") or ""})
+                  else:
+                      results.append({"file": f"content/{slug}.md", "platform": plat,
+                                      "success": False, "url": None,
+                                      "error": "not published in this run"})
+          ok = sum(1 for r in results if r["success"])
+          with open("crier-results.json", "w") as fh:
+              json.dump({"results": results,
+                         "summary": {"succeeded": ok, "failed": len(results) - ok,
+                                     "skipped": 0}}, fh, indent=2)
+          PY
 
       - name: Job summary (JSON-tolerant)
         if: always()

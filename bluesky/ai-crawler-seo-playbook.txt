@@ -1,0 +1,1 @@
+llms.txt + JSON-LD + IndexNow make a GitHub Pages site citable by answer engines. And a git-push pipeline cross-posts every article to 9 platforms for free. #SEO #AI

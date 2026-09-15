@@ -1,0 +1,1 @@
+Behavioural eBPF tracing (execve/openat + per-CPU perf buffers) catches ransomware by the shape of its damage. The hard part: not crying wolf on every cargo build. #eBPF #Rust #Security

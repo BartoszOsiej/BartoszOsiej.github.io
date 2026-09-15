@@ -1,0 +1,1 @@
+Aurora "stuck on kernel init" = dist/ gitignored (GH Pages serves the repo, not your build). "Icons don't click" = a full-bleed z-index overlay. Two boring bugs, two days wasted. #WebDev #Debugging

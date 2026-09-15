@@ -1,0 +1,1 @@
+The eBPF verifier isn't a linter to appease — it's a constraint you design around. CO-RE offsets break across kernels, and the verification story has to live in CI, not in your head. #eBPF #Linux
