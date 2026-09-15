@@ -186,7 +186,9 @@ jobs:
               try:
                   req = urllib.request.Request(
                       "https://dev.to/api/articles/me?per_page=30",
-                      headers={"api-key": devto_key},
+                      headers={"api-key": devto_key,
+                               "user-agent": "Mozilla/5.0 (X11; Linux x86_64) crier-bz/1.0",
+                               "accept": "application/json"},
                   )
                   arts = json.loads(urllib.request.urlopen(req, timeout=20).read())
                   for a in arts:
