@@ -103,6 +103,24 @@ async function rateOk(env, req, bucket, limit, ttl) {
   await kvPut(env, k, String(n + 1), ttl);
   return true;
 }
+/* per-username throttle (credential-stuffing guard; key sanitized to the
+ * same charset register enforces) */
+async function rateOkName(env, bucket, limit, ttl, name) {
+  name = String(name || '').toLowerCase();
+  if (!/^[a-z0-9_]{3,24}$/.test(name)) return true;
+  const k = bucket + ':' + name;
+  const n = Number((await kvGet(env, k, 'text')) || 0);
+  if (n >= limit) return false;
+  await kvPut(env, k, String(n + 1), ttl);
+  return true;
+}
+/* auth attempt log — username + salted IP hash + outcome, never passwords
+ * (console lines are transient; nothing raw-IP is persisted, repo policy) */
+async function authLog(env, req, ev, name, ok) {
+  const ip = req.headers.get('cf-connecting-ip') || '0.0.0.0';
+  const iph = (await sha256hex(ip + ':' + (env.IP_PEPPER || 'dev'))).slice(0, 12);
+  console.log(JSON.stringify({ ev, u: name, iph, ok, t: new Date().toISOString() }));
+}
 
 /* ── origin content ────────────────────────────────────────────────────── */
 async function getIndex(env) {
@@ -146,27 +164,32 @@ export default {
         if (!(await rateOk(env, req, 'reg', 10, DAY))) return json({ error: 'registration limit reached, try tomorrow' }, 429);
         const b = await req.json().catch(() => ({}));
         const name = String(b.username || '');
-        if (!/^[a-zA-Z0-9_]{3,24}$/.test(name)) return json({ error: 'username: 3-24 chars, a-z0-9_' }, 400);
-        if (String(b.password || '').length < 8) return json({ error: 'password: min 8 chars' }, 400);
-        if (await kvGet(env, 'user:' + name, 'json')) return json({ error: 'username taken' }, 409);
+        if (!/^[a-z0-9_]{3,24}$/.test(name)) return json({ error: 'username: 3-24 chars, lowercase a-z0-9_' }, 400);
+        if (String(b.password || '').length < 8 || String(b.password || '').length > 128) return json({ error: 'password: 8-128 chars' }, 400);
+        if (!(await rateOkName(env, 'regu', 5, 60, name))) return json({ error: 'too many attempts for this username, cool down' }, 429);
+        if (await kvGet(env, 'user:' + name, 'json')) { await authLog(env, req, 'register', name, false); return json({ error: 'username taken' }, 409); }
         const salt = tok().slice(0, 24);
         const role = name === (env.ADMIN_USER || 'bartoszosiej') ? 'admin' : 'user';
         await kvPut(env, 'user:' + name, { hash: await pbkdf2(b.password, salt), salt, created: new Date().toISOString(), role });
         const codes = await genRecoveryCodes(env, name, 6);
         const t = tok();
         await kvPut(env, 'sess:' + t, { u: name, role }, 30 * DAY);
+        await authLog(env, req, 'register', name, true);
         return json({ ok: true, token: t, username: name, role, recovery_codes: codes });
       }
       if (p === '/auth/login' && req.method === 'POST') {
         if (!(await rateOk(env, req, 'log', 10, 600))) return json({ error: 'too many attempts, cool down' }, 429);
         const b = await req.json().catch(() => ({}));
         const name = String(b.username || '');
+        if (!(await rateOkName(env, 'logu', 5, 60, name))) return json({ error: 'too many attempts, cool down' }, 429);
         const u = await kvGet(env, 'user:' + name, 'json');
         if (u && safeEq(await pbkdf2(String(b.password || ''), u.salt), u.hash)) {
           const t = tok();
           await kvPut(env, 'sess:' + t, { u: name, role: u.role }, 30 * DAY);
+          await authLog(env, req, 'login', name, true);
           return json({ ok: true, token: t, username: name, role: u.role });
         }
+        await authLog(env, req, 'login', name, false);
         return json({ error: 'invalid credentials' }, 401);
       }
       if (p === '/auth/me' && req.method === 'GET') {
@@ -182,7 +205,7 @@ export default {
         const row = await kvGet(env, 'user:' + user.name, 'json');
         if (!row || !safeEq(await pbkdf2(String(b.old_password || ''), row.salt), row.hash))
           return json({ error: 'old password incorrect' }, 403);
-        if (String(b.new_password || '').length < 8) return json({ error: 'new password: min 8 chars' }, 400);
+        if (String(b.new_password || '').length < 8 || String(b.new_password || '').length > 128) return json({ error: 'new password: 8-128 chars' }, 400);
         row.hash = await pbkdf2(b.new_password, row.salt);
         await kvPut(env, 'user:' + user.name, row);
         await revokeSessions(env, user.name);
@@ -199,7 +222,7 @@ export default {
         const code = String(b.recovery_code || '').toLowerCase().replace(/[^0-9a-f]/g, '');
         const np = String(b.new_password || '');
         if (!/^[a-zA-Z0-9_]{3,24}$/.test(name)) return json({ error: 'bad username' }, 400);
-        if (np.length < 8) return json({ error: 'new password: min 8 chars' }, 400);
+        if (np.length < 8 || np.length > 128) return json({ error: 'new password: 8-128 chars' }, 400);
         if (code.length !== 20) return json({ error: 'invalid recovery code' }, 401);
         const u = await kvGet(env, 'user:' + name, 'json');
         if (!u) return json({ error: 'invalid recovery code' }, 401);
@@ -235,6 +258,13 @@ export default {
         const user = await userFromReq(env, req);
         if (!user) return json({ error: 'login required — full articles are for authenticated readers' }, 401);
         if (!(await rateOk(env, req, 'ws', 120, 3600))) return json({ error: 'slow down' }, 429);
+        /* slug whitelist from writing/index.json — fail-closed (unknown slug = 404) */
+        const worigin = env.ORIGIN || 'https://bartoszosiej.github.io';
+        const wi = await fetch(worigin + '/writing/index.json', { cf: { cacheTtl: 300 } });
+        if (!wi.ok) return json({ error: 'writing index unavailable' }, 503);
+        const wid = await wi.json();
+        if (!(Array.isArray(wid) ? wid : (wid.posts || [])).some(s => s && s.slug === wm[1]))
+          return json({ error: 'no such sample' }, 404);
         /* source order: KV override `ws:<slug>` (private, upload via wrangler kv put)
          * → raw.githubusercontent (public repo — see gate limitation note in
          *   content/writing-samples/index.md). GitHub Pages renders the .md URL as

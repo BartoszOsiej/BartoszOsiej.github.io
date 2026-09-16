@@ -40,7 +40,7 @@
 ## Writing
 - [Detecting ransomware with eBPF in Rust](https://bartoszosiej.github.io/content/ebpf-ransomware-everything) — 2026-09-16, tutorial: eBPF tracepoints, per-CPU perf buffers, sliding-window detector, SIGKILL response
 - [Catching ransomware with eBPF: what execve/openat tracing taught me about false positives](https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons) — 2026-09-13, behavioural tracing and scoring without false positives
-- [Writing samples (gated portfolio)](https://bartoszosiej.github.io/writing/) — commissioned technical articles, full text after login
+- [Writing samples (gated portfolio)](https://bartoszosiej.github.io/writing/) — commissioned technical articles, full text after login (login required)
 
 ## Full document
 - [llms-full.txt](https://bartoszosiej.github.io/llms-full.txt) — complete text of this entity home page

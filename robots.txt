@@ -3,6 +3,7 @@ User-agent: *
 Allow: /
 Disallow: /assets/
 Disallow: /search
+Disallow: /writing/
 Disallow: /*?*
 
 User-agent: GPTBot

@@ -120,7 +120,7 @@ URL: https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons
 Plaintext: https://bartoszosiej.github.io/blog/ebpf-ransomware-monitor-lessons.txt
 
 ### Writing samples (gated portfolio)
-Commissioned technical articles for external publications. Full articles render only for logged-in readers via the API; public pages carry metadata and links only.
+Commissioned technical articles for external publications. Full articles render only for logged-in readers via the API; public pages carry metadata and links only. Access is gated — login required; the section is noindexed and excluded from robots/sitemap.
 URL: https://bartoszosiej.github.io/writing/
 
 ## Series tagline
