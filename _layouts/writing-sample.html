@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title }} — Bartosz Osiej</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://bartoszosiej.github.io/writing/">
+<link rel="icon" type="image/png" href="/img/bartosz-osiej.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* SAFETY NET LAYOUT — sample pages rendered by Jekyll must NEVER contain the
+ * article body. The body lives in the markdown source and is served exclusively
+ * by the worker (bz-blog → /api/writing/sample/<slug>) after a session check.
+ * Anyone opening the raw Jekyll URL gets metadata + a pointer to /writing/. */
+:root{--void:#050505;--rust:#F15A24;--blood:#E04855;--slate:#8B93A3;--bone:#E8E6E3;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--void);color:var(--bone);font-family:"Space Mono",ui-monospace,monospace;line-height:1.75;font-size:15px}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--blood);color:var(--void)}
+.wrap{max-width:760px;margin:0 auto;padding:64px 20px}
+.eyebrow{font-size:11px;letter-spacing:.15em;color:var(--slate);margin:0 0 10px}
+.eyebrow .pin{color:var(--rust)}
+h1{font-size:clamp(20px,4.5vw,30px);line-height:1.3;margin:0 0 14px}
+.meta{font-size:11px;letter-spacing:.12em;color:var(--slate);text-transform:uppercase;margin:0 0 8px}
+.meta .tag{color:var(--rust)}
+.blade{height:2px;background:linear-gradient(90deg,#F15A24,#E04855);opacity:.9;margin:22px 0 30px}
+.lock{border:1px solid #26262e;border-left:2px solid var(--rust);background:rgba(241,90,36,.04);padding:14px 16px;font-size:12.5px;color:#c9c2b6}
+.lock b{color:var(--rust);font-weight:400}
+.note{font-size:11px;letter-spacing:.06em;color:#66708a;margin-top:22px}
+.note a{color:var(--rust)}
+.note a:hover{color:var(--blood)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow"><span class="pin">[07]</span> // PORTFOLIO // WRITING SAMPLES // GATED</p>
+  <h1>{{ page.title }}</h1>
+  <p class="meta">{% if page.date %}{{ page.date | date: "%Y-%m-%d" }} · {% endif %}{% if page.client %}CLIENT ▸ {{ page.client }} · {% endif %}{% for t in page.tags %}<span class="tag">#{{ t }}</span> {% endfor %}</p>
+  <div class="blade"></div>
+  <div class="lock"><b>🔒 FULL_TEXT_LOCKED</b> — the article body is not rendered here. This page is a metadata stub; full text is available only to logged-in readers via the gated section.</div>
+  <p class="note">READ ▸ <a href="/writing/">/writing/</a> — log in there to unlock the full article.</p>
+</div>
+</body>
+</html>

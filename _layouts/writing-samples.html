@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title }} — Bartosz Osiej</title>
+{% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
+<link rel="canonical" href="https://bartoszosiej.github.io/writing/">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/png" href="/img/bartosz-osiej.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ── base: same skin as _layouts/post.html (site root vars) ── */
+:root{--void:#050505;--rust:#F15A24;--blood:#E04855;--slate:#8B93A3;--bone:#E8E6E3;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--void);color:var(--bone);font-family:"Space Mono","JetBrains Mono",ui-monospace,monospace;-webkit-font-smoothing:antialiased;line-height:1.75;font-size:15px}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--blood);color:var(--void)}
+:focus-visible{outline:2px solid var(--rust);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding:48px 20px 80px}
+.back{font-size:11px;letter-spacing:.15em;color:var(--slate);margin-bottom:40px}
+.back a:hover{color:var(--rust)}
+.eyebrow{font-size:11px;letter-spacing:.15em;color:var(--slate);margin:0 0 10px}
+.eyebrow .pin{color:var(--rust)}
+h1{font-size:clamp(22px,5vw,34px);line-height:1.25;letter-spacing:-.02em;margin:0 0 14px}
+.lede{font-size:12.5px;color:#c9c2b6;margin:0 0 8px}
+.blade{height:2px;background:linear-gradient(90deg,#F15A24,#E04855);opacity:.9;margin:26px 0 40px}
+.navline{font-size:11px;letter-spacing:.12em;color:var(--slate);text-transform:uppercase;margin:0 0 30px}
+.navline a{color:var(--rust)}
+.navline a:hover{color:var(--blood)}
+
+/* ── writing samples list ── */
+.ws{border:1px solid #22222a;background:rgba(255,255,255,.01);padding:18px 20px}
+.ws + .ws{margin-top:10px}
+.ws-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:11px;letter-spacing:.12em;color:var(--slate);text-transform:uppercase}
+.ws-head .client{color:var(--blood)}
+.ws-title{display:block;font-size:15px;font-weight:700;color:var(--bone);margin:6px 0}
+.ws.locked .ws-title{opacity:.6}
+.ws-tagline{display:block;font-size:12.5px;line-height:1.7;color:#d9d3c8}
+.ws-tags{display:block;font-size:10px;letter-spacing:.1em;color:#66708a;text-transform:uppercase;margin-top:6px}
+.ws-tags .tag{color:var(--rust)}
+/* locked rows: dimmed, cut off at the bottom border — teaser only, no body */
+.ws.locked{border-bottom:1px solid #22222a;opacity:.6}
+.ws .lockline{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px}
+.ws .locknote{font-size:10px;letter-spacing:.12em;color:#66708a;text-transform:uppercase}
+.btn-unlock{background:var(--rust);border:1px solid var(--rust);color:var(--void);font:11px/1 "Space Mono","JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:.1s linear}
+.btn-unlock:hover{background:var(--blood);border-color:var(--blood)}
+.btn-unlock:disabled{opacity:.45;cursor:default}
+.ws-authrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.ws-authrow input{flex:1;min-width:160px;background:#0d0d12;border:1px solid #22222a;color:var(--bone);font:inherit;font-size:12px;padding:7px 10px}
+.ws-authrow input:focus{outline:2px solid var(--rust);outline-offset:1px}
+.ws-authrow button{background:none;border:1px solid #26262e;color:var(--slate);font:inherit;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;cursor:pointer;transition:.1s linear}
+.ws-authrow button:hover{color:var(--rust);border-color:var(--rust)}
+.ws-authrow button.on{color:var(--rust);border-color:var(--rust)}
+.ws-msg{font-size:10px;letter-spacing:.1em;color:#66708a;text-transform:uppercase;min-height:1.4em;margin-top:8px}
+.ws-msg b{color:var(--rust);font-weight:400}
+.ws-msg .err{color:var(--blood)}
+
+/* ── unlocked article view ── */
+.ws-article{display:none}
+.ws-article article-body,.article-body{max-width:680px}
+.article-body h2{font-size:17px;letter-spacing:.06em;text-transform:uppercase;color:var(--blood);margin:2.6em 0 1em;padding-top:1em;border-top:1px solid rgba(224,72,85,.25)}
+.article-body h3{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--rust);margin:2em 0 .8em}
+.article-body p{margin:0 0 1.2em;color:#d9d3c8;line-height:1.7}
+.article-body li{color:#d9d3c8;margin-bottom:.5em;line-height:1.7}
+.article-body strong{color:var(--bone)}
+.article-body em{color:var(--rust)}
+.article-body code{font-family:"JetBrains Mono",monospace;font-size:.82em;background:#16161a;border:1px solid #22222a;padding:.1em .4em;color:var(--bone)}
+.article-body pre{background:#0d0d12;border:1px solid #22222a;padding:16px 18px;overflow-x:auto;line-height:1.6}
+.article-body pre code{background:none;border:none;padding:0}
+.article-body blockquote{margin:1.6em 0;padding:.6em 1.2em;border-left:2px solid var(--blood);background:rgba(224,72,85,.04);color:var(--slate);font-style:italic}
+.article-body a{color:var(--rust);text-decoration:underline;text-underline-offset:3px}
+.article-body a:hover{color:var(--blood)}
+.canon{font-size:11px;letter-spacing:.06em;color:var(--slate);margin-top:26px}
+.canon a{color:var(--rust);text-decoration:underline;text-underline-offset:3px}
+.canon a:hover{color:var(--blood)}
+footer{border-top:1px solid #1c1c24;margin-top:56px;padding-top:24px;font-size:11px;letter-spacing:.15em;color:var(--slate)}
+footer a{color:var(--rust)}
+footer a:hover{color:var(--blood)}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<script>if('https://bz-blog.metaforicmail.workers.dev'!=='__BZ'+'_API__')document.body.setAttribute('data-bz-api','https://bz-blog.metaforicmail.workers.dev');</script>
+<div class="wrap">
+  <p class="back"><a href="/">← BARTOSZ_OSIEJ // ROOT</a></p>
+  <p class="eyebrow"><span class="pin">[07]</span> // PORTFOLIO // WRITING SAMPLES</p>
+  <h1>{{ page.title }}</h1>
+  <p class="lede">{{ page.description }}</p>
+  <div class="blade"></div>
+
+  <p class="navline">
+    <a href="/blog/">← BACK_TO_//BLOG/</a> · <a href="/writing/">//WRITING/</a> — commissioned work · full articles for logged-in readers only
+  </p>
+
+  <div id="ws-list">
+    {% assign wsamples = site.pages | where_exp: "p", "p.path contains 'writing-samples/'" | where_exp: "p", "p.path contains 'sample-'" | sort: "date" | reverse %}
+    {% for p in wsamples %}
+    <section class="ws locked" data-ws-slug="{{ p.path | split: '/' | last | split: '.' | first }}">
+      <div class="ws-head">
+        <span>{% if p.date %}{{ p.date | date: "%Y-%m-%d" }}{% endif %}</span>
+        <span class="client">{% if p.client %}CLIENT ▸ {{ p.client }}{% endif %}</span>
+      </div>
+      <span class="ws-title">{{ p.title }}</span>
+      <span class="ws-tagline">{{ p.summary | default: p.description | default: "" }}</span>
+      <span class="ws-tags">{% for t in p.tags %}<span class="tag">#{{ t }}</span> {% endfor %}</span>
+      <div class="lockline">
+        <span class="locknote">🔒 FULL_TEXT_LOCKED</span>
+      </div>
+    </section>
+    {% endfor %}
+  </div>
+
+  <p class="ws-msg" data-ws-global>Log in to read the full articles.</p>
+
+  <div class="ws-authbox" id="ws-authbox" hidden>
+    <form class="ws-authrow" id="ws-auth-form">
+      <input id="ws-auth-user" type="text" autocomplete="username" placeholder="username (3-24 a-z0-9_)" maxlength="24">
+      <input id="ws-auth-pass" type="password" autocomplete="current-password" placeholder="password (min 8)" maxlength="128">
+      <button type="submit" id="ws-auth-login" class="on">LOGIN</button>
+      <button type="submit" id="ws-auth-reg" >REGISTER</button>
+    </form>
+    <p class="ws-msg" id="ws-auth-msg">accounts are global (same as /blog/) — password is salted+hashed, no tracking</p>
+  </div>
+
+  <div class="ws-article" id="ws-article">
+    <p class="ws-head" style="margin:0 0 14px"><span id="ws-a-date"></span><span class="client" id="ws-a-client"></span></p>
+    <h1 id="ws-a-title" style="font-size:clamp(20px,4.5vw,30px);margin:0 0 18px"></h1>
+    <p class="navline" style="margin:0 0 22px"><span id="ws-a-tags"></span></p>
+    <div class="blade" style="margin:0 0 30px"></div>
+    <div class="article-body" id="ws-a-body"></div>
+    <p class="canon" id="ws-a-canon"></p>
+  </div>
+
+  <footer>
+    <a href="/">← BACK_TO_ROOT</a> · <a href="/blog/">ALL_POSTS</a> · <a href="/writing/">WRITING_SAMPLES</a> · <a href="https://github.com/BartoszOsiej">GITHUB</a>
+  </footer>
+</div>
+
+<script>
+/* WRITING SAMPLES — auth gate, independent from /blog/ login state on page load
+ * (same bz-token + same worker accounts; /blog/ is never affected by this page). */
+(function(){
+  var api = document.body.getAttribute('data-bz-api') || '';
+  var listEl = document.getElementById('ws-list');
+  var authbox = document.getElementById('ws-authbox');
+  var authForm = document.getElementById('ws-auth-form');
+  var authMsg = document.getElementById('ws-auth-msg');
+  var globalMsg = document.querySelector('[data-ws-global]');
+  var articleEl = document.getElementById('ws-article');
+  var mode = 'login';
+  var token = null; try { token = localStorage.getItem('bz-token'); } catch(e){}
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function msg(el, txt, isErr){ el.innerHTML = isErr ? '<span class="err">' + esc(txt) + '</span>' : txt; }
+  function authH(){ var h = {}; if (token) h.authorization = 'Bearer ' + token; return h; }
+
+  function openAuth(note){
+    authbox.hidden = false;
+    if (note) msg(authMsg, note);
+  }
+
+  /* step 1: check session (cookie/Bearer) — true → unlock everything */
+  function authCheck(){
+    if (!api) { openAuth('worker API not configured — full articles unavailable'); return Promise.resolve(false); }
+    return fetch(api + '/api/writing/auth-check', { headers: authH() })
+      .then(function(r){ return r.ok ? r.json() : { authenticated: false }; })
+      .then(function(j){
+        if (j && j.authenticated) { unlock(); return true; }
+        globalMsg.textContent = 'Log in to read the full articles.';
+        return false;
+      })
+      .catch(function(){ openAuth('auth check failed — network error'); return false; });
+  }
+
+  /* step 2: unlocked → fetch each sample body from the worker and render */
+  function unlock(){
+    globalMsg.textContent = '// ACCESS_GRANTED — rendering full articles…';
+    authbox.hidden = true;
+    listEl.querySelectorAll('.ws.locked').forEach(function(row){
+      row.classList.remove('locked');
+      var ll = row.querySelector('.lockline'); if (ll) ll.remove();
+      row.insertAdjacentHTML('beforeend',
+        '<div class="lockline"><button type="button" class="btn-unlock" data-open>READ_FULL_ARTICLE</button></div>');
+      row.querySelector('[data-open]').addEventListener('click', function(){ openSample(row.getAttribute('data-ws-slug')); });
+    });
+  }
+
+  function openSample(slug){
+    if (!api) return;
+    fetch(api + '/api/writing/sample/' + slug, { headers: authH() })
+      .then(function(r){ return r.json().then(function(j){ return { status: r.status, j: j }; }); })
+      .then(function(res){
+        if (res.status !== 200 || !res.j.ok) {
+          msg(globalMsg, (res.j && res.j.error) || 'failed to load article', true);
+          if (res.status === 401) { token = null; try { localStorage.removeItem('bz-token'); } catch(e){} openAuth('session expired — log in again'); }
+          return;
+        }
+        var a = res.j.article;
+        document.getElementById('ws-a-date').textContent = a.date || '';
+        document.getElementById('ws-a-client').textContent = 'CLIENT ▸ ' + (a.client || '');
+        document.getElementById('ws-a-title').textContent = a.title || '';
+        document.getElementById('ws-a-tags').innerHTML = (a.tags || []).map(function(t){ return '<span class="tag">#' + esc(t) + '</span>'; }).join(' ');
+        document.getElementById('ws-a-body').innerHTML = renderMd(a.body || '');
+        var canon = document.getElementById('ws-a-canon');
+        if (a.canonical_url) canon.innerHTML = 'CANONICAL ▸ <a href="' + esc(a.canonical_url) + '" rel="canonical">' + esc(a.canonical_url) + '</a>';
+        else canon.textContent = '';
+        listEl.hidden = true; globalMsg.textContent = '';
+        articleEl.style.display = 'block';
+        window.scrollTo(0, 0);
+      })
+      .catch(function(){ msg(globalMsg, 'network error', true); });
+  }
+
+  /* minimal md → html: fenced code, headings, lists, inline code/bold/italics/links.
+   * enough for prose samples; HTML-escape everything first (XSS-safe). */
+  function renderMd(src){
+    var out = [], inCode = false, codeBuf = [], list = null;   // list: 'ul' | 'ol' | null
+    function closeList(){ if (list){ out.push('</' + list + '>'); list = null; } }
+    function inline(s){
+      return s
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+        .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>');
+    }
+    src.split('\n').forEach(function(line){
+      var t = line.trim();
+      if (/^```/.test(t)) {
+        if (inCode){ out.push('<pre><code>' + esc(codeBuf.join('\n')) + '</code></pre>'); codeBuf = []; inCode = false; }
+        else { closeList(); inCode = true; }
+        return;
+      }
+      if (inCode){ codeBuf.push(line); return; }
+      if (!t){ closeList(); return; }
+      var m;
+      if ((m = t.match(/^(#{1,4})\s+(.*)$/))) { closeList(); out.push('<h' + m[1].length + '>' + inline(esc(m[2])) + '</h' + m[1].length + '>'); return; }
+      if ((m = t.match(/^[-*]\s+(.*)$/))) { if (list !== 'ul'){ closeList(); out.push('<ul>'); list = 'ul'; } out.push('<li>' + inline(esc(m[1])) + '</li>'); return; }
+      if ((m = t.match(/^\d+\.\s+(.*)$/))) { if (list !== 'ol'){ closeList(); out.push('<ol>'); list = 'ol'; } out.push('<li>' + inline(esc(m[1])) + '</li>'); return; }
+      if ((m = t.match(/^&gt;\s?(.*)$/))) { closeList(); out.push('<blockquote>' + inline(esc(m[1])) + '</blockquote>'); return; }
+      closeList(); out.push('<p>' + inline(esc(t)) + '</p>');
+    });
+    closeList();
+    return out.join('\n');
+  }
+
+  /* login / register — same worker accounts as the main blog; on success unlock */
+  authForm.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var u = document.getElementById('ws-auth-user').value.trim();
+    var p = document.getElementById('ws-auth-pass').value;
+    if (!api) { msg(authMsg, 'worker API not configured', true); return; }
+    var btn = mode === 'login' ? document.getElementById('ws-auth-login') : document.getElementById('ws-auth-reg');
+    btn.disabled = true;
+    fetch(api + '/auth/' + mode, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ username: u, password: p })
+    }).then(function(r){ return r.json().then(function(j){ return { status: r.status, j: j }; }); })
+      .then(function(res){
+        if (res.status === 200 && res.j.token) {
+          token = res.j.token;
+          try { localStorage.setItem('bz-token', token); } catch(e){}
+          msg(authMsg, 'logged in as <b>' + esc(res.j.username) + '</b> — unlocking…');
+          if (mode === 'register' && res.j.recovery_codes) {
+            openAuth('SAVE THESE RECOVERY CODES (shown once):<br><b>' + esc(res.j.recovery_codes.join(' · ')) + '</b>');
+          }
+          unlock();
+        } else {
+          msg(authMsg, (res.j && res.j.error) || 'auth failed', true);
+        }
+      })
+      .catch(function(){ msg(authMsg, 'network error', true); })
+      .then(function(){ btn.disabled = false; });
+  });
+  document.getElementById('ws-auth-login').addEventListener('click', function(){ mode = 'login'; this.classList.add('on'); document.getElementById('ws-auth-reg').classList.remove('on'); });
+  document.getElementById('ws-auth-reg').addEventListener('click', function(){ mode = 'register'; this.classList.add('on'); document.getElementById('ws-auth-login').classList.remove('on'); });
+
+  /* /writing/ must render even without the worker (locked, graceful) */
+  if (!token) openAuth();
+  authCheck();
+})();
+</script>
+</body>
+</html>

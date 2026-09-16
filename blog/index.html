@@ -58,6 +58,7 @@ a{color:inherit;text-decoration:none}
   <div class="sortbar" role="group" aria-label="Sort posts">
     <button type="button" class="sortbtn" data-sort="hot" aria-pressed="true">HOT</button>
     <button type="button" class="sortbtn" data-sort="new" aria-pressed="false">NEW</button>
+    <a class="sortbtn" href="/writing/">[07] // PORTFOLIO // WRITING SAMPLES → /writing/</a>
     <span class="netmode" data-netmode>SYNCING // VOTE_STATE</span>
   </div>
 
@@ -87,7 +88,7 @@ a{color:inherit;text-decoration:none}
 
   <div id="postlist" class="border border-[#22222a]">
     {% assign bposts = site.pages | where: "published", true | sort: "date" | reverse %}
-    {% for p in bposts %}
+    {% for p in bposts %}{% if p.path contains 'writing-samples/' %}{% continue %}{% endif %}
     {% assign pslug = p.url | split: "/" | last | split: "." | first %}
     <article class="post" data-slug="{{ pslug }}" data-date="{{ p.date | date: '%Y-%m-%d' }}">
       <div class="vote" data-vote>

@@ -64,7 +64,17 @@ jobs:
 
           crier config content set "$GITHUB_WORKSPACE/content"
           crier config set site_base_url "https://bartoszosiej.github.io"
-          crier config set exclude_patterns "_drafts/*"
+          # exclude_patterns via CLI stores a raw string ("a,b") which crier then
+          # iterates CHARACTER BY CHARACTER — the filter silently matches nothing.
+          # crier also scans content/ RECURSIVELY, so private subdirs (writing-samples)
+          # would end up in audit. Set it through the API as a real list + extra guard.
+          python3 - <<'PY'
+          import os
+          os.environ["HOME"] = os.environ["CRIER_HOME"]
+          from crier.config import set_exclude_patterns
+          set_exclude_patterns(["_drafts/*", "_index.md", "index.md", "sample-*"])
+          print("exclude_patterns set:", ["_drafts/*", "_index.md", "index.md", "sample-*"])
+          PY
 
           # --- platform keys (env -> crier config, skip empty) ---
           if [ -n "$CRIER_MASTODON_API_KEY" ]; then

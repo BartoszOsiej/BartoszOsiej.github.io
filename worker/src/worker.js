@@ -213,6 +213,53 @@ export default {
         const codes = await genRecoveryCodes(env, user.name, 6);
         return json({ ok: true, recovery_codes: codes });
       }
+
+      /* ---- writing samples (gated portfolio at /writing/; independent of /blog/) ----
+       * Frontend: fetch /api/writing/auth-check → { authenticated } → locked view if false.
+       * Full article bodies are ONLY served here, after session check. */
+      if (p === '/api/writing/auth-check' && req.method === 'GET') {
+        const user = await userFromReq(env, req);
+        return json({ authenticated: !!user, username: user ? user.name : null });
+      }
+      const wm = p.match(/^\/api\/writing\/sample\/([a-z0-9-]+)$/);
+      if (wm && req.method === 'GET') {
+        const user = await userFromReq(env, req);
+        if (!user) return json({ error: 'login required — full articles are for authenticated readers' }, 401);
+        if (!(await rateOk(env, req, 'ws', 120, 3600))) return json({ error: 'slow down' }, 429);
+        /* source order: KV override `ws:<slug>` (private, upload via wrangler kv put)
+         * → raw.githubusercontent (public repo — see gate limitation note in
+         *   content/writing-samples/index.md). GitHub Pages renders the .md URL as
+         *   the stub HTML page, so origin fetch is useless for markdown bodies. */
+        let raw = await kvGet(env, 'ws:' + wm[1], 'text');
+        if (!raw) {
+          const r = await fetch('https://raw.githubusercontent.com/BartoszOsiej/BartoszOsiej.github.io/main/content/writing-samples/' + wm[1] + '.md', { cf: { cacheTtl: 300 } });
+          if (!r.ok) return json({ error: 'no such sample' }, 404);
+          raw = await r.text();
+        }
+        const fmm = raw.match(/^---\n([\s\S]*?)\n---\n/);
+        if (!fmm) return json({ error: 'malformed sample' }, 500);
+        const fm = {};
+        for (const line of fmm[1].split('\n')) {
+          const ci = line.indexOf(':');
+          if (ci < 1) continue;
+          const k = line.slice(0, ci).trim();
+          let v = line.slice(ci + 1).trim();
+          if (v.startsWith('[') && v.endsWith(']')) v = v.slice(1, -1).split(',').map(s => s.trim().replace(/^["']|["']$/g, '')).filter(Boolean);
+          else v = v.replace(/^["']|["']$/g, '');
+          fm[k] = v;
+        }
+        if (String(fm.published).toLowerCase() !== 'true')
+          return json({ error: 'sample not cleared for reading yet (client approval pending)' }, 403);
+        return json({ ok: true, article: {
+          slug: wm[1],
+          title: fm.title || wm[1],
+          client: fm.client || '',
+          date: fm.date || '',
+          tags: Array.isArray(fm.tags) ? fm.tags : [],
+          canonical_url: fm.canonical_url || '',
+          body: raw.slice(fmm[0].length),
+        }});
+      }
       if (p === '/admin/unlock' && req.method === 'POST') {
         const user = await userFromReq(env, req);
         if (!user || user.role !== 'admin') return json({ error: 'admin only' }, 403);
