@@ -107,6 +107,22 @@ The thread fraying. The ending of the trilogy.
 Site: https://bartoszosiej.github.io/thethreadcalls/
 Genre: Dark literary horror / psychological thriller
 
+## Writing
+
+### Detecting ransomware with eBPF in Rust (2026-09-16)
+Hands-on tutorial: hook execve/openat syscalls via eBPF tracepoints in Rust (aya), stream events through per-CPU perf buffers, count openat rate in a 1-second sliding window per PID, and kill ransomware processes with SIGKILL above a threshold. Source: talus-process-monitor (MIT), Linux 5.8+.
+URL: https://bartoszosiej.github.io/content/ebpf-ransomware-everything
+Plaintext: https://bartoszosiej.github.io/blog/ebpf-ransomware-everything.txt
+
+### Catching ransomware with eBPF: what execve/openat tracing taught me about false positives (2026-09-13)
+Deep-dive: behavioural tracing (execve/openat + per-CPU perf buffers), extension churn and write-after-read density as detector signals, scoring without crying wolf on every cargo build.
+URL: https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons
+Plaintext: https://bartoszosiej.github.io/blog/ebpf-ransomware-monitor-lessons.txt
+
+### Writing samples (gated portfolio)
+Commissioned technical articles for external publications. Full articles render only for logged-in readers via the API; public pages carry metadata and links only.
+URL: https://bartoszosiej.github.io/writing/
+
 ## Series tagline
 "The thread is fraying. Someone is cutting it."
 

@@ -114,6 +114,15 @@ async function getIndex(env) {
   const data = await r.json();
   const list = Array.isArray(data) ? data : (data.posts || []);
   if (!list.length) throw new Error('origin index empty');
+  /* merge gated writing samples (same slug/counters machinery, /writing/ list) */
+  try {
+    const w = await fetch(origin + '/writing/index.json', { cf: { cacheTtl: 300 } });
+    if (w.ok) {
+      const wd = await w.json();
+      const ws = Array.isArray(wd) ? wd : (wd.posts || []);
+      list.unshift(...ws);
+    }
+  } catch (e) { /* writing section optional — blog keeps working */ }
   await kvPut(env, 'idx:v2', { t: Date.now(), data: list }, 600);
   return list;
 }

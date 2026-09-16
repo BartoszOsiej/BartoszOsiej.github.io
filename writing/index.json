@@ -1,0 +1,22 @@
+{
+  "generated": "2026-09-16",
+  "note": "static index of gated writing samples — worker merges this with blog/index.json for votes/reads",
+  "posts": [
+    {
+      "slug": "sample-2",
+      "title": "Detecting ransomware with eBPF in Rust",
+      "tldr": "Working-code tutorial: kernel tracepoints, perf buffers, sliding-window detection, and automated SIGKILL response in Rust.",
+      "date": "2026-09-16",
+      "tags": ["ebpf", "rust", "security", "ransomware", "tutorial"],
+      "source": "content/writing-samples/sample-2.md"
+    },
+    {
+      "slug": "sample-1",
+      "title": "Catching ransomware with eBPF: what execve/openat tracing taught me about false positives",
+      "tldr": "Behavioural eBPF tracing catches ransomware by the shape of its damage — scoring patterns without crying wolf on every cargo build.",
+      "date": "2026-09-13",
+      "tags": ["ebpf", "rust", "security", "ransomware"],
+      "source": "content/writing-samples/sample-1.md"
+    }
+  ]
+}

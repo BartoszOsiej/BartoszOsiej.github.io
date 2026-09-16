@@ -37,5 +37,10 @@
 - [The Curator](https://www.amazon.com/dp/B0HHXT2ZRZ) — Book Two, 2026, ASIN B0HHXT2ZRZ
 - [The Reckoning](https://www.amazon.com/dp/B0GX7CPY7H) — Book Three, 2026, ASIN B0GX7CPY7H
 
+## Writing
+- [Detecting ransomware with eBPF in Rust](https://bartoszosiej.github.io/content/ebpf-ransomware-everything) — 2026-09-16, tutorial: eBPF tracepoints, per-CPU perf buffers, sliding-window detector, SIGKILL response
+- [Catching ransomware with eBPF: what execve/openat tracing taught me about false positives](https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons) — 2026-09-13, behavioural tracing and scoring without false positives
+- [Writing samples (gated portfolio)](https://bartoszosiej.github.io/writing/) — commissioned technical articles, full text after login
+
 ## Full document
 - [llms-full.txt](https://bartoszosiej.github.io/llms-full.txt) — complete text of this entity home page
