@@ -1,7 +1,23 @@
 {
-  "generated": "2026-09-15",
+  "generated": "2026-09-16",
   "note": "regenerate with: python3 scripts/gen-index.py",
   "posts": [
+    {
+      "slug": "ebpf-ransomware-everything",
+      "title": "Detecting ransomware with eBPF in Rust",
+      "tldr": "A working-code tutorial on building a ransomware detector in Rust with eBPF: kernel tracepoints, perf buffers, sliding-window detection, and automated SIGKILL response.",
+      "date": "2026-09-16",
+      "tags": [
+        "ebpf",
+        "rust",
+        "linux",
+        "security",
+        "ransomware",
+        "tutorial"
+      ],
+      "words": 759,
+      "source": "content/ebpf-ransomware-everything.md"
+    },
     {
       "slug": "aurora-postmortem",
       "title": "A web OS that 'never booted': the two bugs that looked like kernel failures but were 404s and z-index",
