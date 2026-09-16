@@ -84,13 +84,11 @@ a{color:inherit;text-decoration:none}
     </form>
   </div>
 
-  <p class="lab text-[11px]" id="ws-gate-msg" style="margin-bottom:10px">// FULL_ARTICLES: LOCKED — login to unlock the list</p>
-
   <div id="postlist" class="border border-[#22222a]">
     {% assign wsamples = site.pages | where_exp: "p", "p.path contains 'writing-samples/'" | where_exp: "p", "p.path contains 'sample-'" | sort: "date" | reverse %}
     {% for p in wsamples %}
     {% assign pslug = p.path | split: "/" | last | split: "." | first %}
-    <article class="post" data-slug="{{ pslug }}" data-date="{{ p.date | date: '%Y-%m-%d' }}" hidden>
+    <article class="post" data-slug="{{ pslug }}" data-date="{{ p.date | date: '%Y-%m-%d' }}">
       <div class="vote" data-vote>
         <button type="button" data-up aria-label="Upvote: {{ p.title | escape }}" aria-pressed="false">▲</button>
         <span class="score" data-score aria-label="Score">0</span>
@@ -98,33 +96,17 @@ a{color:inherit;text-decoration:none}
       </div>
       <div class="min-w-0">
         <span class="pd">{{ p.date | date: "%Y-%m-%d" }} · CLIENT ▸ {{ p.client | default: "ORIGINAL" }} · {% for t in p.tags limit: 3 %}<span class="tag">#{{ t | upcase }}</span> {% endfor %}</span>
-        <span class="pt"><a class="ptlink" href="{{ p.url | replace: ".html", "" }}">{{ p.title }}</a></span>
+        <span class="pt"><a class="ptlink" href="{% if p.canonical_url %}{{ p.canonical_url }}{% else %}{{ p.url | replace: ".html", "" }}{% endif %}">{{ p.title }}</a></span>
         <span class="signal">SIGNAL ▸ <b data-reads>—</b></span>
       </div>
     </article>
     {% endfor %}
   </div>
 
-  <p class="mt-8 text-[11px] text-slate2">// PORTFOLIO: COMMISSIONED WORK — FULL ARTICLES AFTER LOGIN · ← <a href="/blog/" class="text-rust hover:underline">/blog/</a> · // ONE_VOTE_PER_VISITOR · NO_TRACKERS · NO_COOKIES</p>
+  <p class="mt-8 text-[11px] text-slate2">// PORTFOLIO: COMMISSIONED WORK — TITLES OPEN THE FULL ARTICLES · ACCOUNT: SAME AS <a href="/blog/" class="text-rust hover:underline">/blog/</a> · // ONE_VOTE_PER_VISITOR · NO_TRACKERS · NO_COOKIES</p>
 
 </main>
 
 <script src="/js/blog.js?v=20260914a" defer></script>
-<script>
-/* auth gate: rows stay hidden until the worker confirms a session —
- * after login (authbar above) the page picks the token up on reload */
-(function(){
-  var api = document.body.getAttribute('data-bz-api') || '';
-  var rows = [].slice.call(document.querySelectorAll('.post[data-slug]'));
-  var msg = document.getElementById('ws-gate-msg');
-  function unlock(){ rows.forEach(function(r){ r.hidden = false; }); if (msg) msg.hidden = true; }
-  if (!api) { if (msg) msg.textContent = '// worker API unavailable — list locked'; return; }
-  var t = null; try { t = localStorage.getItem('bz-token'); } catch (e) {}
-  fetch(api + '/api/writing/auth-check', { headers: t ? { authorization: 'Bearer ' + t } : {} })
-    .then(function(r){ return r.json(); })
-    .then(function(j){ if (j && j.authenticated) unlock(); })
-    .catch(function(){});
-})();
-</script>
 </body>
 </html>
