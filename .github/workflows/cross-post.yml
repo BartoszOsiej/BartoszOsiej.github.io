@@ -206,7 +206,7 @@ jobs:
         run: |
           export HOME="$CRIER_HOME"
           python3 - <<'PY'
-          import os, json, glob, pathlib, subprocess
+          import os, json, glob, pathlib, subprocess, re
 
           # Must happen BEFORE crier.registry is imported so the SQLite registry
           # is opened under the CRIER_HOME config dir.
@@ -248,6 +248,46 @@ jobs:
               print("batch audit rc=", batch.returncode)
               print(batch.stdout[-1200:])
               print(batch.stderr[-1200:])
+
+          # 1.5) telegram cards: auto-generate a designed card for any article
+          # missing a rewrite file. NEVER send bare link-only text — every
+          # channel post is a card: section, bold title, essence, hook, CTA.
+          def gen_telegram_card(slug):
+              out = pathlib.Path(f"telegram/{slug}.txt")
+              if out.exists():
+                  return
+              raw = pathlib.Path(f"content/{slug}.md").read_text(encoding="utf-8")[:2500]
+              m = re.match(r"^---\n(.*?)\n---", raw, re.S)
+              fm = {}
+              if m:
+                  for line in m.group(1).splitlines():
+                      kv = re.match(r"^(title|description|tags|tldr):\s*(.+)$", line)
+                      if kv:
+                          fm[kv.group(1)] = kv.group(2).strip().strip('"')
+              title = fm.get("title", slug.replace("-", " ").title())
+              desc = fm.get("description", "")[:600]
+              tldr = fm.get("tldr", "")
+              tags = [t.strip() for t in fm.get("tags", "").strip("[]").split(",") if t.strip()][:3]
+              def clean(s):
+                  # Markdown v1 400-proof: no backticks, underscores or stray asterisks
+                  return s.replace("`", "'").replace("_", " ").replace("*", "")
+              sec = "◈ " + tags[0].replace("-", " ").upper() if tags else "◈ BLOG"
+              hook = ""
+              if tldr:
+                  first = re.split(r"(?<=[.!?])\s+", tldr, maxsplit=1)[0]
+                  if len(first) > 200:
+                      first = first[:197] + "..."
+                  hook = f"\n▸ {clean(first)}\n"
+              hashtags = " ".join("#" + t.replace("-", "_") for t in tags)
+              card = (f"{sec}\n\n*{clean(title)}*\n\n{clean(desc)}\n"
+                      f"{hook}\n→ [Read the full breakdown](https://bartoszosiej.github.io/content/{slug})\n"
+                      + (f"\n{hashtags}\n" if hashtags else ""))
+              out.parent.mkdir(exist_ok=True)
+              out.write_text(card, encoding="utf-8")
+              print(f"[telegram] auto-generated card for {slug} ({len(card)} chars)")
+
+          for slug in slugs:
+              gen_telegram_card(slug)
 
           # 2) bluesky + telegram — per-article rewrite text (both are
           # short-form/limited-markdown: raw article body breaks them —
