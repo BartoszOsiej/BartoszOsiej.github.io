@@ -1,0 +1,1 @@
+One typed source, three backends: readable Python, standalone Bash, and a .exbc artifact that runs without source. My benchmark then caught two real VM bugs — silent infinite loops included. Honest numbers, not hype. #Compilers #Python #Bash
