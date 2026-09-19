@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-19T17:39:09Z",
+  "updated": "2026-09-19T17:43:02Z",
   "posts": {
     "ai-crawler-seo-playbook": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117298923842713610",
@@ -24,12 +24,12 @@
     "ebpf-ransomware-everything": {
       "devto": "https://dev.to/bartoszosiej/detecting-ransomware-with-ebpf-in-rust-4ah9",
       "mastodon": "https://mastodon.social/@bartoszosiej/117298924088902520",
+      "telegram": "10",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1550924183750320169",
+      "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zbf3yu2t",
       "hashnode": null,
-      "bluesky": null,
       "linkedin": null,
-      "threads": null,
-      "telegram": null
+      "threads": null
     },
     "ebpf-ransomware-monitor-lessons": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117298924134322725",
@@ -53,10 +53,10 @@
     },
     "externum-language-design": {
       "devto": "https://dev.to/bartoszosiej/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchmark-caught-two-2n25",
-      "mastodon": "https://mastodon.social/@bartoszosiej/117298924285353363",
-      "telegram": "10",
-      "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1550924198707466362",
-      "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zbf3yu2t",
+      "mastodon": "https://mastodon.social/@bartoszosiej/117298939779726766",
+      "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1550925187736801282",
+      "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvvaa6yxuc2u",
+      "telegram": "https://t.me/hartwell_info/11",
       "hashnode": null,
       "linkedin": null,
       "threads": null
