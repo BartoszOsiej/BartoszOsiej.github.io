@@ -1,0 +1,83 @@
+name: Link check (broken bundles)
+
+# Public promise made on Mastodon: no more "healthy code looks dead".
+# Crawls the LIVE site after deploy and fails on broken internal links /
+# missing assets (404 bundles). On failure it also pings the Telegram
+# channel using the same secret crier uses (format: bottoken:chatid).
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "47 4 * * *" # daily 04:47 UTC catch-up
+  push:
+    branches: [main]
+    paths:
+      - "content/**"
+      - "index.html"
+      - "blog/**"
+      - "_layouts/**"
+      - "js/**"
+      - "css/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: link-check
+  cancel-in-progress: true
+
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wait for Pages deploy to finish (push runs only)
+        if: github.event_name == 'push'
+        run: sleep 180
+
+      - name: Link check live site
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --max-retries 2
+            --timeout 20
+            --exclude-mail
+            --exclude 'https?://(www\.)?(linkedin\.com|x\.com|twitter\.com|instagram\.com|facebook\.com|play\.google\.com)/.*'
+            'https://bartoszosiej.github.io/'
+          format: json
+          output: /tmp/lychee-report.json
+          fail: true
+
+      - name: Job summary
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os
+          try:
+              data = json.load(open("/tmp/lychee-report.json"))
+          except Exception:
+              print("no lychee report"); raise SystemExit(0)
+          fail_map = data.get("fail_map", {})
+          n_fail = sum(len(v) for v in fail_map.values())
+          lines = ["## Link check", "", f"Checked {data.get('total', '?')} links — {n_fail} broken", ""]
+          for src, fails in fail_map.items():
+              for f in fails:
+                  lines.append(f"- ❌ `{src}` → {f.get('url')} ({f.get('status', {}).get('text', 'error')})")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as fh:
+              fh.write("\n".join(lines) + "\n")
+          PY
+
+      - name: Telegram alert on failure
+        if: failure()
+        run: |
+          KEY="${{ secrets.TELEGRAM_API_KEY }}"
+          [ -z "$KEY" ] && { echo "no telegram secret — skip alert"; exit 0; }
+          TOKEN="${KEY%%:*}"
+          CHAT="${KEY#*:}"
+          RUN="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          MSG="🔴 Link check FAILED on bartoszosiej.github.io — broken links/404 bundles detected. Run: $RUN"
+          curl -sS --max-time 20 "https://api.telegram.org/bot${TOKEN}/sendMessage" \
+            -d chat_id="${CHAT}" -d text="${MSG}" >/dev/null && echo "telegram alert sent" || echo "telegram alert failed"
