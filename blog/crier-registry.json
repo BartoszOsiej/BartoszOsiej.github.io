@@ -212,43 +212,43 @@
   {
     "canonical_url": "https://bartoszosiej.github.io/bip-calendar/",
     "platform": "mastodon",
-    "url": "https://mastodon.social/@bartoszosiej/117298939748282976",
-    "platform_id": "117298939748282976",
+    "url": "https://mastodon.social/@bartoszosiej/117298941396594901",
+    "platform_id": "117298941396594901",
     "source_file": "content/bip-calendar.md"
   },
   {
     "canonical_url": "https://bartoszosiej.github.io/bip-calendar/",
     "platform": "discord",
     "url": null,
-    "platform_id": "1550925185928925337",
+    "platform_id": "1550925292078497920",
     "source_file": "content/bip-calendar.md"
   },
   {
     "canonical_url": "https://bartoszosiej.github.io/content/externum-language-design",
     "platform": "mastodon",
-    "url": "https://mastodon.social/@bartoszosiej/117298939779726766",
-    "platform_id": "117298939779726766",
+    "url": "https://mastodon.social/@bartoszosiej/117298941444652045",
+    "platform_id": "117298941444652045",
     "source_file": "content/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchma.md"
   },
   {
     "canonical_url": "https://bartoszosiej.github.io/content/externum-language-design",
     "platform": "discord",
     "url": null,
-    "platform_id": "1550925187736801282",
+    "platform_id": "1550925295345729601",
     "source_file": "content/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchma.md"
   },
   {
     "canonical_url": "https://bartoszosiej.github.io/content/externum-language-design",
     "platform": "bluesky",
-    "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvvaa6yxuc2u",
-    "platform_id": "at://did:plc:ii7walqcqw36y2eccgfimf7y/app.bsky.feed.post/3mvvaa6yxuc2u",
+    "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvvaayd4rb2w",
+    "platform_id": "at://did:plc:ii7walqcqw36y2eccgfimf7y/app.bsky.feed.post/3mvvaayd4rb2w",
     "source_file": "content/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchma.md"
   },
   {
     "canonical_url": "https://bartoszosiej.github.io/content/externum-language-design",
     "platform": "telegram",
-    "url": "https://t.me/hartwell_info/11",
-    "platform_id": "11",
+    "url": "https://t.me/hartwell_info/12",
+    "platform_id": "12",
     "source_file": "content/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchma.md"
   }
 ]
