@@ -95,7 +95,7 @@ jobs:
           import os
           os.environ["HOME"] = os.environ["CRIER_HOME"]
           from crier.config import set_exclude_patterns
-          set_exclude_patterns(["_drafts/*", "_index.md", "index.md", "sample-*"])
+          set_exclude_patterns(["_drafts/*", "_index.md", "index.md", "sample-*", "bip-calendar"])
           print("exclude_patterns set:", ["_drafts/*", "_index.md", "index.md", "sample-*"])
           PY
 
