@@ -55,6 +55,29 @@ jobs:
       - name: Install crier
         run: pip install crier
 
+      - name: Import committed registry (git = source of truth for dedup)
+        run: |
+          # The cache is best-effort; git is truth. Re-import the committed
+          # registry so runs never re-publish articles that already went out
+          # (cache misses previously caused full re-publication floods).
+          export HOME="$CRIER_HOME"
+          python3 - <<'PY'
+          import os, json
+          os.environ["HOME"] = os.environ["CRIER_HOME"]
+          from crier.registry import record_publication
+          path = "blog/crier-registry.json"
+          if not os.path.exists(path):
+              print("no committed registry yet — first run")
+              raise SystemExit(0)
+          rows = json.load(open(path))
+          for r in rows:
+              record_publication(
+                  r["canonical_url"], r["platform"], r.get("platform_id") or None,
+                  r.get("url") or None, source_file=r.get("source_file"),
+              )
+          print(f"imported {len(rows)} committed publications into dedup registry")
+          PY
+
       - name: Configure crier (CLI — not manual YAML)
         run: |
           # crier reads ~/.config/crier/config.yaml — override HOME so it
@@ -197,17 +220,17 @@ jobs:
           slugs = post_slugs()
           canon = {s: f"https://bartoszosiej.github.io/content/{s}" for s in slugs}
 
-          # platform targets = configured keys on this run (default core trio)
+          # platform targets = configured keys on this run (default core)
+          # NOTE: telegram is handled in the per-article rewrite loop below
+          # (raw markdown body 400s against Telegram's parse_mode=Markdown)
           targets = ["devto", "mastodon"]
           if os.environ.get("CRIER_THREADS_API_KEY"):
               targets.append("threads")
-          if os.environ.get("CRIER_TELEGRAM_API_KEY"):
-              targets.append("telegram")
           if os.environ.get("CRIER_DISCORD_API_KEY"):
               targets.append("discord")
           if os.environ.get("CRIER_LINKEDIN_API_KEY"):
               targets.append("linkedin")
-          # bluesky handled separately below (per-article short text)
+          # bluesky + telegram handled separately below (per-article short text)
 
           # 1) batch: all API platforms except bluesky (dedup via registry)
           # crier audit --to is a multi-value click option: each platform needs
@@ -223,23 +246,26 @@ jobs:
               print(batch.stdout[-1200:])
               print(batch.stderr[-1200:])
 
-          # 2) bluesky — one short post per article (per-article rewrite text)
-          for slug in slugs:
-              if reg.is_published(canon[slug], "bluesky"):
-                  continue
-              rewrite_file = f"bluesky/{slug}.txt"
-              if not os.path.exists(rewrite_file):
-                  print(f"[bluesky] no rewrite text for {slug} — skipped")
-                  continue
-              proc = subprocess.run(
-                  ["crier", "publish", f"content/{slug}.md", "--to", "bluesky",
-                   "--rewrite-file", rewrite_file, "--yes", "--json"],
-                  capture_output=True, text=True, timeout=300,
-              )
-              print(f"[bluesky] {slug}: rc={proc.returncode}")
-              if proc.returncode != 0:
-                  print(proc.stdout[-500:])
-                  print(proc.stderr[-500:])
+          # 2) bluesky + telegram — per-article rewrite text (both are
+          # short-form/limited-markdown: raw article body breaks them —
+          # telegram parse_mode=Markdown 400s on unpaired _/backticks)
+          for platform in ("bluesky", "telegram"):
+              for slug in slugs:
+                  if reg.is_published(canon[slug], platform):
+                      continue
+                  rewrite_file = f"{platform}/{slug}.txt"
+                  if not os.path.exists(rewrite_file):
+                      print(f"[{platform}] no rewrite text for {slug} — skipped")
+                      continue
+                  proc = subprocess.run(
+                      ["crier", "publish", f"content/{slug}.md", "--to", platform,
+                       "--rewrite-file", rewrite_file, "--yes", "--json"],
+                      capture_output=True, text=True, timeout=300,
+                  )
+                  print(f"[{platform}] {slug}: rc={proc.returncode}")
+                  if proc.returncode != 0:
+                      print(proc.stdout[-500:])
+                      print(proc.stderr[-500:])
 
           # 3) report results straight from the registry (source of truth)
           results = []
@@ -390,16 +416,40 @@ jobs:
           name: crier-results
           path: crier-results.json
 
-      - name: Commit mirror.json back
+      - name: Commit mirror.json + dedup registry back
         if: always()
         run: |
-          # Save our exported mirror.json, sync to latest main, then commit
+          # Export the current dedup registry to JSON (git = source of truth),
+          # then save both files, sync to latest main, and commit.
+          export HOME="$CRIER_HOME"
+          python3 - <<'PY'
+          import os, json, sqlite3
+          DB = os.path.join(os.environ["CRIER_HOME"], ".config", "crier", "crier.db")
+          rows = []
+          if os.path.exists(DB):
+              conn = sqlite3.connect(DB)
+              data = conn.execute(
+                  "SELECT a.canonical_url, p.platform, p.url, p.platform_id, a.slug "
+                  "FROM publications p JOIN articles a ON a.slug = p.slug "
+                  "WHERE p.deleted_at IS NULL"
+              ).fetchall()
+              conn.close()
+              for canonical_url, platform, url, platform_id, slug in data:
+                  rows.append({"canonical_url": canonical_url, "platform": platform,
+                               "url": url, "platform_id": platform_id or "",
+                               "source_file": f"content/{slug}.md"})
+          os.makedirs("blog", exist_ok=True)
+          json.dump(rows, open("blog/crier-registry.json", "w"), indent=2)
+          print(f"exported {len(rows)} publications to blog/crier-registry.json")
+          PY
           cp blog/mirror.json /tmp/mirror-export.json
+          cp blog/crier-registry.json /tmp/registry-export.json
           git fetch origin main
           git reset --hard origin/main
           cp /tmp/mirror-export.json blog/mirror.json
+          cp /tmp/registry-export.json blog/crier-registry.json
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add blog/mirror.json
-          git diff --cached --quiet || git commit -m "ci(cross-post): update mirror.json [skip ci]"
+          git add blog/mirror.json blog/crier-registry.json
+          git diff --cached --quiet || git commit -m "ci(cross-post): update mirror.json + dedup registry [skip ci]"
           git push

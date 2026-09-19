@@ -1,0 +1,1 @@
+Externum: one typed source → plain readable Python, standalone bash, or source-less .exbc artifacts. The compiler is written in itself — and its own benchmark caught two real VM bugs. Honest numbers, public methodology. #programming #opensource #buildinpublic
