@@ -45,7 +45,6 @@ jobs:
             --no-progress
             --max-retries 2
             --timeout 20
-            --exclude-mail
             --exclude 'https?://(www\.)?(linkedin\.com|x\.com|twitter\.com|instagram\.com|facebook\.com|play\.google\.com)/.*'
             'https://bartoszosiej.github.io/'
           format: json
