@@ -69,11 +69,14 @@ jobs:
           if not os.path.exists(path):
               print("no committed registry yet — first run")
               raise SystemExit(0)
+          # title is REQUIRED: without it get_or_create_slug() slumps every
+          # row into ONE 'untitled' article whose canonical_url gets overwritten
+          # by the last row — making dedup match only one article (flood bug).
           rows = json.load(open(path))
           for r in rows:
               record_publication(
                   r["canonical_url"], r["platform"], r.get("platform_id") or None,
-                  r.get("url") or None, source_file=r.get("source_file"),
+                  r.get("url") or None, title=r.get("title"), source_file=r.get("source_file"),
               )
           print(f"imported {len(rows)} committed publications into dedup registry")
           PY
@@ -429,14 +432,15 @@ jobs:
           if os.path.exists(DB):
               conn = sqlite3.connect(DB)
               data = conn.execute(
-                  "SELECT a.canonical_url, p.platform, p.url, p.platform_id, a.slug "
+                  "SELECT a.canonical_url, p.platform, p.url, p.platform_id, a.slug, a.title "
                   "FROM publications p JOIN articles a ON a.slug = p.slug "
                   "WHERE p.deleted_at IS NULL"
               ).fetchall()
               conn.close()
-              for canonical_url, platform, url, platform_id, slug in data:
+              for canonical_url, platform, url, platform_id, slug, title in data:
                   rows.append({"canonical_url": canonical_url, "platform": platform,
                                "url": url, "platform_id": platform_id or "",
+                               "title": title or slug.replace("-", " ").title(),
                                "source_file": f"content/{slug}.md"})
           os.makedirs("blog", exist_ok=True)
           json.dump(rows, open("blog/crier-registry.json", "w"), indent=2)
