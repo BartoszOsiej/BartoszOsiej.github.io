@@ -1,12 +1,12 @@
 {
-  "updated": "2026-09-19T17:57:42Z",
+  "updated": "2026-09-19T19:04:24Z",
   "posts": {
     "ai-crawler-seo-playbook": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117298923842713610",
       "devto": "https://dev.to/bartoszosiej/i-made-my-portfolio-readable-to-ai-crawlers-llmstxt-json-ld-and-a-40-method-distribution-stack-144p",
-      "telegram": "https://t.me/hartwell_info/3",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1550924168373997659",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7z7c4pg2z",
+      "telegram": "https://t.me/hartwell_info/15",
       "hashnode": null,
       "linkedin": null,
       "threads": null
@@ -16,17 +16,17 @@
       "devto": "https://dev.to/bartoszosiej/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-were-404s-and-1p3",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1550924176834035883",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7z7rnio2k",
+      "telegram": "https://t.me/hartwell_info/20",
       "hashnode": null,
       "linkedin": null,
-      "threads": null,
-      "telegram": null
+      "threads": null
     },
     "ebpf-ransomware-everything": {
       "devto": "https://dev.to/bartoszosiej/detecting-ransomware-with-ebpf-in-rust-4ah9",
       "mastodon": "https://mastodon.social/@bartoszosiej/117298924088902520",
-      "telegram": "10",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1550924183750320169",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zbf3yu2t",
+      "telegram": "https://t.me/hartwell_info/16",
       "hashnode": null,
       "linkedin": null,
       "threads": null
@@ -34,9 +34,9 @@
     "ebpf-ransomware-monitor-lessons": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117298924134322725",
       "devto": "https://dev.to/bartoszosiej/catching-ransomware-with-ebpf-what-execveopenat-tracing-taught-me-about-false-positives-4676",
-      "telegram": "https://t.me/hartwell_info/6",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1550924186896044034",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zaem7t2f",
+      "telegram": "https://t.me/hartwell_info/17",
       "hashnode": null,
       "linkedin": null,
       "threads": null
@@ -44,9 +44,9 @@
     "ebpf-verifier-design-constraint": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117298924173766690",
       "devto": "https://dev.to/bartoszosiej/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounded-loops-taught-me-1akc",
-      "telegram": "https://t.me/hartwell_info/7",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1550924193527496776",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zaviay2i",
+      "telegram": "https://t.me/hartwell_info/18",
       "hashnode": null,
       "linkedin": null,
       "threads": null
@@ -56,7 +56,7 @@
       "mastodon": "https://mastodon.social/@bartoszosiej/117298941444652045",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1550925295345729601",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvvaayd4rb2w",
-      "telegram": "https://t.me/hartwell_info/12",
+      "telegram": "https://t.me/hartwell_info/14",
       "hashnode": null,
       "linkedin": null,
       "threads": null
@@ -64,9 +64,9 @@
     "trustnode-validator-lessons": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117298924373788866",
       "devto": "https://dev.to/bartoszosiej/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actually-force-you-to-14h9",
-      "telegram": "https://t.me/hartwell_info/8",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1550924203841163486",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zc4r642c",
+      "telegram": "https://t.me/hartwell_info/19",
       "hashnode": null,
       "linkedin": null,
       "threads": null
