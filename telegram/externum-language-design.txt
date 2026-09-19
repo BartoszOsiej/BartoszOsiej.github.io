@@ -1,1 +1,11 @@
-Externum: one typed source → plain readable Python, standalone bash, or source-less .exbc artifacts. The compiler is written in itself — and its own benchmark caught two real VM bugs. Honest numbers, public methodology. #programming #opensource #buildinpublic
+◈ EXTERNUM · LANGUAGE DESIGN
+
+*Externum: a typed language that transpiles to Python and Bash — and its own benchmark caught two real bugs*
+
+One typed source, three real backends: readable Python, self-contained Bash, and a bytecode artifact that runs without source. The compiler is written mostly in Externum itself.
+
+▸ The benchmark caught two real VM bugs — silent infinite loops included. Both fixed same day, postmortem inside.
+
+→ [Read the full breakdown](https://bartoszosiej.github.io/content/externum-language-design)
+
+#compilers #python #bash

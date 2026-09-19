@@ -49,14 +49,6 @@
   },
   {
     "canonical_url": "https://bartoszosiej.github.io/content/ai-crawler-seo-playbook",
-    "platform": "telegram",
-    "url": "https://t.me/hartwell_info/3",
-    "platform_id": "3",
-    "title": "I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack",
-    "source_file": "content/i-made-my-portfolio-readable-to-ai-crawlers-llms-txt-json-ld-and-a-40-method-dis.md"
-  },
-  {
-    "canonical_url": "https://bartoszosiej.github.io/content/ai-crawler-seo-playbook",
     "platform": "discord",
     "url": null,
     "platform_id": "1550924168373997659",
@@ -113,14 +105,6 @@
   },
   {
     "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-everything",
-    "platform": "telegram",
-    "url": null,
-    "platform_id": "10",
-    "title": "Detecting ransomware with eBPF in Rust",
-    "source_file": "content/detecting-ransomware-with-ebpf-in-rust.md"
-  },
-  {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-everything",
     "platform": "discord",
     "url": null,
     "platform_id": "1550924183750320169",
@@ -132,14 +116,6 @@
     "platform": "devto",
     "url": "https://dev.to/bartoszosiej/catching-ransomware-with-ebpf-what-execveopenat-tracing-taught-me-about-false-positives-4676",
     "platform_id": "4660620",
-    "title": "Catching ransomware with eBPF: what execve/openat tracing taught me about false positives",
-    "source_file": "content/catching-ransomware-with-ebpf-what-execve-openat-tracing-taught-me-about-false-p.md"
-  },
-  {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons",
-    "platform": "telegram",
-    "url": "https://t.me/hartwell_info/6",
-    "platform_id": "6",
     "title": "Catching ransomware with eBPF: what execve/openat tracing taught me about false positives",
     "source_file": "content/catching-ransomware-with-ebpf-what-execve-openat-tracing-taught-me-about-false-p.md"
   },
@@ -164,14 +140,6 @@
     "platform": "devto",
     "url": "https://dev.to/bartoszosiej/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounded-loops-taught-me-1akc",
     "platform_id": "4660621",
-    "title": "eBPF verifier limits are a design constraint: what CO-RE field offsets and bounded loops taught me",
-    "source_file": "content/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounde.md"
-  },
-  {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-verifier-design-constraint",
-    "platform": "telegram",
-    "url": "https://t.me/hartwell_info/7",
-    "platform_id": "7",
     "title": "eBPF verifier limits are a design constraint: what CO-RE field offsets and bounded loops taught me",
     "source_file": "content/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounde.md"
   },
@@ -204,14 +172,6 @@
     "platform": "devto",
     "url": "https://dev.to/bartoszosiej/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actually-force-you-to-14h9",
     "platform_id": "4660623",
-    "title": "Building a Solana-like validator in Rust: what PoH, Tower BFT and Sealevel actually force you to think about",
-    "source_file": "content/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actuall.md"
-  },
-  {
-    "canonical_url": "https://bartoszosiej.github.io/content/trustnode-validator-lessons",
-    "platform": "telegram",
-    "url": "https://t.me/hartwell_info/8",
-    "platform_id": "8",
     "title": "Building a Solana-like validator in Rust: what PoH, Tower BFT and Sealevel actually force you to think about",
     "source_file": "content/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actuall.md"
   },
@@ -282,9 +242,57 @@
   {
     "canonical_url": "https://bartoszosiej.github.io/content/externum-language-design",
     "platform": "telegram",
-    "url": "https://t.me/hartwell_info/12",
-    "platform_id": "12",
+    "url": "https://t.me/hartwell_info/14",
+    "platform_id": "14",
     "title": "Externum: a typed language that transpiles to Python and Bash \u2014 and its own benchmark caught two real bugs",
-    "source_file": "content/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchma.md"
+    "source_file": "content/externum-language-design.md"
+  },
+  {
+    "canonical_url": "https://bartoszosiej.github.io/content/ai-crawler-seo-playbook",
+    "platform": "telegram",
+    "url": "https://t.me/hartwell_info/15",
+    "platform_id": "15",
+    "title": "I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack",
+    "source_file": "content/ai-crawler-seo-playbook.md"
+  },
+  {
+    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-everything",
+    "platform": "telegram",
+    "url": "https://t.me/hartwell_info/16",
+    "platform_id": "16",
+    "title": "Detecting ransomware with eBPF in Rust",
+    "source_file": "content/ebpf-ransomware-everything.md"
+  },
+  {
+    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons",
+    "platform": "telegram",
+    "url": "https://t.me/hartwell_info/17",
+    "platform_id": "17",
+    "title": "Catching ransomware with eBPF: what execve/openat tracing taught me about false positives",
+    "source_file": "content/ebpf-ransomware-monitor-lessons.md"
+  },
+  {
+    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-verifier-design-constraint",
+    "platform": "telegram",
+    "url": "https://t.me/hartwell_info/18",
+    "platform_id": "18",
+    "title": "eBPF verifier limits are a design constraint: what CO-RE field offsets and bounded loops taught me",
+    "source_file": "content/ebpf-verifier-design-constraint.md"
+  },
+  {
+    "canonical_url": "https://bartoszosiej.github.io/content/trustnode-validator-lessons",
+    "platform": "telegram",
+    "url": "https://t.me/hartwell_info/19",
+    "platform_id": "19",
+    "title": "Building a Solana-like validator in Rust: what PoH, Tower BFT and Sealevel actually force you to think about",
+    "source_file": "content/trustnode-validator-lessons.md"
+  },
+  {
+    "canonical_url": "https://bartoszosiej.github.io/content/aurora-postmortem",
+    "platform": "telegram",
+    "url": "https://t.me/hartwell_info/20",
+    "platform_id": "20",
+    "title": "A web OS that 'never booted': the two bugs that looked like kernel failures but were 404s and z-index",
+    "source_file": "content/aurora-postmortem.md"
   }
 ]

@@ -1,0 +1,11 @@
+◈ PORTFOLIO · DISTRIBUTION PLAYBOOK
+
+*I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack*
+
+How to make a developer portfolio citable by ChatGPT, Claude and Perplexity: llms.txt, JSON-LD, and a distribution stack that ships every article to multiple platforms from one git push.
+
+▸ The whole pipeline is free and runs in CI — no third-party services, no API bills.
+
+→ [Read the full breakdown](https://bartoszosiej.github.io/content/ai-crawler-seo-playbook)
+
+#seo #ai #automation

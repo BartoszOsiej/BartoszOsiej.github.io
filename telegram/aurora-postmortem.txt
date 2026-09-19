@@ -1,0 +1,11 @@
+◈ AURORA · POSTMORTEM
+
+*A web OS that 'never booted': the two bugs that looked like kernel failures but were 404s and z-index*
+
+A browser-based web OS stuck on 'Initializing kernel' for days. The kernel was fine — the bundles were 404ing from GitHub Pages, and desktop icons refused clicks over one CSS line.
+
+▸ Two bugs, zero kernel failures: a deploy race and a single z-index property.
+
+→ [Read the postmortem](https://bartoszosiej.github.io/content/aurora-postmortem)
+
+#typescript #debugging #postmortem

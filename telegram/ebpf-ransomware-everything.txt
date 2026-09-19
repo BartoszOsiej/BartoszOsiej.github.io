@@ -1,0 +1,11 @@
+◈ TALUS · eBPF TUTORIAL
+
+*Detecting ransomware with eBPF in Rust*
+
+Hook execve and openat tracepoints with Aya, stream events through per-CPU perf buffers, and build a sliding-window detector that can kill ransomware processes on Linux.
+
+▸ Ends with a working 1-second detection window — full Rust code included.
+
+→ [Read the full breakdown](https://bartoszosiej.github.io/content/ebpf-ransomware-everything)
+
+#ebpf #rust #security

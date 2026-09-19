@@ -1,0 +1,11 @@
+◈ TRUSTNODE · SYSTEMS
+
+*Building a Solana-like validator in Rust: what PoH, Tower BFT and Sealevel actually force you to think about*
+
+A Solana-style validator cluster in Rust: Proof of History clock, Tower BFT consensus, Sealevel-style parallel execution.
+
+▸ The real lessons are about clock design — consensus is just the easy part.
+
+→ [Read the full breakdown](https://bartoszosiej.github.io/content/trustnode-validator-lessons)
+
+#rust #blockchain #systems

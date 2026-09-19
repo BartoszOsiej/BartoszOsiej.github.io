@@ -1,0 +1,11 @@
+◈ TALUS · VERIFIER CRAFT
+
+*eBPF verifier limits are a design constraint: what CO-RE field offsets and bounded loops taught me*
+
+Writing kernel eBPF programs that survive the verifier: CO-RE relocation, verifier-friendly loops, and amortized map design — straight from the trenches.
+
+▸ Verifier limits are not obstacles; they are the design constraint that shapes the architecture.
+
+→ [Read the full breakdown](https://bartoszosiej.github.io/content/ebpf-verifier-design-constraint)
+
+#ebpf #kernel #rust

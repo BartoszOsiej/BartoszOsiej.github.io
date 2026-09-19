@@ -1,0 +1,11 @@
+◈ TALUS · FIELD NOTES
+
+*Catching ransomware with eBPF: what execve/openat tracing taught me about false positives*
+
+Lessons from shipping a Rust + eBPF ransomware detector: per-CPU perf buffers, behavioural pattern matching, and why build systems are a detector's worst enemy.
+
+▸ The best false-positive stories come from compilers and package managers, not malware.
+
+→ [Read the full breakdown](https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons)
+
+#ebpf #rust #linux
