@@ -6,9 +6,12 @@
 
   var LINKS = [
     { id: "root", label: "ROOT", href: "https://bartoszosiej.github.io/" },
+    { id: "blog", label: "/blog", href: "https://bartoszosiej.github.io/blog/" },
+    { id: "writing", label: "/writing", href: "https://bartoszosiej.github.io/writing/" },
     { id: "Docs", label: "/Docs", href: "https://bartoszosiej.github.io/Docs/" },
     { id: "externum", label: "/externum", href: "https://bartoszosiej.github.io/externum/" },
     { id: "talus", label: "/talus", href: "https://bartoszosiej.github.io/talus-process-monitor/" },
+    { id: "aurora", label: "/aurora", href: "https://bartoszosiej.github.io/Aurora/" },
     { id: "quantum", label: "/quantum-shield", href: "https://bartoszosiej.github.io/quantum-shield/" },
     { id: "nv2", label: "/NV2_ENGINE", href: "https://bartoszosiej.github.io/NV2_ENGINE/" },
     { id: "threadcalls", label: "/thethreadcalls", href: "https://bartoszosiej.github.io/thethreadcalls/" },

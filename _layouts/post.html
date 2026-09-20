@@ -74,8 +74,9 @@ footer a:hover{color:var(--blood)}
 .disc-note a{color:var(--rust);text-decoration:underline;text-underline-offset:3px}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 </style>
+<link rel="stylesheet" href="/css/aegis.css?v=20260920">
 </head>
-<body>
+<body data-page="blog">
 <script>if('https://bz-blog.metaforicmail.workers.dev'!=='__BZ'+'_API__')document.body.setAttribute('data-bz-api','https://bz-blog.metaforicmail.workers.dev');</script>
 {% assign slug = page.path | split: "/" | last | split: "." | first %}
 <div class="wrap">
@@ -240,5 +241,6 @@ footer a:hover{color:var(--blood)}
 <script src="/js/spotify-now-playing.js?v=20260914e" defer></script>
 <script>if('https://bz-blog.metaforicmail.workers.dev'!=='__BZ'+'_API__')document.body.setAttribute('data-bz-api','https://bz-blog.metaforicmail.workers.dev');</script>
 <script src="/js/blog.js?v=20260914a" defer></script>
+<script defer src="/js/aegis-chrome.js?v=20260920"></script>
 </body>
 </html>
