@@ -32,6 +32,9 @@
   --acc1: #F15A24;
   --acc2: #DA2C38;
   --acc3: #8b95a8;
+  --acc: #F15A24;   /* Aurora mapping */
+  --bg2: #0a0a10;   /* Aurora secondary bg */
+  --font: "JetBrains Mono", "Space Mono", ui-monospace, monospace; /* Aurora var(--font) */
   --red: #DA2C38;
   --green: #22c55e;
   --yellow: #e3b341;
