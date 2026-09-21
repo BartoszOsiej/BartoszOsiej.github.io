@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-19T19:04:24Z",
+  "updated": "2026-09-21T07:52:13Z",
   "posts": {
     "ai-crawler-seo-playbook": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117298923842713610",
@@ -58,6 +58,16 @@
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvvaayd4rb2w",
       "telegram": "https://t.me/hartwell_info/14",
       "hashnode": null,
+      "linkedin": null,
+      "threads": null
+    },
+    "open-source-solo-monetization": {
+      "devto": "https://dev.to/bartoszosiej/i-ship-open-source-security-tools-solo-heres-the-full-stack-the-pricing-and-the-zero-revenue-2fd4",
+      "mastodon": "https://mastodon.social/@bartoszosiej/117307941215674727",
+      "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1551501280529350707",
+      "telegram": "https://t.me/hartwell_info/32",
+      "hashnode": null,
+      "bluesky": null,
       "linkedin": null,
       "threads": null
     },

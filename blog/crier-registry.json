@@ -294,5 +294,37 @@
     "platform_id": "20",
     "title": "A web OS that 'never booted': the two bugs that looked like kernel failures but were 404s and z-index",
     "source_file": "content/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-wer.md"
+  },
+  {
+    "canonical_url": "https://bartoszosiej.github.io/content/open-source-solo-monetization",
+    "platform": "devto",
+    "url": "https://dev.to/bartoszosiej/i-ship-open-source-security-tools-solo-heres-the-full-stack-the-pricing-and-the-zero-revenue-2fd4",
+    "platform_id": "4705095",
+    "title": "I ship open-source security tools solo \u2014 here's the full stack, the pricing, and the (zero) revenue so far",
+    "source_file": "content/i-ship-open-source-security-tools-solo-here-s-the-full-stack-the-pricing-and-the.md"
+  },
+  {
+    "canonical_url": "https://bartoszosiej.github.io/content/open-source-solo-monetization",
+    "platform": "mastodon",
+    "url": "https://mastodon.social/@bartoszosiej/117307941215674727",
+    "platform_id": "117307941215674727",
+    "title": "I ship open-source security tools solo \u2014 here's the full stack, the pricing, and the (zero) revenue so far",
+    "source_file": "content/i-ship-open-source-security-tools-solo-here-s-the-full-stack-the-pricing-and-the.md"
+  },
+  {
+    "canonical_url": "https://bartoszosiej.github.io/content/open-source-solo-monetization",
+    "platform": "discord",
+    "url": null,
+    "platform_id": "1551501280529350707",
+    "title": "I ship open-source security tools solo \u2014 here's the full stack, the pricing, and the (zero) revenue so far",
+    "source_file": "content/i-ship-open-source-security-tools-solo-here-s-the-full-stack-the-pricing-and-the.md"
+  },
+  {
+    "canonical_url": "https://bartoszosiej.github.io/content/open-source-solo-monetization",
+    "platform": "telegram",
+    "url": "https://t.me/hartwell_info/32",
+    "platform_id": "32",
+    "title": "I ship open-source security tools solo \u2014 here's the full stack, the pricing, and the (zero) revenue so far",
+    "source_file": "content/i-ship-open-source-security-tools-solo-here-s-the-full-stack-the-pricing-and-the.md"
   }
 ]
