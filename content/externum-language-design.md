@@ -13,7 +13,7 @@ tldr: "One typed source, three backends: readable Python, standalone Bash, and a
 
 Externum is a statically-typed language I've been building that compiles one program three ways: to **plain readable Python**, to **standalone Bash** (a real `set -euo pipefail` script, no interpreter dependency), and to a **`.exbc` bytecode artifact** that runs on a small VM without shipping the source. The compiler is written mostly in Externum itself. This post is about the design trade-offs of multi-target transpilation, what the benchmark actually proved (and what my first, *wrong* benchmark claimed), and the two real VM bugs the benchmarking process exposed — root-caused and fixed within a day.
 
-Try it in the browser first: [playground (no install)](https://bartoszosiej.github.io/externum/). Repo: [github.com/BartoszOsiej/externum](https://github.com/BartoszOsiej/externum) · `pip install externum` · MIT.
+Try it in the browser first: [playground (no install)](https://hartwell-labs.pl/externum/). Repo: [github.com/BartoszOsiej/externum](https://github.com/BartoszOsiej/externum) · `pip install externum` · MIT.
 
 ## Why transpile to *other* languages at all
 
@@ -91,4 +91,4 @@ Neither was caught by CI, because the existing VM tests didn't use those constru
 
 The roadmap from here: a JS target (the natural next runtime that's already everywhere), more stdlib, and keeping the honest-limits section of the README as current as the features list.
 
-- Repo: [github.com/BartoszOsiej/externum](https://github.com/BartoszOsiej/externum) · Playground: [bartoszosiej.github.io/externum](https://bartoszosiej.github.io/externum/) · `pip install externum` · MIT, ~380 tests
+- Repo: [github.com/BartoszOsiej/externum](https://github.com/BartoszOsiej/externum) · Playground: [bartoszosiej.github.io/externum](https://hartwell-labs.pl/externum/) · `pip install externum` · MIT, ~380 tests

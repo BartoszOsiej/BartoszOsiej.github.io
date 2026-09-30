@@ -21,7 +21,7 @@ write, plus book information.
 |---|------|------|
 | 🛠️ | [Portfolio](https://bartoszosiej.github.io/Portfolio/) | Systems projects — Rust, eBPF, compilers |
 | 📚 | [Docs](https://bartoszosiej.github.io/Docs/) | Technical documentation hub |
-| ⚡ | [Externum Playground](https://bartoszosiej.github.io/externum/) | My programming language, live in the browser |
+| ⚡ | [Externum Playground](https://hartwell-labs.pl/externum/) | My programming language, live in the browser |
 | 📖 | [The Stitcher Trilogy](https://bartoszosiej.github.io/thethreadcalls/) | Dark literary horror |
 | 🕯️ | [LIFE — Shadows of True Living](https://bartoszosiej.github.io/Mylife/) | Literary fiction |
 
