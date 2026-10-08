@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The One-Man Security Lab Running on a 2017 Laptop With 8 GB of RAM — Bartosz Osiej × Framework</title>
+<meta name="description" content="A 19-year-old from Szczecin ships kernel-level eBPF security infrastructure, a programming language and a 151-test blockchain validator — all on one upgrade-locked 2017 laptop. A story pitch for Framework.">
+<meta name="author" content="Bartosz Osiej">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#050505">
+<link rel="canonical" href="https://bo.hartwell-labs.pl/framework/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The One-Man Security Lab Running on a 2017 Laptop With 8 GB of RAM">
+<meta property="og:description" content="At 14 he started shipping. At 19 he ships kernel-level security infrastructure. The bottleneck was never the code — it was the chassis.">
+<meta property="og:url" content="https://bo.hartwell-labs.pl/framework/">
+<meta property="og:image" content="https://bartoszosiej.github.io/img/og.png">
+<meta property="og:site_name" content="Bartosz Osiej">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The One-Man Security Lab Running on a 2017 Laptop With 8 GB of RAM">
+<meta name="twitter:description" content="A story pitch for Framework — from Szczecin, Poland.">
+<meta name="twitter:image" content="https://bartoszosiej.github.io/img/og.png">
+<link rel="icon" type="image/png" href="../img/bartosz-osiej.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#050505; --panel:#0a0a10; --line:#1c1c24; --line2:#22222a;
+    --bone:#E8E6E3; --dim:#8B93A3; --rust:#F15A24; --rust2:#ff6a35;
+    --blood:#E04855; --green:#22c55e; --amber:#e3b341;
+    --mono:'Space Mono','JetBrains Mono',ui-monospace,monospace;
+    --sans:'JetBrains Mono','Space Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--void); color:var(--bone); font-family:var(--mono);
+    font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:var(--rust); text-decoration:none; border-bottom:1px solid rgba(241,90,36,.35); transition:color .15s,border-color .15s}
+  a:hover{color:var(--rust2); border-color:var(--rust2)}
+  ::selection{background:var(--rust); color:var(--void)}
+
+  .wrap{max-width:880px; margin:0 auto; padding:0 24px}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:18px 24px; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--line);
+    position:sticky; top:0; background:rgba(5,5,5,.92); backdrop-filter:blur(8px); z-index:50;
+  }
+  .topbar b{color:var(--rust); font-weight:700}
+  .topbar .dot{display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--green); margin-right:8px; vertical-align:1px; box-shadow:0 0 8px var(--green)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:110px 0 70px; position:relative}
+  .hero::before{
+    content:""; position:absolute; top:-120px; left:50%; transform:translateX(-50%);
+    width:640px; height:420px; pointer-events:none;
+    background:radial-gradient(ellipse at center, rgba(241,90,36,.13), transparent 65%);
+  }
+  .kicker{
+    font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--rust);
+    margin-bottom:28px; display:flex; gap:14px; flex-wrap:wrap; align-items:center;
+  }
+  .kicker span{color:var(--dim)}
+  h1{
+    font-family:var(--sans); font-weight:700; font-size:clamp(30px,5.4vw,54px);
+    line-height:1.14; letter-spacing:-.015em; margin-bottom:26px;
+  }
+  h1 em{font-style:normal; color:var(--rust)}
+  .deck{
+    font-size:clamp(15px,2vw,18px); color:var(--dim); line-height:1.75; max-width:640px;
+  }
+  .deck b{color:var(--bone); font-weight:400; border-bottom:1px dashed var(--rust)}
+
+  /* ---------- terminal card ---------- */
+  .term{
+    background:var(--panel); border:1px solid var(--line2); border-radius:8px;
+    margin:56px 0; overflow:hidden; font-family:var(--sans);
+  }
+  .term .bar{
+    display:flex; align-items:center; gap:8px; padding:11px 16px;
+    border-bottom:1px solid var(--line); background:#08080e;
+  }
+  .term .bar i{width:11px; height:11px; border-radius:50%; display:block}
+  .term .bar i:nth-child(1){background:#ff5f57} .term .bar i:nth-child(2){background:#febc2e} .term .bar i:nth-child(3){background:#28c840}
+  .term .bar span{margin-left:10px; font-size:11px; color:var(--dim); letter-spacing:.08em}
+  .term .body{padding:22px 20px; font-size:14px; line-height:2}
+  .term .p{color:var(--green)} .term .c{color:var(--dim)} .term .o{color:var(--bone)} .term .r{color:var(--rust)}
+  .term .cursor{
+    display:inline-block; width:9px; height:17px; background:var(--rust);
+    vertical-align:-3px; animation:blink 1.05s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0}}
+
+  /* ---------- section chrome ---------- */
+  section{padding:64px 0; border-top:1px solid var(--line)}
+  .slabel{
+    font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--rust);
+    margin-bottom:18px; display:flex; align-items:center; gap:14px;
+  }
+  .slabel::after{content:""; flex:1; height:1px; background:var(--line)}
+  h2{font-family:var(--sans); font-weight:700; font-size:clamp(22px,3.4vw,30px); line-height:1.3; margin-bottom:22px; letter-spacing:-.01em}
+  .prose p{margin-bottom:18px; color:#c9c7c4; max-width:720px}
+  .prose p b{color:var(--bone); font-weight:700}
+  .prose p .hi{color:var(--rust)}
+
+  /* ---------- spec sheet ---------- */
+  .spec{width:100%; border-collapse:collapse; font-family:var(--sans); font-size:14px; margin-top:8px}
+  .spec th,.spec td{border:1px solid var(--line2); padding:12px 16px; text-align:left}
+  .spec th{width:34%; color:var(--dim); font-weight:400; text-transform:uppercase; letter-spacing:.1em; font-size:11px; background:#08080e}
+  .spec td{color:var(--bone)}
+  .spec td .flag{color:var(--blood)}
+  .spec-note{
+    margin-top:14px; font-size:13px; color:var(--dim); font-style:italic;
+    border-left:2px solid var(--blood); padding-left:14px;
+  }
+  .spec-note b{color:var(--blood); font-style:normal}
+
+  /* ---------- stat strip ---------- */
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin:34px 0}
+  .stat{background:var(--void); padding:22px 16px; text-align:center}
+  .stat .n{font-family:var(--sans); font-size:clamp(22px,3.5vw,30px); font-weight:700; color:var(--rust); display:block; line-height:1.2}
+  .stat .l{font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); margin-top:8px; display:block}
+
+  /* ---------- project grid ---------- */
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px; margin-top:8px}
+  .card{
+    background:var(--panel); border:1px solid var(--line2); border-radius:8px;
+    padding:22px 20px; transition:border-color .2s, transform .2s;
+  }
+  .card:hover{border-color:var(--rust); transform:translateY(-3px)}
+  .card h3{font-family:var(--sans); font-size:16px; margin-bottom:6px; letter-spacing:.01em}
+  .card h3 a{border-bottom:none; color:var(--bone)}
+  .card h3 a:hover{color:var(--rust)}
+  .card .tag{font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--rust); display:block; margin-bottom:12px}
+  .card p{font-size:13.5px; line-height:1.65; color:var(--dim)}
+  .card p b{color:#c9c7c4; font-weight:400}
+
+  /* ---------- timeline ---------- */
+  .tl{border-left:1px solid var(--line2); margin:30px 0 10px 6px; padding-left:28px}
+  .tl .ev{position:relative; padding-bottom:34px}
+  .tl .ev::before{
+    content:""; position:absolute; left:-33px; top:7px; width:9px; height:9px;
+    border-radius:50%; background:var(--void); border:2px solid var(--rust);
+  }
+  .tl .ev:first-child::before{background:var(--rust); box-shadow:0 0 10px rgba(241,90,36,.7)}
+  .tl .when{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--rust); margin-bottom:6px}
+  .tl .what{color:#c9c7c4; font-size:15px; max-width:640px}
+  .tl .what b{color:var(--bone)}
+
+  /* ---------- quote ---------- */
+  .quote{
+    padding:78px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    text-align:center; position:relative; background:
+      radial-gradient(ellipse at center, rgba(241,90,36,.06), transparent 70%);
+  }
+  .quote blockquote{
+    font-family:var(--sans); font-weight:300; font-size:clamp(20px,3.6vw,32px);
+    line-height:1.5; max-width:760px; margin:0 auto; letter-spacing:-.01em;
+  }
+  .quote blockquote b{color:var(--rust); font-weight:700}
+  .quote cite{display:block; margin-top:26px; font-style:normal; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim)}
+
+  /* ---------- why framework list ---------- */
+  .why{list-style:none; margin-top:8px}
+  .why li{
+    padding:20px 0 20px 44px; border-bottom:1px solid var(--line); position:relative;
+    color:#c9c7c4; max-width:760px;
+  }
+  .why li:last-child{border-bottom:none}
+  .why li::before{
+    content:"▸"; position:absolute; left:10px; top:19px; color:var(--rust); font-weight:700;
+  }
+  .why li b{color:var(--bone)}
+  .why li .sub{display:block; font-size:13px; color:var(--dim); margin-top:5px}
+
+  /* ---------- offer ---------- */
+  .offer{counter-reset:o; margin-top:8px}
+  .offer .item{
+    display:flex; gap:20px; padding:22px 0; border-bottom:1px solid var(--line); max-width:760px;
+  }
+  .offer .item:last-child{border-bottom:none}
+  .offer .num{
+    counter-increment:o; flex:0 0 auto; font-family:var(--sans); font-weight:700;
+    color:var(--rust); font-size:14px; padding-top:2px;
+  }
+  .offer .num::before{content:"0" counter(o)}
+  .offer .txt b{display:block; font-family:var(--sans); color:var(--bone); margin-bottom:5px; font-size:15.5px}
+  .offer .txt span{color:var(--dim); font-size:14.5px; line-height:1.7; display:block}
+
+  /* ---------- closing ---------- */
+  .close{padding:80px 0 40px; text-align:center}
+  .close .big{
+    font-family:var(--sans); font-weight:700; font-size:clamp(22px,4vw,36px);
+    line-height:1.35; max-width:700px; margin:0 auto 30px; letter-spacing:-.01em;
+  }
+  .close .big em{font-style:normal; color:var(--rust)}
+  .btnrow{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:34px}
+  .btn{
+    display:inline-block; padding:14px 26px; font-family:var(--sans); font-size:13px;
+    letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--rust);
+    color:var(--rust); border-bottom:1px solid var(--rust) !important; transition:all .18s;
+  }
+  .btn:hover{background:var(--rust); color:var(--void)}
+  .btn.ghost{border-color:var(--line2); color:var(--dim); border-bottom-color:var(--line2) !important}
+  .btn.ghost:hover{border-color:var(--bone); color:var(--bone); background:transparent}
+
+  footer{
+    border-top:1px solid var(--line); padding:44px 0 70px; font-size:12.5px; color:var(--dim); line-height:2.1;
+  }
+  footer .cols{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:28px}
+  footer b{color:var(--bone); display:block; font-size:11px; letter-spacing:.18em; text-transform:uppercase; margin-bottom:10px; color:var(--rust)}
+  footer a{color:var(--dim); border-bottom-color:transparent}
+  footer a:hover{color:var(--rust)}
+  .fine{margin-top:36px; padding-top:22px; border-top:1px solid var(--line); font-size:11.5px; color:#565f78; letter-spacing:.04em}
+
+  @media (max-width:640px){
+    .hero{padding:70px 0 40px}
+    .term .body{font-size:12.5px}
+    .spec th{width:40%}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div><span class="dot"></span>HARTWELL LABS <b>/</b> FRAMEWORK — STORY PITCH</div>
+  <div>SZCZECIN, PL <b>·</b> 08.10.2026</div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">A 19-year-old's open letter <span>·</span> one machine <span>·</span> five years</div>
+    <h1>The one-man security lab running on a 2017 laptop with <em>8&nbsp;GB of RAM.</em></h1>
+    <p class="deck">At 14 he started shipping. At 19 he ships <b>kernel-level security infrastructure</b>,
+    a programming language, and a 151-test blockchain validator. The bottleneck was never the code —
+    <b>it was the chassis.</b></p>
+  </header>
+
+  <div class="term">
+    <div class="bar"><i></i><i></i><i></i><span>bartosz@szczecin — ~</span></div>
+    <div class="body">
+      <div><span class="p">$</span> <span class="c">whoami</span></div>
+      <div class="o">bartosz osiej, 19 — szczecin, poland</div>
+      <div class="o">founder &amp; ceo, <span class="r">hartwell labs</span> (independent, JDG)</div>
+      <div><span class="p">$</span> <span class="c">cat career.log | head -3</span></div>
+      <div class="o">2021-02-17 <span class="c">— first commit, age 14 (ghost0development)</span></div>
+      <div class="o">2022-06-01 <span class="c">— school done; no university. public repos instead of a diploma</span></div>
+      <div class="o">2026-10-08 <span class="c">— reading this from</span> <span class="r">the same laptop</span></div>
+      <div><span class="p">$</span> <span class="cursor"></span></div>
+    </div>
+  </div>
+
+  <!-- ============ 01 THE MACHINE ============ -->
+  <section>
+    <div class="slabel">01 — The machine</div>
+    <h2>The configuration he bought is the configuration he'll have forever.</h2>
+    <div class="prose">
+      <p>Every kernel trace, every <span class="hi">cargo build</span>, every QEMU boot of an
+      LSM-patched kernel, every 151-test suite — all of it shares <b>8 gigabytes</b> with the
+      editor, the browser and the CI runners, on a CPU that predates the mainstream eBPF
+      toolchain he now contributes to <b>upstream</b>.</p>
+    </div>
+    <table class="spec">
+      <tr><th>CPU</th><td>Intel Core i5-8250U — 2017, 4C/8T, 15 W</td></tr>
+      <tr><th>Memory</th><td>8 GB RAM <span class="flag">— the actual ceiling of his career so far</span></td></tr>
+      <tr><th>GPU</th><td>NVIDIA GeForce 940MX — 2016</td></tr>
+      <tr><th>Storage</th><td>240 GB <b>SATA</b> SSD (WD Green) + 1 TB 5400 rpm HDD</td></tr>
+      <tr><th>OS</th><td>Arch-based · Omarchy + Hyprland · LUKS full-disk encryption</td></tr>
+      <tr><th>Upgrade path</th><td><span class="flag">none — sealed purchase, five years and counting</span></td></tr>
+    </table>
+    <p class="spec-note"><b>Note:</b> the machine predates the eBPF toolchain it now builds.
+    The code kept evolving. The chassis didn't.</p>
+  </section>
+
+  <!-- ============ 02 THE OUTPUT ============ -->
+  <section>
+    <div class="slabel">02 — The output</div>
+    <h2>Five years of commits, audited in public.</h2>
+
+    <div class="stats">
+      <div class="stat"><span class="n">40+</span><span class="l">own repositories</span></div>
+      <div class="stat"><span class="n">14</span><span class="l">packages · 4 registries</span></div>
+      <div class="stat"><span class="n">3</span><span class="l">PRs open in aya-rs/book</span></div>
+      <div class="stat"><span class="n">18</span><span class="l">dev.to articles</span></div>
+      <div class="stat"><span class="n">3</span><span class="l">novels, Amazon Kindle</span></div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <span class="tag">eBPF · Rust · Aya</span>
+        <h3><a href="https://github.com/BartoszOsiej/talus-process-monitor">Talus Process Monitor</a></h3>
+        <p>Kernel-level <b>anti-ransomware agent</b> for Linux — <b>~280k events/s at &lt;8% CPU</b>,
+        automated SIGKILL response. crates.io + GHCR + release binaries, 99 tests, 4 CI pipelines. ★20.</p>
+      </div>
+      <div class="card">
+        <span class="tag">compilers · PyPI</span>
+        <h3><a href="https://github.com/BartoszOsiej/externum">Externum</a></h3>
+        <p>A language built from scratch — one typed source compiles to <b>readable Python, Bash
+        and bytecode</b>. 300+ tests with a differential harness across all three backends. Live browser playground.</p>
+      </div>
+      <div class="card">
+        <span class="tag">blockchain · Rust</span>
+        <h3><a href="https://github.com/BartoszOsiej/TrustNode">TrustNode</a></h3>
+        <p>A from-scratch Solana validator: ledger, <b>Reed-Solomon erasure coding</b>, Tower BFT,
+        Gossip, RPC — <b>151 tests</b>, <code>-D warnings</code> enforced, <code>cargo audit</code> clean.</p>
+      </div>
+      <div class="card">
+        <span class="tag">kernel · C</span>
+        <h3><a href="https://github.com/Hartwell-Labs/linux-aegis">linux-aegis</a></h3>
+        <p>A <b>stackable Linux Security Module</b> with upstream-style patches, built and run in QEMU.
+        The kind of code that decides what a machine is allowed to do.</p>
+      </div>
+      <div class="card">
+        <span class="tag">firmware · RISC-V</span>
+        <h3><a href="https://github.com/Hartwell-Labs/fortis">fortis</a></h3>
+        <p>Bare-metal <b>chain-of-trust</b>: real SHA-256 + post-quantum ML-KEM-768 in firmware —
+        who gets to boot, proven in silicon-adjacent code.</p>
+      </div>
+      <div class="card">
+        <span class="tag">post-quantum · Rust</span>
+        <h3><a href="https://github.com/Hartwell-Labs/quantum-shield">quantum-shield</a></h3>
+        <p>File encryption that assumes the adversary records now and decrypts later —
+        <b>ML-KEM-768 + AES-256-GCM</b>, fuzz-tested.</p>
+      </div>
+    </div>
+
+    <div class="prose" style="margin-top:30px">
+      <p>Plus: <b>NV2_ENGINE</b> — a voxel engine on wgpu with real NASA climate worlds and an
+      embedded neural net, published to crates.io. <b>Externum</b> on PyPI since v2.
+      CI/CD, releases and containers on every active repo. <b>14 packages across 4 registries.</b>
+      An accepted article on <b>LinuxSecurity</b>. Three open pull requests in
+      <a href="https://github.com/aya-rs/book/pulls?q=author%3ABartoszOsiej">aya-rs/book</a> —
+      the eBPF community's own docs. And, for stamina's sake: <b>The Stitcher Trilogy</b>,
+      three crime-horror novels published on Amazon. Same discipline, different craft.</p>
+    </div>
+  </section>
+
+  <!-- ============ 03 THE ARC ============ -->
+  <section>
+    <div class="slabel">03 — The arc</div>
+    <h2>Archive → production.</h2>
+    <div class="tl">
+      <div class="ev">
+        <div class="when">Feb 2021 · age 14</div>
+        <div class="what">First GitHub account, <b>ghost0development</b>. 33 repos of experiments,
+        game prototypes and <b>halcyon-process-monitor</b> — the eBPF ancestor of Talus. Never deleted;
+        preserved as history.</div>
+      </div>
+      <div class="ev">
+        <div class="when">Jun 2022 · age 15</div>
+        <div class="what">Primary school finished. <b>No university.</b> Self-directed, project-based
+        learning — Linux, Rust, security, compilers — with <b>public commits as the transcript</b>.</div>
+      </div>
+      <div class="ev">
+        <div class="when">2024–2025 · age 17–18</div>
+        <div class="what">First paid freelance work: web apps, automations, server hardening.
+        Three novels published end-to-end — idea to Amazon — proving the long-project muscle.</div>
+      </div>
+      <div class="ev">
+        <div class="when">2026 · age 19</div>
+        <div class="what"><b>The rebuild.</b> New account, production standards: <b>Hartwell Labs</b>
+        founded as a one-person engineering lab. Talus, Externum, TrustNode, linux-aegis, fortis —
+        everything rebuilt, tested, containerized, released.</div>
+      </div>
+      <div class="ev">
+        <div class="when">Today · Oct 2026</div>
+        <div class="what">Reading this page from the same 2017 laptop. <b>Batch 1 of the new
+        Framework Laptop 12 ships this month.</b></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ QUOTE ============ -->
+<div class="quote">
+  <blockquote>“I don't need a laptop that's faster than everyone else's.<br>
+  I need one I'm <b>allowed to upgrade</b>.”</blockquote>
+  <cite>— the entire pitch, in one sentence</cite>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ 04 WHY FRAMEWORK ============ -->
+  <section>
+    <div class="slabel">04 — Why Framework</div>
+    <h2>You published the thesis. He's been living the negative of it.</h2>
+    <ul class="why">
+      <li><b>“A computer that respects your rights.”</b> — your words, 18 Aug 2026.
+        <span class="sub">The exact sentence a five-year, upgrade-locked owner has been trying
+        to write himself.</span></li>
+      <li><b>Your firmware is open — and part of it is in Rust.</b>
+        <span class="sub"><a href="https://github.com/FrameworkComputer">github.com/FrameworkComputer</a>:
+        EmbeddedController, coreboot, framework-system, full mainboard documentation.
+        He writes chain-of-trust and LSM code — <b>those repositories were published for exactly
+        this person</b>.</span></li>
+      <li><b>Linux-first, and it ships.</b>
+        <span class="sub">His daily driver: Arch + Hyprland, LUKS, kernel-level tracing. Fedora
+        preloaded on the Laptop 12; first-in-class Linux support isn't marketing to him, it's
+        the only requirement.</span></li>
+      <li><b>You're already in his timezone.</b>
+        <span class="sub">Framework Computer BV, Eindhoven — EU warranty, and his browser already
+        sees the site priced in <b>PLN</b>. Szczecin is ~600 km away.</span></li>
+      <li><b>Timing.</b>
+        <span class="sub">The new Framework Laptop 12 pre-orders opened in August; <b>Batch 1
+        ships this month</b>.</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ 05 THE OFFER ============ -->
+  <section>
+    <div class="slabel">05 — The offer</div>
+    <h2>Not an unboxing. A deployment log.</h2>
+    <div class="prose"><p>If there's a creator, student, community or review path to a
+    <b>Laptop 12 or Laptop 13</b>, here's what comes back — written for engineers, no marketing gloss:</p></div>
+    <div class="offer">
+      <div class="item"><div class="num"></div><div class="txt">
+        <b>90 days of honest hardware telemetry</b>
+        <span>The full Talus / TrustNode / Externum toolchain on Framework hardware: thermals
+        under sustained <code>cargo build</code>, real RAM ceilings, kernel tracing, QEMU, containers —
+        <b>what actually breaks, what doesn't</b>, measured, not narrated.</span>
+      </div></div>
+      <div class="item"><div class="num"></div><div class="txt">
+        <b>Published where engineers read</b>
+        <span>dev.to (18 articles to date), Hartwell Labs field guide, portfolio — indexed,
+        permanent, honest. The kind of review a repairable laptop deserves.</span>
+      </div></div>
+      <div class="item"><div class="num"></div><div class="txt">
+        <b>Patches, not just posts</b>
+        <span><code>framework-system</code> is Rust; the public firmware trackers are where he
+        already works. Upstream contributions where his chain-of-trust and kernel experience
+        actually helps.</span>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ CLOSE ============ -->
+  <div class="close">
+    <p class="big">Five years of software,<br>compiled <em>four gigabytes at a time.</em><br>
+    The next chapter should be upgradeable.</p>
+    <div class="btnrow">
+      <a class="btn" href="mailto:contact@hartwell-labs.pl">contact@hartwell-labs.pl</a>
+      <a class="btn ghost" href="https://github.com/BartoszOsiej">github.com/BartoszOsiej</a>
+      <a class="btn ghost" href="https://bartoszosiej.github.io/">portfolio</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div><b>Verify everything</b>
+        <a href="https://github.com/BartoszOsiej">github.com/BartoszOsiej</a><br>
+        <a href="https://github.com/Hartwell-Labs">github.com/Hartwell-Labs</a><br>
+        <a href="https://github.com/ghost0development">github.com/ghost0development</a> — the 2021 archive<br>
+        <a href="https://github.com/aya-rs/book/pulls?q=author%3ABartoszOsiej">aya-rs/book — 3 open PRs</a>
+      </div>
+      <div><b>Published work</b>
+        <a href="https://crates.io/crates/process-monitor">crates.io — process-monitor</a><br>
+        <a href="https://pypi.org/project/externum/">pypi — externum</a><br>
+        <a href="https://dev.to/bartoszosiej">dev.to/bartoszosiej — 18 articles</a><br>
+        <a href="https://hartwell-labs.pl/">hartwell-labs.pl</a>
+      </div>
+      <div><b>Contact</b>
+        <a href="mailto:contact@hartwell-labs.pl">contact@hartwell-labs.pl</a><br>
+        <a href="https://www.linkedin.com/in/bartoszosiej2007/">linkedin.com/in/bartoszosiej2007</a><br>
+        Bartosz Osiej · Szczecin, Poland · b. 11.01.2007
+      </div>
+    </div>
+    <div class="fine">
+      No NDAs or client work referenced — every claim on this page is public and verifiable
+      from GitHub, crates.io, PyPI and dev.to. Written 08.10.2026 in Szczecin, on 8 GB of RAM.
+      <br>Not affiliated with Framework Computer Inc. — an open letter, sent with hope.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
