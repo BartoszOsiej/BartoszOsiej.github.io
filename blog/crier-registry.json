@@ -2,48 +2,48 @@
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/ai-crawler-seo-playbook",
     "platform": "mastodon",
-    "url": "https://mastodon.social/@bartoszosiej/117420947698560091",
-    "platform_id": "117420947698560091",
+    "url": "https://mastodon.social/@bartoszosiej/117421054013154458",
+    "platform_id": "117421054013154458",
     "title": "I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack",
     "source_file": "content/i-made-my-portfolio-readable-to-ai-crawlers-llms-txt-json-ld-and-a-40-method-dis.md"
   },
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/aurora-postmortem",
     "platform": "mastodon",
-    "url": "https://mastodon.social/@bartoszosiej/117420947801174093",
-    "platform_id": "117420947801174093",
+    "url": "https://mastodon.social/@bartoszosiej/117421054142750081",
+    "platform_id": "117421054142750081",
     "title": "A web OS that 'never booted': the two bugs that looked like kernel failures but were 404s and z-index",
     "source_file": "content/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-wer.md"
   },
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons",
     "platform": "mastodon",
-    "url": "https://mastodon.social/@bartoszosiej/117420949921161928",
-    "platform_id": "117420949921161928",
+    "url": "https://mastodon.social/@bartoszosiej/117421054204836670",
+    "platform_id": "117421054204836670",
     "title": "Catching ransomware with eBPF: what execve/openat tracing taught me about false positives",
     "source_file": "content/catching-ransomware-with-ebpf-what-execve-openat-tracing-taught-me-about-false-p.md"
   },
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-verifier-design-constraint",
     "platform": "mastodon",
-    "url": "https://mastodon.social/@bartoszosiej/117420951978042368",
-    "platform_id": "117420951978042368",
+    "url": "https://mastodon.social/@bartoszosiej/117421054262375901",
+    "platform_id": "117421054262375901",
     "title": "eBPF verifier limits are a design constraint: what CO-RE field offsets and bounded loops taught me",
     "source_file": "content/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounde.md"
   },
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/trustnode-validator-lessons",
     "platform": "mastodon",
-    "url": "https://mastodon.social/@bartoszosiej/117420954196909798",
-    "platform_id": "117420954196909798",
+    "url": "https://mastodon.social/@bartoszosiej/117421054470893466",
+    "platform_id": "117421054470893466",
     "title": "Building a Solana-like validator in Rust: what PoH, Tower BFT and Sealevel actually force you to think about",
     "source_file": "content/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actuall.md"
   },
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/ai-crawler-seo-playbook",
     "platform": "devto",
-    "url": "https://dev.to/bartoszosiej/i-made-my-portfolio-readable-to-ai-crawlers-llmstxt-json-ld-and-a-40-method-distribution-stack-4e2k",
-    "platform_id": "4831632",
+    "url": "https://dev.to/bartoszosiej/i-made-my-portfolio-readable-to-ai-crawlers-llmstxt-json-ld-and-a-40-method-distribution-stack-144p",
+    "platform_id": "4660616",
     "title": "I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack",
     "source_file": "content/i-made-my-portfolio-readable-to-ai-crawlers-llms-txt-json-ld-and-a-40-method-dis.md"
   },
@@ -51,7 +51,7 @@
     "canonical_url": "https://bo.hartwell-labs.pl/content/ai-crawler-seo-playbook",
     "platform": "discord",
     "url": null,
-    "platform_id": "1558733695244968028",
+    "platform_id": "1558740501560168589",
     "title": "I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack",
     "source_file": "content/i-made-my-portfolio-readable-to-ai-crawlers-llms-txt-json-ld-and-a-40-method-dis.md"
   },
@@ -66,8 +66,8 @@
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/aurora-postmortem",
     "platform": "devto",
-    "url": "https://dev.to/bartoszosiej/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-were-404s-and-akj",
-    "platform_id": "4831633",
+    "url": "https://dev.to/bartoszosiej/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-were-404s-and-1p3",
+    "platform_id": "4660618",
     "title": "A web OS that 'never booted': the two bugs that looked like kernel failures but were 404s and z-index",
     "source_file": "content/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-wer.md"
   },
@@ -75,7 +75,7 @@
     "canonical_url": "https://bo.hartwell-labs.pl/content/aurora-postmortem",
     "platform": "discord",
     "url": null,
-    "platform_id": "1558733701892804731",
+    "platform_id": "1558740507553955891",
     "title": "A web OS that 'never booted': the two bugs that looked like kernel failures but were 404s and z-index",
     "source_file": "content/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-wer.md"
   },
@@ -114,8 +114,8 @@
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons",
     "platform": "devto",
-    "url": "https://dev.to/bartoszosiej/catching-ransomware-with-ebpf-what-execveopenat-tracing-taught-me-about-false-positives-4a6e",
-    "platform_id": "4831636",
+    "url": "https://dev.to/bartoszosiej/catching-ransomware-with-ebpf-what-execveopenat-tracing-taught-me-about-false-positives-4676",
+    "platform_id": "4660620",
     "title": "Catching ransomware with eBPF: what execve/openat tracing taught me about false positives",
     "source_file": "content/catching-ransomware-with-ebpf-what-execve-openat-tracing-taught-me-about-false-p.md"
   },
@@ -123,7 +123,7 @@
     "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons",
     "platform": "discord",
     "url": null,
-    "platform_id": "1558733837012570135",
+    "platform_id": "1558740511055937549",
     "title": "Catching ransomware with eBPF: what execve/openat tracing taught me about false positives",
     "source_file": "content/catching-ransomware-with-ebpf-what-execve-openat-tracing-taught-me-about-false-p.md"
   },
@@ -138,8 +138,8 @@
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-verifier-design-constraint",
     "platform": "devto",
-    "url": "https://dev.to/bartoszosiej/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounded-loops-taught-me-1ngm",
-    "platform_id": "4831641",
+    "url": "https://dev.to/bartoszosiej/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounded-loops-taught-me-1akc",
+    "platform_id": "4660621",
     "title": "eBPF verifier limits are a design constraint: what CO-RE field offsets and bounded loops taught me",
     "source_file": "content/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounde.md"
   },
@@ -147,7 +147,7 @@
     "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-verifier-design-constraint",
     "platform": "discord",
     "url": null,
-    "platform_id": "1558733969191608341",
+    "platform_id": "1558740514889793559",
     "title": "eBPF verifier limits are a design constraint: what CO-RE field offsets and bounded loops taught me",
     "source_file": "content/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounde.md"
   },
@@ -170,8 +170,8 @@
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/trustnode-validator-lessons",
     "platform": "devto",
-    "url": "https://dev.to/bartoszosiej/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actually-force-you-to-3o67",
-    "platform_id": "4831646",
+    "url": "https://dev.to/bartoszosiej/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actually-force-you-to-14h9",
+    "platform_id": "4660623",
     "title": "Building a Solana-like validator in Rust: what PoH, Tower BFT and Sealevel actually force you to think about",
     "source_file": "content/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actuall.md"
   },
@@ -179,7 +179,7 @@
     "canonical_url": "https://bo.hartwell-labs.pl/content/trustnode-validator-lessons",
     "platform": "discord",
     "url": null,
-    "platform_id": "1558734115858030624",
+    "platform_id": "1558740528701378632",
     "title": "Building a Solana-like validator in Rust: what PoH, Tower BFT and Sealevel actually force you to think about",
     "source_file": "content/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actuall.md"
   },
@@ -194,8 +194,8 @@
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/externum-language-design",
     "platform": "devto",
-    "url": "https://dev.to/bartoszosiej/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchmark-caught-two-4gj0",
-    "platform_id": "4831642",
+    "url": "https://dev.to/bartoszosiej/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchmark-caught-two-2n25",
+    "platform_id": "4695249",
     "title": "Externum: a typed language that transpiles to Python and Bash \u2014 and its own benchmark caught two real bugs",
     "source_file": "content/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchma.md"
   },
@@ -218,8 +218,8 @@
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/externum-language-design",
     "platform": "mastodon",
-    "url": "https://mastodon.social/@bartoszosiej/117420952064159174",
-    "platform_id": "117420952064159174",
+    "url": "https://mastodon.social/@bartoszosiej/117421054348205833",
+    "platform_id": "117421054348205833",
     "title": "Externum: a typed language that transpiles to Python and Bash \u2014 and its own benchmark caught two real bugs",
     "source_file": "content/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchma.md"
   },
@@ -227,7 +227,7 @@
     "canonical_url": "https://bo.hartwell-labs.pl/content/externum-language-design",
     "platform": "discord",
     "url": null,
-    "platform_id": "1558733974317310023",
+    "platform_id": "1558740520455381015",
     "title": "Externum: a typed language that transpiles to Python and Bash \u2014 and its own benchmark caught two real bugs",
     "source_file": "content/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchma.md"
   },
@@ -298,16 +298,16 @@
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/open-source-solo-monetization",
     "platform": "devto",
-    "url": "https://dev.to/bartoszosiej/i-ship-open-source-security-tools-solo-heres-the-full-stack-the-pricing-and-the-zero-revenue-57gg",
-    "platform_id": "4831645",
+    "url": "https://dev.to/bartoszosiej/i-ship-open-source-security-tools-solo-heres-the-full-stack-the-pricing-and-the-zero-revenue-2fd4",
+    "platform_id": "4705095",
     "title": "I ship open-source security tools solo \u2014 here's the full stack, the pricing, and the (zero) revenue so far",
     "source_file": "content/i-ship-open-source-security-tools-solo-here-s-the-full-stack-the-pricing-and-the.md"
   },
   {
     "canonical_url": "https://bo.hartwell-labs.pl/content/open-source-solo-monetization",
     "platform": "mastodon",
-    "url": "https://mastodon.social/@bartoszosiej/117420954107384833",
-    "platform_id": "117420954107384833",
+    "url": "https://mastodon.social/@bartoszosiej/117421054411400781",
+    "platform_id": "117421054411400781",
     "title": "I ship open-source security tools solo \u2014 here's the full stack, the pricing, and the (zero) revenue so far",
     "source_file": "content/i-ship-open-source-security-tools-solo-here-s-the-full-stack-the-pricing-and-the.md"
   },
@@ -315,7 +315,7 @@
     "canonical_url": "https://bo.hartwell-labs.pl/content/open-source-solo-monetization",
     "platform": "discord",
     "url": null,
-    "platform_id": "1558734104655175703",
+    "platform_id": "1558740524888760412",
     "title": "I ship open-source security tools solo \u2014 here's the full stack, the pricing, and the (zero) revenue so far",
     "source_file": "content/i-ship-open-source-security-tools-solo-here-s-the-full-stack-the-pricing-and-the.md"
   },
