@@ -3,7 +3,7 @@ title: "A web OS that 'never booted': the two bugs that looked like kernel failu
 description: "Aurora (a browser-based OS) stuck on 'Initializing kernel…' for days. The kernel was fine — the bundles were 404ing from GitHub Pages, and then desktop icons refused clicks because of one CSS line. Post-mortem."
 tags: [web, typescript, debugging, deploy, github-pages]
 date: 2026-09-15
-canonical_url: https://bartoszosiej.github.io/content/aurora-postmortem
+canonical_url: https://bo.hartwell-labs.pl/content/aurora-postmortem
 layout: post
 published: true
 tldr: "Aurora 'stuck on kernel init' was dist/ being gitignored (GitHub Pages serves the repo, not your build output) — and the follow-up 'icons don't click' was a full-bleed z-index:2 overlay swallowing pointer events. Two boring bugs, two days of 'the OS is broken'."

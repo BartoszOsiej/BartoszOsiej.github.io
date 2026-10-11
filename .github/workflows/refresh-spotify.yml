@@ -2,7 +2,7 @@
 #
 # Runs every 5 minutes: refreshes the Spotify access token (PKCE flow —
 # NO client secret needed), reads the currently-playing track and commits
-# it to now-playing.json (served at https://bartoszosiej.github.io/now-playing.json).
+# it to now-playing.json (served at https://bo.hartwell-labs.pl/now-playing.json).
 #
 # Free-account fallback: /me/player/currently-playing requires Spotify Premium.
 # When it is unavailable, the workflow fetches the user's TOP TRACKS instead

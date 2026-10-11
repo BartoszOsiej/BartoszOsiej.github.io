@@ -6,6 +6,6 @@ A Solana-style validator cluster in Rust: Proof of History clock, Tower BFT cons
 
 ▸ The real lessons are about clock design — consensus is just the easy part.
 
-→ [Read the full breakdown](https://bartoszosiej.github.io/content/trustnode-validator-lessons)
+→ [Read the full breakdown](https://bo.hartwell-labs.pl/content/trustnode-validator-lessons)
 
 #rust #blockchain #systems

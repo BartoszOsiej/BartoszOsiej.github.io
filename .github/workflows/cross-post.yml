@@ -89,7 +89,7 @@ jobs:
           export HOME="$CRIER_HOME"
 
           crier config content set "$GITHUB_WORKSPACE/content"
-          crier config set site_base_url "https://bartoszosiej.github.io"
+          crier config set site_base_url "https://bo.hartwell-labs.pl"
           # exclude_patterns via CLI stores a raw string ("a,b") which crier then
           # iterates CHARACTER BY CHARACTER — the filter silently matches nothing.
           # crier also scans content/ RECURSIVELY, so private subdirs (writing-samples)
@@ -221,7 +221,7 @@ jobs:
               ]
 
           slugs = post_slugs()
-          canon = {s: f"https://bartoszosiej.github.io/content/{s}" for s in slugs}
+          canon = {s: f"https://bo.hartwell-labs.pl/content/{s}" for s in slugs}
 
           # platform targets = configured keys on this run (default core)
           # NOTE: telegram is handled in the per-article rewrite loop below
@@ -280,7 +280,7 @@ jobs:
                   hook = f"\n▸ {clean(first)}\n"
               hashtags = " ".join("#" + t.replace("-", "_") for t in tags)
               card = (f"{sec}\n\n*{clean(title)}*\n\n{clean(desc)}\n"
-                      f"{hook}\n→ [Read the full breakdown](https://bartoszosiej.github.io/content/{slug})\n"
+                      f"{hook}\n→ [Read the full breakdown](https://bo.hartwell-labs.pl/content/{slug})\n"
                       + (f"\n{hashtags}\n" if hashtags else ""))
               out.parent.mkdir(exist_ok=True)
               out.write_text(card, encoding="utf-8")

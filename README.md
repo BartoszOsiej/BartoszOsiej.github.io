@@ -4,7 +4,7 @@
 
 **Personal homepage — systems engineer & horror author.**
 
-**▶ [Live](https://bartoszosiej.github.io/)**
+**▶ [Live](https://bo.hartwell-labs.pl/)**
 
 </div>
 
@@ -20,7 +20,7 @@ write, plus book information.
 | | Site | What |
 |---|------|------|
 | 🛠️ | [Portfolio](https://bartoszosiej.github.io/Portfolio/) | Systems projects — Rust, eBPF, compilers |
-| 📚 | [Docs](https://bartoszosiej.github.io/Docs/) | Technical documentation hub |
+| 📚 | [Docs](https://hartwell-labs.pl/docs/) | Technical documentation hub |
 | ⚡ | [Externum Playground](https://hartwell-labs.pl/externum/) | My programming language, live in the browser |
 | 📖 | [The Stitcher Trilogy](https://bartoszosiej.github.io/thethreadcalls/) | Dark literary horror |
 | 🕯️ | [LIFE — Shadows of True Living](https://bartoszosiej.github.io/Mylife/) | Literary fiction |

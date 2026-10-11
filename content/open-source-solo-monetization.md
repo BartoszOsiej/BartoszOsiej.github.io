@@ -3,7 +3,7 @@ title: "I ship open-source security tools solo — here's the full stack, the pr
 description: "A Rust/eBPF ransomware killer, a language that compiles to Python and Bash, and two paid products wrapped around MIT code. Full transparency post: architecture, honest numbers, and why I charge for the curated path instead of the code."
 tags: [rust, security, opensource, ebpf]
 date: 2026-09-21
-canonical_url: https://bartoszosiej.github.io/content/open-source-solo-monetization
+canonical_url: https://bo.hartwell-labs.pl/content/open-source-solo-monetization
 layout: post
 published: true
 tldr: "A solo dev's transparent monetization setup: MIT-licensed security tooling, two paid products ($50 Talus Enterprise pack, $29 Externum Pro Pack), and the honest zero-revenue-so-far report."

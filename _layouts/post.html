@@ -92,7 +92,7 @@ footer a:hover{color:var(--blood)}
 
   <div class="src">
     <span class="row"><span class="k">SYNCED_WITH ▸</span> <a href="https://github.com/BartoszOsiej/BartoszOsiej.github.io/blob/main/{{ page.path }}">/{{ page.path }}</a> — this page renders from that file; the repo is the source of truth.</span>
-    <span class="row"><span class="k">PLAINTEXT ▸</span> <a href="/blog/{{ slug }}.txt">/blog/{{ slug }}.txt</a> — read it like software: <code>curl -s {{ page.canonical_url | default: 'https://bartoszosiej.github.io' }}/blog/{{ slug }}.txt | less</code></span>
+    <span class="row"><span class="k">PLAINTEXT ▸</span> <a href="/blog/{{ slug }}.txt">/blog/{{ slug }}.txt</a> — read it like software: <code>curl -s {{ page.canonical_url | default: 'https://bo.hartwell-labs.pl' }}/blog/{{ slug }}.txt | less</code></span>
     <span class="row"><span class="k">LAST_COMMIT ▸</span> <span class="lc" data-lastcommit>querying git…</span></span>
   </div>
 

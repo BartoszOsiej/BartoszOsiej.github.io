@@ -4,8 +4,8 @@ Building a Solana-like validator in Rust: what PoH, Tower BFT and Sealevel actua
 
 PUBLISHED : 2026-09-15 (UTC)
 AUTHOR    : bartoszosiej
-SOURCE    : https://bartoszosiej.github.io/content/trustnode-validator-lessons
-PLAINTEXT : https://bartoszosiej.github.io/blog/trustnode-validator-lessons.txt
+SOURCE    : https://bo.hartwell-labs.pl/content/trustnode-validator-lessons
+PLAINTEXT : https://bo.hartwell-labs.pl/blog/trustnode-validator-lessons.txt
 REPO      : https://github.com/BartoszOsiej/BartoszOsiej.github.io/blob/main/content/trustnode-validator-lessons.md
 
 TL;DR

@@ -1,2 +1,6 @@
 include:
   - .well-known
+url: "https://bo.hartwell-labs.pl"
+baseurl: ""
+title: "Bartosz Osiej"
+description: "Polish systems engineer (Rust, eBPF, Linux kernel) and author."

@@ -6,6 +6,6 @@ Hook execve and openat tracepoints with Aya, stream events through per-CPU perf 
 
 ▸ Ends with a working 1-second detection window — full Rust code included.
 
-→ [Read the full breakdown](https://bartoszosiej.github.io/content/ebpf-ransomware-everything)
+→ [Read the full breakdown](https://bo.hartwell-labs.pl/content/ebpf-ransomware-everything)
 
 #ebpf #rust #security

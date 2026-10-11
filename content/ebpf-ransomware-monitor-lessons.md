@@ -3,7 +3,7 @@ title: "Catching ransomware with eBPF: what execve/openat tracing taught me abou
 description: "Lessons from building talus-process-monitor, a Rust + eBPF ransomware detector: per-CPU perf buffers, behavioural pattern matching, and why build systems are a detector's worst enemy."
 tags: [ebpf, rust, linux, security, ransomware]
 date: 2026-09-13
-canonical_url: https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons
+canonical_url: https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons
 layout: post
 published: true
 tldr: "Behavioural eBPF tracing (execve/openat + per-CPU perf buffers) catches ransomware by the shape of its damage — the hard part is scoring patterns without crying wolf on every cargo build."

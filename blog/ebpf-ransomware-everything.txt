@@ -4,8 +4,8 @@ Detecting ransomware with eBPF in Rust
 
 PUBLISHED : 2026-09-16 (UTC)
 AUTHOR    : bartoszosiej
-SOURCE    : https://bartoszosiej.github.io/content/ebpf-ransomware-everything
-PLAINTEXT : https://bartoszosiej.github.io/blog/ebpf-ransomware-everything.txt
+SOURCE    : https://bo.hartwell-labs.pl/content/ebpf-ransomware-everything
+PLAINTEXT : https://bo.hartwell-labs.pl/blog/ebpf-ransomware-everything.txt
 REPO      : https://github.com/BartoszOsiej/BartoszOsiej.github.io/blob/main/content/ebpf-ransomware-everything.md
 
 TL;DR

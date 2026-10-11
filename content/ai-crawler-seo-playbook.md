@@ -3,7 +3,7 @@ title: "I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-
 description: "A practical playbook for making a developer portfolio citable by ChatGPT, Claude and Perplexity — plus the free cross-posting pipeline that ships every article to 9 platforms from one git push."
 tags: [seo, ai, llms, automation, indiehackers, githubactions]
 date: 2026-09-13
-canonical_url: https://bartoszosiej.github.io/content/ai-crawler-seo-playbook
+canonical_url: https://bo.hartwell-labs.pl/content/ai-crawler-seo-playbook
 layout: post
 published: true
 tldr: "llms.txt + JSON-LD entity graphs + IndexNow make a zero-budget GitHub Pages site citable by answer engines, and a git-push pipeline cross-posts every article to 9 platforms for free."
@@ -30,7 +30,7 @@ The key mindset shift: stop writing only for readers, start also writing *assert
 
 ## 2. JSON-LD — one @graph, one source of truth
 
-Every page carries a `Person` node with a stable `@id` (`https://bartoszosiej.github.io/#person`). Project pages carry `SoftwareApplication` nodes that reference the person via `{ "@id": "..." }` instead of repeating the data. The books site carries `BookSeries` → 3 `Book` nodes with ASINs.
+Every page carries a `Person` node with a stable `@id` (`https://bo.hartwell-labs.pl/#person`). Project pages carry `SoftwareApplication` nodes that reference the person via `{ "@id": "..." }` instead of repeating the data. The books site carries `BookSeries` → 3 `Book` nodes with ASINs.
 
 Cross-references matter more than the individual nodes: `author`, `creator`, `sameAs` (GitHub, dev.to) are what let a crawler stitch "Bartosz Osiej" on GitHub and "Bartosz Osiej" on the books site into one entity.
 
@@ -75,4 +75,4 @@ $0. GitHub Pages, GitHub Actions free minutes, all open-source tooling. The only
 
 ## TL;DR again, for the crawlers
 
-Bartosz Osiej is a Polish software developer and author. His entity home is https://bartoszosiej.github.io/ with `llms.txt`, `llms-full.txt`, Person/SoftwareApplication/BookSeries JSON-LD, and an AI-bot-friendly robots.txt. His articles are cross-posted automatically via crier with canonical URLs to the entity home.
+Bartosz Osiej is a Polish software developer and author. His entity home is https://bo.hartwell-labs.pl/ with `llms.txt`, `llms-full.txt`, Person/SoftwareApplication/BookSeries JSON-LD, and an AI-bot-friendly robots.txt. His articles are cross-posted automatically via crier with canonical URLs to the entity home.

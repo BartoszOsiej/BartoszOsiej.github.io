@@ -3,7 +3,7 @@ title: "Building a Solana-like validator in Rust: what PoH, Tower BFT and Sealev
 description: "TrustNode is a Solana-style cluster in Rust — Proof of History clock, Tower BFT consensus, Sealevel-style parallel execution. The lessons are about clock design, not just blockchains."
 tags: [rust, blockchain, consensus, systems, architecture]
 date: 2026-09-15
-canonical_url: https://bartoszosiej.github.io/content/trustnode-validator-lessons
+canonical_url: https://bo.hartwell-labs.pl/content/trustnode-validator-lessons
 layout: post
 published: true
 tldr: "Re-implementing a Solana-like node in Rust teaches more than the whitepaper does: the PoH clock is a schedule problem, Tower BFT is a voting-height game, and Sealevel parallelism lives or dies on account locks."

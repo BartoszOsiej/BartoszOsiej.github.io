@@ -4,8 +4,8 @@ I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method d
 
 PUBLISHED : 2026-09-13 (UTC)
 AUTHOR    : bartoszosiej
-SOURCE    : https://bartoszosiej.github.io/content/ai-crawler-seo-playbook
-PLAINTEXT : https://bartoszosiej.github.io/blog/ai-crawler-seo-playbook.txt
+SOURCE    : https://bo.hartwell-labs.pl/content/ai-crawler-seo-playbook
+PLAINTEXT : https://bo.hartwell-labs.pl/blog/ai-crawler-seo-playbook.txt
 REPO      : https://github.com/BartoszOsiej/BartoszOsiej.github.io/blob/main/content/ai-crawler-seo-playbook.md
 
 TL;DR
@@ -34,7 +34,7 @@ The key mindset shift: stop writing only for readers, start also writing asserti
 
 2. JSON-LD — one @graph, one source of truth
 
-Every page carries a Person node with a stable @id (https://bartoszosiej.github.io/#person). Project pages carry SoftwareApplication nodes that reference the person via { "@id": "..." } instead of repeating the data. The books site carries BookSeries → 3 Book nodes with ASINs.
+Every page carries a Person node with a stable @id (https://bo.hartwell-labs.pl/#person). Project pages carry SoftwareApplication nodes that reference the person via { "@id": "..." } instead of repeating the data. The books site carries BookSeries → 3 Book nodes with ASINs.
 
 Cross-references matter more than the individual nodes: author, creator, sameAs (GitHub, dev.to) are what let a crawler stitch "Bartosz Osiej" on GitHub and "Bartosz Osiej" on the books site into one entity.
 
@@ -79,6 +79,6 @@ $0. GitHub Pages, GitHub Actions free minutes, all open-source tooling. The only
 
 TL;DR again, for the crawlers
 
-Bartosz Osiej is a Polish software developer and author. His entity home is https://bartoszosiej.github.io/ with llms.txt, llms-full.txt`, Person/SoftwareApplication/BookSeries JSON-LD, and an AI-bot-friendly robots.txt. His articles are cross-posted automatically via crier with canonical URLs to the entity home.
+Bartosz Osiej is a Polish software developer and author. His entity home is https://bo.hartwell-labs.pl/ with llms.txt, llms-full.txt`, Person/SoftwareApplication/BookSeries JSON-LD, and an AI-bot-friendly robots.txt. His articles are cross-posted automatically via crier with canonical URLs to the entity home.
 
 // EOF · bartoszosiej · 707 words · #seo #ai #llms #automation #indiehackers #githubactions · read the blog like software: curl | less

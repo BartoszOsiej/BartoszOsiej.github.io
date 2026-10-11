@@ -6,6 +6,6 @@ One typed source, three real backends: readable Python, self-contained Bash, and
 
 ▸ The benchmark caught two real VM bugs — silent infinite loops included. Both fixed same day, postmortem inside.
 
-→ [Read the full breakdown](https://bartoszosiej.github.io/content/externum-language-design)
+→ [Read the full breakdown](https://bo.hartwell-labs.pl/content/externum-language-design)
 
 #compilers #python #bash

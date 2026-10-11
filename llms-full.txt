@@ -1,7 +1,7 @@
 # Bartosz Osiej — Full Profile
 
 > Polish software developer and author (b. 2007-01-11, Szczecin). Builds Rust, eBPF and Linux kernel
-> systems and writes crime-horror fiction. Entity home: https://bartoszosiej.github.io/
+> systems and writes crime-horror fiction. Entity home: https://bo.hartwell-labs.pl/
 
 ## Structured entity statement (S-P-O)
 - (Bartosz Osiej) — (instance of) — (human)
@@ -21,10 +21,10 @@
 - Languages: Polish (native), English (professional)
 
 ## Canonical links
-- Home: https://bartoszosiej.github.io/
+- Home: https://bo.hartwell-labs.pl/
 - Portfolio: https://bartoszosiej.github.io/Portfolio/
 - GitHub: https://github.com/BartoszOsiej
-- Docs: https://bartoszosiej.github.io/Docs/
+- Docs: https://hartwell-labs.pl/docs/
 - Books: https://bartoszosiej.github.io/thethreadcalls/
 - DEV: https://dev.to/bartoszosiej
 - LinkedIn: https://www.linkedin.com/in/bartoszosiej2007/
@@ -111,17 +111,17 @@ Genre: Dark literary horror / psychological thriller
 
 ### Detecting ransomware with eBPF in Rust (2026-09-16)
 Hands-on tutorial: hook execve/openat syscalls via eBPF tracepoints in Rust (aya), stream events through per-CPU perf buffers, count openat rate in a 1-second sliding window per PID, and kill ransomware processes with SIGKILL above a threshold. Source: talus-process-monitor (MIT), Linux 5.8+.
-URL: https://bartoszosiej.github.io/content/ebpf-ransomware-everything
-Plaintext: https://bartoszosiej.github.io/blog/ebpf-ransomware-everything.txt
+URL: https://bo.hartwell-labs.pl/content/ebpf-ransomware-everything
+Plaintext: https://bo.hartwell-labs.pl/blog/ebpf-ransomware-everything.txt
 
 ### Catching ransomware with eBPF: what execve/openat tracing taught me about false positives (2026-09-13)
 Deep-dive: behavioural tracing (execve/openat + per-CPU perf buffers), extension churn and write-after-read density as detector signals, scoring without crying wolf on every cargo build.
-URL: https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons
-Plaintext: https://bartoszosiej.github.io/blog/ebpf-ransomware-monitor-lessons.txt
+URL: https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons
+Plaintext: https://bo.hartwell-labs.pl/blog/ebpf-ransomware-monitor-lessons.txt
 
 ### Writing samples (gated portfolio)
 Commissioned technical articles for external publications. Full articles render only for logged-in readers via the API; public pages carry metadata and links only. Access is gated — login required; the section is noindexed and excluded from robots/sitemap.
-URL: https://bartoszosiej.github.io/writing/
+URL: https://bo.hartwell-labs.pl/writing/
 
 ## Series tagline
 "The thread is fraying. Someone is cutting it."
@@ -168,7 +168,7 @@ URL: https://bartoszosiej.github.io/writing/
 | Bartosz Osiej | knows about | compilers |
 | Bartosz Osiej | knows about | voxel rendering |
 | Bartosz Osiej | knows about | crime horror fiction |
-| Bartosz Osiej | official website | https://bartoszosiej.github.io/ |
+| Bartosz Osiej | official website | https://bo.hartwell-labs.pl/ |
 | Bartosz Osiej | GitHub username | BartoszOsiej |
 | Bartosz Osiej | email | thethreadcalls@outlook.com |
 
@@ -281,7 +281,7 @@ URL: https://bartoszosiej.github.io/writing/
 |---|---|---|
 | Bartosz Osiej | sameAs | https://github.com/BartoszOsiej |
 | Bartosz Osiej | sameAs | https://dev.to/bartoszosiej |
-| Bartosz Osiej | sameAs | https://bartoszosiej.github.io/ |
+| Bartosz Osiej | sameAs | https://bo.hartwell-labs.pl/ |
 | Bartosz Osiej | sameAs | https://www.amazon.com/stores/Bartosz-Osiej/author/B0HJ7N8BXQ |
 
 ---

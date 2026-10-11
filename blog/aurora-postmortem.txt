@@ -4,8 +4,8 @@ A web OS that 'never booted': the two bugs that looked like kernel failures but 
 
 PUBLISHED : 2026-09-15 (UTC)
 AUTHOR    : bartoszosiej
-SOURCE    : https://bartoszosiej.github.io/content/aurora-postmortem
-PLAINTEXT : https://bartoszosiej.github.io/blog/aurora-postmortem.txt
+SOURCE    : https://bo.hartwell-labs.pl/content/aurora-postmortem
+PLAINTEXT : https://bo.hartwell-labs.pl/blog/aurora-postmortem.txt
 REPO      : https://github.com/BartoszOsiej/BartoszOsiej.github.io/blob/main/content/aurora-postmortem.md
 
 TL;DR

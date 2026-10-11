@@ -6,6 +6,6 @@ How to make a developer portfolio citable by ChatGPT, Claude and Perplexity: llm
 
 ▸ The whole pipeline is free and runs in CI — no third-party services, no API bills.
 
-→ [Read the full breakdown](https://bartoszosiej.github.io/content/ai-crawler-seo-playbook)
+→ [Read the full breakdown](https://bo.hartwell-labs.pl/content/ai-crawler-seo-playbook)
 
 #seo #ai #automation

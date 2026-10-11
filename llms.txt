@@ -2,7 +2,7 @@
 
 > Systems engineer & founder. Post-quantum cryptography, eBPF security tooling, programming languages, and a post-quantum Bitcoin. Everything MIT-licensed, built in the open, Poland.
 
-Main site: https://bartoszosiej.github.io/
+Main site: https://bo.hartwell-labs.pl/
 
 ## Projects
 
@@ -53,8 +53,8 @@ Landing: https://bartoszosiej.github.io/thethreadcalls/
 
 ## Documentation
 
-Full docs hub (Fumadocs, llms.txt enabled): https://bartoszosiej.github.io/Docs/
-Project registry: https://bartoszosiej.github.io/Docs/docs/projects/
+Full docs hub (Fumadocs, llms.txt enabled): https://hartwell-labs.pl/docs/
+Project registry: https://hartwell-labs.pl/docs/docs/projects/
 
 ## Products (paid, code stays MIT & free)
 

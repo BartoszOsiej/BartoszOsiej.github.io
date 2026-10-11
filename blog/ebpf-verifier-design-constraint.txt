@@ -4,8 +4,8 @@ eBPF verifier limits are a design constraint: what CO-RE field offsets and bound
 
 PUBLISHED : 2026-09-14 (UTC)
 AUTHOR    : bartoszosiej
-SOURCE    : https://bartoszosiej.github.io/content/ebpf-verifier-design-constraint
-PLAINTEXT : https://bartoszosiej.github.io/blog/ebpf-verifier-design-constraint.txt
+SOURCE    : https://bo.hartwell-labs.pl/content/ebpf-verifier-design-constraint
+PLAINTEXT : https://bo.hartwell-labs.pl/blog/ebpf-verifier-design-constraint.txt
 REPO      : https://github.com/BartoszOsiej/BartoszOsiej.github.io/blob/main/content/ebpf-verifier-design-constraint.md
 
 TL;DR

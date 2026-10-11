@@ -4,8 +4,8 @@ Catching ransomware with eBPF: what execve/openat tracing taught me about false 
 
 PUBLISHED : 2026-09-13 (UTC)
 AUTHOR    : bartoszosiej
-SOURCE    : https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons
-PLAINTEXT : https://bartoszosiej.github.io/blog/ebpf-ransomware-monitor-lessons.txt
+SOURCE    : https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons
+PLAINTEXT : https://bo.hartwell-labs.pl/blog/ebpf-ransomware-monitor-lessons.txt
 REPO      : https://github.com/BartoszOsiej/BartoszOsiej.github.io/blob/main/content/ebpf-ransomware-monitor-lessons.md
 
 TL;DR

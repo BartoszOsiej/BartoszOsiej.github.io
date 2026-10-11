@@ -6,6 +6,6 @@ Lessons from shipping a Rust + eBPF ransomware detector: per-CPU perf buffers, b
 
 ▸ The best false-positive stories come from compilers and package managers, not malware.
 
-→ [Read the full breakdown](https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons)
+→ [Read the full breakdown](https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons)
 
 #ebpf #rust #linux

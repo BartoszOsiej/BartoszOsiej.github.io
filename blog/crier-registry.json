@@ -1,6 +1,6 @@
 [
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ai-crawler-seo-playbook",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ai-crawler-seo-playbook",
     "platform": "mastodon",
     "url": "https://mastodon.social/@bartoszosiej/117298923842713610",
     "platform_id": "117298923842713610",
@@ -8,7 +8,7 @@
     "source_file": "content/i-made-my-portfolio-readable-to-ai-crawlers-llms-txt-json-ld-and-a-40-method-dis.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/aurora-postmortem",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/aurora-postmortem",
     "platform": "mastodon",
     "url": "https://mastodon.social/@bartoszosiej/117298923933307551",
     "platform_id": "117298923933307551",
@@ -16,7 +16,7 @@
     "source_file": "content/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-wer.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons",
     "platform": "mastodon",
     "url": "https://mastodon.social/@bartoszosiej/117298924134322725",
     "platform_id": "117298924134322725",
@@ -24,7 +24,7 @@
     "source_file": "content/catching-ransomware-with-ebpf-what-execve-openat-tracing-taught-me-about-false-p.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-verifier-design-constraint",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-verifier-design-constraint",
     "platform": "mastodon",
     "url": "https://mastodon.social/@bartoszosiej/117298924173766690",
     "platform_id": "117298924173766690",
@@ -32,7 +32,7 @@
     "source_file": "content/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounde.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/trustnode-validator-lessons",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/trustnode-validator-lessons",
     "platform": "mastodon",
     "url": "https://mastodon.social/@bartoszosiej/117298924373788866",
     "platform_id": "117298924373788866",
@@ -40,7 +40,7 @@
     "source_file": "content/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actuall.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ai-crawler-seo-playbook",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ai-crawler-seo-playbook",
     "platform": "devto",
     "url": "https://dev.to/bartoszosiej/i-made-my-portfolio-readable-to-ai-crawlers-llmstxt-json-ld-and-a-40-method-distribution-stack-144p",
     "platform_id": "4660616",
@@ -48,7 +48,7 @@
     "source_file": "content/i-made-my-portfolio-readable-to-ai-crawlers-llms-txt-json-ld-and-a-40-method-dis.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ai-crawler-seo-playbook",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ai-crawler-seo-playbook",
     "platform": "discord",
     "url": null,
     "platform_id": "1550924168373997659",
@@ -56,7 +56,7 @@
     "source_file": "content/i-made-my-portfolio-readable-to-ai-crawlers-llms-txt-json-ld-and-a-40-method-dis.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ai-crawler-seo-playbook",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ai-crawler-seo-playbook",
     "platform": "bluesky",
     "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7z7c4pg2z",
     "platform_id": "3mvv7z7c4pg2z",
@@ -64,7 +64,7 @@
     "source_file": "content/i-made-my-portfolio-readable-to-ai-crawlers-llms-txt-json-ld-and-a-40-method-dis.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/aurora-postmortem",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/aurora-postmortem",
     "platform": "devto",
     "url": "https://dev.to/bartoszosiej/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-were-404s-and-1p3",
     "platform_id": "4660618",
@@ -72,7 +72,7 @@
     "source_file": "content/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-wer.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/aurora-postmortem",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/aurora-postmortem",
     "platform": "discord",
     "url": null,
     "platform_id": "1550924176834035883",
@@ -80,7 +80,7 @@
     "source_file": "content/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-wer.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/aurora-postmortem",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/aurora-postmortem",
     "platform": "bluesky",
     "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7z7rnio2k",
     "platform_id": "3mvv7z7rnio2k",
@@ -88,7 +88,7 @@
     "source_file": "content/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-wer.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-everything",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-everything",
     "platform": "devto",
     "url": "https://dev.to/bartoszosiej/detecting-ransomware-with-ebpf-in-rust-4ah9",
     "platform_id": "4669928",
@@ -96,7 +96,7 @@
     "source_file": "content/detecting-ransomware-with-ebpf-in-rust.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-everything",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-everything",
     "platform": "mastodon",
     "url": "https://mastodon.social/@bartoszosiej/117298924088902520",
     "platform_id": "117298924088902520",
@@ -104,7 +104,7 @@
     "source_file": "content/detecting-ransomware-with-ebpf-in-rust.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-everything",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-everything",
     "platform": "discord",
     "url": null,
     "platform_id": "1550924183750320169",
@@ -112,7 +112,7 @@
     "source_file": "content/detecting-ransomware-with-ebpf-in-rust.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons",
     "platform": "devto",
     "url": "https://dev.to/bartoszosiej/catching-ransomware-with-ebpf-what-execveopenat-tracing-taught-me-about-false-positives-4676",
     "platform_id": "4660620",
@@ -120,7 +120,7 @@
     "source_file": "content/catching-ransomware-with-ebpf-what-execve-openat-tracing-taught-me-about-false-p.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons",
     "platform": "discord",
     "url": null,
     "platform_id": "1550924186896044034",
@@ -128,7 +128,7 @@
     "source_file": "content/catching-ransomware-with-ebpf-what-execve-openat-tracing-taught-me-about-false-p.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons",
     "platform": "bluesky",
     "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zaem7t2f",
     "platform_id": "3mvv7zaem7t2f",
@@ -136,7 +136,7 @@
     "source_file": "content/catching-ransomware-with-ebpf-what-execve-openat-tracing-taught-me-about-false-p.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-verifier-design-constraint",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-verifier-design-constraint",
     "platform": "devto",
     "url": "https://dev.to/bartoszosiej/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounded-loops-taught-me-1akc",
     "platform_id": "4660621",
@@ -144,7 +144,7 @@
     "source_file": "content/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounde.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-verifier-design-constraint",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-verifier-design-constraint",
     "platform": "discord",
     "url": null,
     "platform_id": "1550924193527496776",
@@ -152,7 +152,7 @@
     "source_file": "content/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounde.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-verifier-design-constraint",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-verifier-design-constraint",
     "platform": "bluesky",
     "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zaviay2i",
     "platform_id": "3mvv7zaviay2i",
@@ -160,7 +160,7 @@
     "source_file": "content/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounde.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-everything",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-everything",
     "platform": "bluesky",
     "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zbf3yu2t",
     "platform_id": "3mvv7zbf3yu2t",
@@ -168,7 +168,7 @@
     "source_file": "content/detecting-ransomware-with-ebpf-in-rust.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/trustnode-validator-lessons",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/trustnode-validator-lessons",
     "platform": "devto",
     "url": "https://dev.to/bartoszosiej/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actually-force-you-to-14h9",
     "platform_id": "4660623",
@@ -176,7 +176,7 @@
     "source_file": "content/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actuall.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/trustnode-validator-lessons",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/trustnode-validator-lessons",
     "platform": "discord",
     "url": null,
     "platform_id": "1550924203841163486",
@@ -184,7 +184,7 @@
     "source_file": "content/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actuall.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/trustnode-validator-lessons",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/trustnode-validator-lessons",
     "platform": "bluesky",
     "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zc4r642c",
     "platform_id": "3mvv7zc4r642c",
@@ -192,7 +192,7 @@
     "source_file": "content/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actuall.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/externum-language-design",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/externum-language-design",
     "platform": "devto",
     "url": "https://dev.to/bartoszosiej/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchmark-caught-two-2n25",
     "platform_id": "4695249",
@@ -216,7 +216,7 @@
     "source_file": "content/bip-calendar.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/externum-language-design",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/externum-language-design",
     "platform": "mastodon",
     "url": "https://mastodon.social/@bartoszosiej/117298941444652045",
     "platform_id": "117298941444652045",
@@ -224,7 +224,7 @@
     "source_file": "content/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchma.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/externum-language-design",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/externum-language-design",
     "platform": "discord",
     "url": null,
     "platform_id": "1550925295345729601",
@@ -232,7 +232,7 @@
     "source_file": "content/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchma.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/externum-language-design",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/externum-language-design",
     "platform": "bluesky",
     "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvvaayd4rb2w",
     "platform_id": "at://did:plc:ii7walqcqw36y2eccgfimf7y/app.bsky.feed.post/3mvvaayd4rb2w",
@@ -240,7 +240,7 @@
     "source_file": "content/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchma.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/externum-language-design",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/externum-language-design",
     "platform": "telegram",
     "url": "https://t.me/hartwell_info/14",
     "platform_id": "14",
@@ -248,7 +248,7 @@
     "source_file": "content/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchma.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ai-crawler-seo-playbook",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ai-crawler-seo-playbook",
     "platform": "telegram",
     "url": "https://t.me/hartwell_info/15",
     "platform_id": "15",
@@ -256,7 +256,7 @@
     "source_file": "content/i-made-my-portfolio-readable-to-ai-crawlers-llms-txt-json-ld-and-a-40-method-dis.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-everything",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-everything",
     "platform": "telegram",
     "url": "https://t.me/hartwell_info/16",
     "platform_id": "16",
@@ -264,7 +264,7 @@
     "source_file": "content/detecting-ransomware-with-ebpf-in-rust.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons",
     "platform": "telegram",
     "url": "https://t.me/hartwell_info/17",
     "platform_id": "17",
@@ -272,7 +272,7 @@
     "source_file": "content/catching-ransomware-with-ebpf-what-execve-openat-tracing-taught-me-about-false-p.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/ebpf-verifier-design-constraint",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-verifier-design-constraint",
     "platform": "telegram",
     "url": "https://t.me/hartwell_info/18",
     "platform_id": "18",
@@ -280,7 +280,7 @@
     "source_file": "content/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounde.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/trustnode-validator-lessons",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/trustnode-validator-lessons",
     "platform": "telegram",
     "url": "https://t.me/hartwell_info/19",
     "platform_id": "19",
@@ -288,7 +288,7 @@
     "source_file": "content/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actuall.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/aurora-postmortem",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/aurora-postmortem",
     "platform": "telegram",
     "url": "https://t.me/hartwell_info/20",
     "platform_id": "20",
@@ -296,7 +296,7 @@
     "source_file": "content/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-wer.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/open-source-solo-monetization",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/open-source-solo-monetization",
     "platform": "devto",
     "url": "https://dev.to/bartoszosiej/i-ship-open-source-security-tools-solo-heres-the-full-stack-the-pricing-and-the-zero-revenue-2fd4",
     "platform_id": "4705095",
@@ -304,7 +304,7 @@
     "source_file": "content/i-ship-open-source-security-tools-solo-here-s-the-full-stack-the-pricing-and-the.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/open-source-solo-monetization",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/open-source-solo-monetization",
     "platform": "mastodon",
     "url": "https://mastodon.social/@bartoszosiej/117307941215674727",
     "platform_id": "117307941215674727",
@@ -312,7 +312,7 @@
     "source_file": "content/i-ship-open-source-security-tools-solo-here-s-the-full-stack-the-pricing-and-the.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/open-source-solo-monetization",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/open-source-solo-monetization",
     "platform": "discord",
     "url": null,
     "platform_id": "1551501280529350707",
@@ -320,7 +320,7 @@
     "source_file": "content/i-ship-open-source-security-tools-solo-here-s-the-full-stack-the-pricing-and-the.md"
   },
   {
-    "canonical_url": "https://bartoszosiej.github.io/content/open-source-solo-monetization",
+    "canonical_url": "https://bo.hartwell-labs.pl/content/open-source-solo-monetization",
     "platform": "telegram",
     "url": "https://t.me/hartwell_info/32",
     "platform_id": "32",

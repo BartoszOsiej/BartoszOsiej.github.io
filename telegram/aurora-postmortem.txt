@@ -6,6 +6,6 @@ A browser-based web OS stuck on 'Initializing kernel' for days. The kernel was f
 
 ▸ Two bugs, zero kernel failures: a deploy race and a single z-index property.
 
-→ [Read the postmortem](https://bartoszosiej.github.io/content/aurora-postmortem)
+→ [Read the postmortem](https://bo.hartwell-labs.pl/content/aurora-postmortem)
 
 #typescript #debugging #postmortem

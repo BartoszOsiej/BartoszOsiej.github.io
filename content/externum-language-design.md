@@ -3,7 +3,7 @@ title: "Externum: a typed language that transpiles to Python and Bash — and it
 description: "How Externum compiles the same program to readable Python, standalone Bash, and a source-less bytecode artifact — what the design costs, what the benchmark proved, and the two VM bugs it exposed."
 tags: [compilers, python, bash, programming-languages, buildinpublic]
 date: 2026-09-19
-canonical_url: https://bartoszosiej.github.io/content/externum-language-design
+canonical_url: https://bo.hartwell-labs.pl/content/externum-language-design
 layout: post
 published: true
 tldr: "One typed source, three backends: readable Python, standalone Bash, and a .exbc artifact that runs without source. Honest design trade-offs, a hyperfine benchmark, and the two bytecode-VM bugs the benchmark itself caught — fixed same day."

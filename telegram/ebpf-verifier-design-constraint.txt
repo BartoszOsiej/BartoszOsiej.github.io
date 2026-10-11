@@ -6,6 +6,6 @@ Writing kernel eBPF programs that survive the verifier: CO-RE relocation, verifi
 
 ▸ Verifier limits are not obstacles; they are the design constraint that shapes the architecture.
 
-→ [Read the full breakdown](https://bartoszosiej.github.io/content/ebpf-verifier-design-constraint)
+→ [Read the full breakdown](https://bo.hartwell-labs.pl/content/ebpf-verifier-design-constraint)
 
 #ebpf #kernel #rust
