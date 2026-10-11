@@ -14,7 +14,7 @@ crons = ["5 0 * * *"]          # daily karma snapshot 00:05 UTC
 
 [vars]
 # ADMIN_USER = "bartoszosiej"  # account with this username becomes admin (role: admin)
-# ORIGIN = "https://bartoszosiej.github.io"
+# ORIGIN = "https://bo.hartwell-labs.pl"
 
 # Secrets (set via `npx wrangler secret put NAME`):
 #   IP_PEPPER  — random string; salts IP hashes so raw IPs are never stored

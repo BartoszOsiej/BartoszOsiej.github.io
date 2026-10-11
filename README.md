@@ -19,11 +19,11 @@ write, plus book information.
 
 | | Site | What |
 |---|------|------|
-| 🛠️ | [Portfolio](https://bartoszosiej.github.io/Portfolio/) | Systems projects — Rust, eBPF, compilers |
+| 🛠️ | [Portfolio](https://bo.hartwell-labs.pl/Portfolio/) | Systems projects — Rust, eBPF, compilers |
 | 📚 | [Docs](https://hartwell-labs.pl/docs/) | Technical documentation hub |
 | ⚡ | [Externum Playground](https://hartwell-labs.pl/externum/) | My programming language, live in the browser |
-| 📖 | [The Stitcher Trilogy](https://bartoszosiej.github.io/thethreadcalls/) | Dark literary horror |
-| 🕯️ | [LIFE — Shadows of True Living](https://bartoszosiej.github.io/Mylife/) | Literary fiction |
+| 📖 | [The Stitcher Trilogy](https://bo.hartwell-labs.pl/thethreadcalls/) | Dark literary horror |
+| 🕯️ | [LIFE — Shadows of True Living](https://bo.hartwell-labs.pl/Mylife/) | Literary fiction |
 
 Code lives on [@BartoszOsiej](https://github.com/BartoszOsiej) ·
 early history (2021–2025) on [@ghost0development](https://github.com/ghost0development).

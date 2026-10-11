@@ -22,10 +22,10 @@
 
 ## Canonical links
 - Home: https://bo.hartwell-labs.pl/
-- Portfolio: https://bartoszosiej.github.io/Portfolio/
+- Portfolio: https://bo.hartwell-labs.pl/Portfolio/
 - GitHub: https://github.com/BartoszOsiej
 - Docs: https://hartwell-labs.pl/docs/
-- Books: https://bartoszosiej.github.io/thethreadcalls/
+- Books: https://bo.hartwell-labs.pl/thethreadcalls/
 - DEV: https://dev.to/bartoszosiej
 - LinkedIn: https://www.linkedin.com/in/bartoszosiej2007/
 - Amazon author page: https://www.amazon.com/stores/Bartosz-Osiej/author/B0HJ7N8BXQ
@@ -104,7 +104,7 @@ Pia Redfern inherits a museum collection of impossible, beating shells — and t
 The thread fraying. The ending of the trilogy.
 - ASIN: B0GX7CPY7H — https://www.amazon.com/dp/B0GX7CPY7H
 
-Site: https://bartoszosiej.github.io/thethreadcalls/
+Site: https://bo.hartwell-labs.pl/thethreadcalls/
 Genre: Dark literary horror / psychological thriller
 
 ## Writing

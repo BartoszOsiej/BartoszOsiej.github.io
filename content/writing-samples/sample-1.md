@@ -10,4 +10,4 @@ published: true
 tldr: "Behavioural eBPF tracing catches ransomware by the shape of its damage — scoring patterns without crying wolf on every cargo build."
 ---
 
-See full article: [bartoszosiej.github.io/content/ebpf-ransomware-monitor-lessons](https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons)
+See full article: [bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons](https://bo.hartwell-labs.pl/content/ebpf-ransomware-monitor-lessons)

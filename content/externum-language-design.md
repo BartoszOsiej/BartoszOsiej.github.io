@@ -91,4 +91,4 @@ Neither was caught by CI, because the existing VM tests didn't use those constru
 
 The roadmap from here: a JS target (the natural next runtime that's already everywhere), more stdlib, and keeping the honest-limits section of the README as current as the features list.
 
-- Repo: [github.com/BartoszOsiej/externum](https://github.com/BartoszOsiej/externum) · Playground: [bartoszosiej.github.io/externum](https://hartwell-labs.pl/externum/) · `pip install externum` · MIT, ~380 tests
+- Repo: [github.com/BartoszOsiej/externum](https://github.com/BartoszOsiej/externum) · Playground: [hartwell-labs.pl/externum](https://hartwell-labs.pl/externum/) · `pip install externum` · MIT, ~380 tests

@@ -9,7 +9,7 @@ Main site: https://bo.hartwell-labs.pl/
 ### pqbit
 Post-quantum Bitcoin: ML-DSA-44/SLH-DSA (FIPS 204/205) signatures from genesis, UTXO + PoW, fair-launch constitution (zero premine, founder stash ≤100 coins never moved). Testnet node in Rust live, genesis parameters open for review.
 Repo: https://github.com/BartoszOsiej/pqbit
-Landing: https://bartoszosiej.github.io/pqbit/
+Landing: https://bo.hartwell-labs.pl/pqbit/
 Genesis draft: https://github.com/BartoszOsiej/pqbit/blob/master/GENESIS.md
 
 ### talus-process-monitor
@@ -35,7 +35,7 @@ Playground: https://hartwell-labs.pl/externum/
 ### NV2_ENGINE
 Rust voxel engine (wgpu) with MeMLP neural terrain from NASA real-climate data. Powers Vivia: Beyond The Known.
 Repo: https://github.com/BartoszOsiej/NV2_ENGINE
-Landing: https://bartoszosiej.github.io/NV2_ENGINE/
+Landing: https://bo.hartwell-labs.pl/NV2_ENGINE/
 
 ### linux-aegis
 Linux security module.
@@ -49,7 +49,7 @@ Landing: https://hartwell-labs.pl/Aurora/
 
 ### The Stitcher Trilogy
 Crime horror novels by Bartosz Osiej, published on Amazon Kindle.
-Landing: https://bartoszosiej.github.io/thethreadcalls/
+Landing: https://bo.hartwell-labs.pl/thethreadcalls/
 
 ## Documentation
 

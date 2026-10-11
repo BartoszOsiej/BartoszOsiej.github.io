@@ -126,7 +126,7 @@ async function authLog(env, req, ev, name, ok) {
 async function getIndex(env) {
   const cached = await kvGet(env, 'idx:v2', 'json');
   if (cached && Date.now() - cached.t < 600000) return cached.data;
-  const origin = env.ORIGIN || 'https://bartoszosiej.github.io';
+  const origin = env.ORIGIN || 'https://bo.hartwell-labs.pl';
   const r = await fetch(origin + '/blog/index.json', { cf: { cacheTtl: 300 } });
   if (!r.ok) throw new Error('origin index ' + r.status);
   const data = await r.json();
@@ -259,7 +259,7 @@ export default {
         if (!user) return json({ error: 'login required — full articles are for authenticated readers' }, 401);
         if (!(await rateOk(env, req, 'ws', 120, 3600))) return json({ error: 'slow down' }, 429);
         /* slug whitelist from writing/index.json — fail-closed (unknown slug = 404) */
-        const worigin = env.ORIGIN || 'https://bartoszosiej.github.io';
+        const worigin = env.ORIGIN || 'https://bo.hartwell-labs.pl';
         const wi = await fetch(worigin + '/writing/index.json', { cf: { cacheTtl: 300 } });
         if (!wi.ok) return json({ error: 'writing index unavailable' }, 503);
         const wid = await wi.json();
@@ -460,7 +460,7 @@ export default {
       m = p.match(/^\/cat\/([a-z0-9-]+)$/);
       if (m) {
         const slug = m[1];
-        const origin = env.ORIGIN || 'https://bartoszosiej.github.io';
+        const origin = env.ORIGIN || 'https://bo.hartwell-labs.pl';
         const r = await fetch(origin + '/blog/' + slug + '.txt', { cf: { cacheTtl: 300 } });
         if (!r.ok) return text('cat: no such post: ' + slug + '\ntry: curl ' + url.origin + '/ls\n', 404);
         const c = await getCounts(env, slug);

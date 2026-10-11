@@ -10,4 +10,4 @@ published: true
 tldr: "Working-code tutorial: kernel tracepoints, perf buffers, sliding-window detection, and automated SIGKILL response in Rust."
 ---
 
-See full article: [bartoszosiej.github.io/content/ebpf-ransomware-everything](https://bo.hartwell-labs.pl/content/ebpf-ransomware-everything)
+See full article: [bo.hartwell-labs.pl/content/ebpf-ransomware-everything](https://bo.hartwell-labs.pl/content/ebpf-ransomware-everything)
