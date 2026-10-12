@@ -1,0 +1,5 @@
+Contact: mailto:kontakt@hartwell-labs.pl
+Expires: 2027-10-12T00:00:00.000Z
+Preferred-Languages: en, pl
+Canonical: https://bo.hartwell-labs.pl/.well-known/security.txt
+Policy: https://hartwell-labs.pl
