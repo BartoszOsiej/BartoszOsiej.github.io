@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog — Bartosz Osiej · Hartwell Labs</title>
+<meta name="description" content="Every public repository and project by Bartosz Osiej — Hartwell Labs. eBPF security, Rust systems, compilers, blockchains, browser OS.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://bo.hartwell-labs.pl/catalog/">
+<link rel="icon" type="image/png" href="/img/bartosz-osiej.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#050505; --panel:#0a0a10; --line:#1c1c24; --line2:#22222a;
+    --bone:#E8E6E3; --dim:#8B93A3; --rust:#F15A24; --rust2:#ff6a35;
+    --blood:#E04855; --green:#22c55e; --amber:#e3b341;
+    --mono:'Space Mono','JetBrains Mono',ui-monospace,monospace;
+    --sans:'JetBrains Mono','Space Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--void);color:var(--bone);font-family:var(--mono);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:var(--rust);text-decoration:none;border-bottom:1px solid rgba(241,90,36,.35);transition:color .15s,border-color .15s}
+  a:hover{color:var(--rust2);border-color:var(--rust2)}
+  ::selection{background:var(--rust);color:var(--void)}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(5,5,5,.92);backdrop-filter:blur(8px);z-index:50}
+  .topbar b{color:var(--rust);font-weight:700}
+  .topbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:8px;vertical-align:1px;box-shadow:0 0 8px var(--green)}
+  .topnav{display:flex;gap:18px;flex-wrap:wrap}
+  .topnav a{color:var(--dim);font-size:11px;letter-spacing:.12em;border-bottom:none}
+  .topnav a:hover{color:var(--rust)}
+
+  .hero{padding:90px 0 40px;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:640px;height:400px;pointer-events:none;background:radial-gradient(ellipse at center,rgba(241,90,36,.13),transparent 65%)}
+  .kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--rust);margin-bottom:24px}
+  .kicker span{color:var(--dim)}
+  h1{font-family:var(--sans);font-weight:700;font-size:clamp(28px,5vw,46px);line-height:1.15;letter-spacing:-.015em;margin-bottom:20px}
+  h1 em{font-style:normal;color:var(--rust)}
+  .deck{font-size:clamp(14px,1.9vw,16px);color:var(--dim);max-width:660px}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:34px 0}
+  .stat{background:var(--void);padding:20px 14px;text-align:center}
+  .stat .n{font-family:var(--sans);font-size:clamp(20px,3.4vw,28px);font-weight:700;color:var(--rust);display:block;line-height:1.2}
+  .stat .l{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-top:7px;display:block}
+
+  section{padding:40px 0;border-top:1px solid var(--line)}
+  .slabel{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--rust);margin-bottom:20px;display:flex;align-items:center;gap:14px}
+  .slabel::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line2);border-radius:8px;padding:20px;transition:border-color .2s,transform .2s;display:block}
+  .card:hover{border-color:var(--rust);transform:translateY(-3px)}
+  .card h3{font-family:var(--sans);font-size:15px;margin:0 0 8px;letter-spacing:.01em;color:var(--bone);border-bottom:none}
+  .card h3 a{color:inherit;border-bottom:none}
+  .card h3 a:hover{color:var(--rust)}
+  .card p{font-size:13px;line-height:1.6;color:var(--dim);margin-bottom:12px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);border:1px solid rgba(241,90,36,.3);background:rgba(241,90,36,.08);border-radius:4px;padding:2px 7px}
+  .tag.plain{color:var(--dim);border-color:var(--line2);background:none}
+  .star{color:var(--amber)}
+
+  footer{border-top:1px solid var(--line);padding:40px 0 60px;font-size:12.5px;color:var(--dim);line-height:2}
+  footer a{color:var(--dim);border-bottom-color:transparent}
+  footer a:hover{color:var(--rust)}
+  .fine{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);font-size:11.5px;color:#565f78}
+
+  @media (max-width:640px){
+    .hero{padding:60px 0 30px}
+    .wrap{padding:0 16px}
+    .topbar{font-size:9.5px;letter-spacing:.1em;flex-wrap:wrap;gap:8px;padding:14px 16px}
+    .topnav{gap:12px}
+    section{padding:32px 0}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div><span class="dot"></span>HARTWELL LABS <b>/</b> CATALOG</div>
+  <nav class="topnav">
+    <a href="/">HOME</a>
+    <a href="/blog/">BLOG</a>
+    <a href="/writing/">WRITING</a>
+    <a href="https://hartwell-labs.pl" rel="noopener">HARTWELL_LABS.PL</a>
+    <a href="https://github.com/BartoszOsiej" rel="noopener">GITHUB</a>
+  </nav>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">Public catalog <span>·</span> <span>26 own repositories</span> <span>·</span> <span>everything auditable</span></div>
+    <h1>Everything shipped <em>in the open.</em></h1>
+    <p class="deck">Kernel-level security, a blockchain validator, a statically typed compiler, a browser OS and a post-quantum stack — one person, five years, no degree, no hidden work. Each entry below links to its public repository.</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><span class="n">26</span><span class="l">own repositories</span></div>
+    <div class="stat"><span class="n">14</span><span class="l">packages · 4 registries</span></div>
+    <div class="stat"><span class="n">3</span><span class="l">aya-rs/book PRs</span></div>
+    <div class="stat"><span class="n">18</span><span class="l">dev.to articles</span></div>
+    <div class="stat"><span class="n">2017</span><span class="l">first commit</span></div>
+  </div>
+
+  <section>
+    <div class="slabel">01 — Security &amp; kernel</div>
+    <div class="grid">
+      <a class="card" href="https://github.com/BartoszOsiej/talus-process-monitor">
+        <h3>talus-process-monitor <span class="star">★21</span></h3>
+        <p>eBPF ransomware detection &amp; response agent for Linux — single static binary, ~280k events/s at &lt;8% CPU, automated SIGKILL response.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">eBPF</span><span class="tag">crates.io</span><span class="tag">PyPI</span><span class="tag plain">99 tests</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/linux-aegis">
+        <h3>linux-aegis</h3>
+        <p>Stackable Linux Security Module — in-tree upstream patches, features behind LSM, built and run in QEMU.</p>
+        <div class="tags"><span class="tag">C</span><span class="tag">LSM</span><span class="tag">kernel</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/CyberForge">
+        <h3>CyberForge</h3>
+        <p>Four Rust security tools — port scanner, web scanner, hash cracker, packet analyser.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">security</span><span class="tag plain">tools</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/photoscrub">
+        <h3>photoscrub</h3>
+        <p>Find what your photos leak — GPS, device serial, embedded thumbnail — and scrub it before sharing.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">EXIF</span><span class="tag">privacy</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="slabel">02 — Blockchains &amp; consensus</div>
+    <div class="grid">
+      <a class="card" href="https://github.com/BartoszOsiej/TrustNode">
+        <h3>TrustNode</h3>
+        <p>Solana-like validator in Rust: PoH clock, Tower BFT, Sealevel parallel scheduler, Reed-Solomon erasure coding, Gossip, JSON-RPC. 151 tests, cargo audit clean.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">consensus</span><span class="tag plain">151 tests</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/pqbit">
+        <h3>pqbit <span class="star">★1</span></h3>
+        <p>Post-Quantum Bitcoin — quantum-resistant from genesis, lightweight, forkable chain params.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">post-quantum</span><span class="tag">bitcoin</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="slabel">03 — Compilers &amp; languages</div>
+    <div class="grid">
+      <a class="card" href="https://github.com/BartoszOsiej/externum">
+        <h3>externum</h3>
+        <p>Typed programming language that compiles to readable Python, standalone Bash and bytecode. Mandatory type annotations, inference, ownership, traits, match — compiled by a compiler written in itself.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">compiler</span><span class="tag">PyPI</span><span class="tag plain">300+ tests</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="slabel">04 — Post-quantum &amp; firmware</div>
+    <div class="grid">
+      <a class="card" href="https://github.com/BartoszOsiej/quantum-shield">
+        <h3>quantum-shield</h3>
+        <p>Post-quantum file encryption CLI — ML-KEM-768 key encapsulation + AES-256-GCM, fuzz-tested. Assumes the adversary records now and decrypts later.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">ML-KEM-768</span><span class="tag">fuzzing</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/fortis">
+        <h3>fortis</h3>
+        <p>Bare-metal RISC-V chain-of-trust: real SHA-256 + ML-KEM-768 post-quantum signatures in firmware — who gets to boot, proven in silicon-adjacent code.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">RISC-V</span><span class="tag">firmware</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="slabel">05 — Engines &amp; interfaces</div>
+    <div class="grid">
+      <a class="card" href="https://github.com/BartoszOsiej/NV2_ENGINE">
+        <h3>NV2_ENGINE <span class="star">★1</span></h3>
+        <p>Voxel survival engine (wgpu, Rust) — NASA POWER real-climate worlds, embedded neural net, published to crates.io.</p>
+        <div class="tags"><span class="tag">Rust</span><span class="tag">wgpu</span><span class="tag">crates.io</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/Aurora">
+        <h3>Aurora</h3>
+        <p>Complete operating system in the browser — kernel, window manager, filesystem, 8 architectures.</p>
+        <div class="tags"><span class="tag">TypeScript</span><span class="tag">OS</span><span class="tag">WASM</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/Portfolio">
+        <h3>Portfolio</h3>
+        <p>Developer portfolio — VIVIA, eBPF, Externum documentation, dark aurora theme.</p>
+        <div class="tags"><span class="tag">TypeScript</span><span class="tag">docs</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/Promptbox">
+        <h3>Promptbox</h3>
+        <p>Remote prompt inbox for AI agents — mobile-first, zero backend.</p>
+        <div class="tags"><span class="tag">HTML</span><span class="tag">agents</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/wiki-site">
+        <h3>wiki-site</h3>
+        <p>Cloudflare Worker serving the GitHub Wiki as documentation pages on the edge.</p>
+        <div class="tags"><span class="tag">JavaScript</span><span class="tag">workers</span><span class="tag">docs</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/Meshcore">
+        <h3>Meshcore</h3>
+        <p>Serverless P2P chat — WebRTC + MQTT signalling, zero dependencies.</p>
+        <div class="tags"><span class="tag">JavaScript</span><span class="tag">P2P</span><span class="tag">WebRTC</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/Shortlink">
+        <h3>Shortlink</h3>
+        <p>URL shortener — JWT auth, click tracking, React dashboard, FastAPI backend.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">React</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/TeleWiedza">
+        <h3>TeleWiedza</h3>
+        <p>Comprehensive PL/EN telecom encyclopedia — networking, 5G, fiber, security.</p>
+        <div class="tags"><span class="tag">JavaScript</span><span class="tag">docs</span><span class="tag">telecom</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="slabel">06 — Fiction &amp; publishing</div>
+    <div class="grid">
+      <a class="card" href="https://github.com/BartoszOsiej/thethreadcalls">
+        <h3>The Stitcher Trilogy</h3>
+        <p>Three crime-horror novels published on Amazon Kindle — idea to finished manuscript, end to end.</p>
+        <div class="tags"><span class="tag">fiction</span><span class="tag">Amazon Kindle</span></div>
+      </a>
+      <a class="card" href="https://github.com/BartoszOsiej/Mylife">
+        <h3>LIFE — Volume I</h3>
+        <p>Shadows of True Living — a book by Bartosz Osiej.</p>
+        <div class="tags"><span class="tag">book</span><span class="tag">self-published</span></div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <b style="display:block;color:var(--rust);font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px">Verify everything</b>
+    <div>
+      <a href="https://github.com/BartoszOsiej" rel="noopener">github.com/BartoszOsiej</a> ·
+      <a href="https://github.com/Hartwell-Labs" rel="noopener">github.com/Hartwell-Labs</a> ·
+      <a href="https://github.com/aya-rs/book/pulls?q=author%3ABartoszOsiej" rel="noopener">aya-rs/book — 3 open PRs</a> ·
+      <a href="https://crates.io/crates/process-monitor" rel="noopener">crates.io</a> ·
+      <a href="https://pypi.org/project/externum/" rel="noopener">pypi</a> ·
+      <a href="https://dev.to/bartoszosiej" rel="noopener">dev.to</a> ·
+      <a href="mailto:contact@hartwell-labs.pl">contact@hartwell-labs.pl</a>
+    </div>
+    <div class="fine">
+      Catalog generated 13.10.2026 · Bartosz Osiej, Szczecin, Poland · b. 11.01.2007 ·
+      <a href="/">bo.hartwell-labs.pl</a> · <a href="https://hartwell-labs.pl" rel="noopener">hartwell-labs.pl</a>
+    </div>
+  </footer>
+
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+</body>
+</html>
