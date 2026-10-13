@@ -31,7 +31,11 @@ jobs:
           import xml.etree.ElementTree as ET
 
           key = os.environ["KEY"]
-          host = "bartoszosiej.github.io"
+          # Must match the CNAME actually serving the site. sitemap.xml already
+          # uses bo.hartwell-labs.pl, so seeding the list from the same host
+          # keeps every entry on one verified domain — mixing hosts is what
+          # made IndexNow reject the whole batch with 422.
+          host = "bo.hartwell-labs.pl"
           urls = [f"https://{host}/"]
           if os.path.exists("sitemap.xml"):
               root = ET.parse("sitemap.xml").getroot()

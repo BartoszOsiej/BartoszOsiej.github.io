@@ -46,6 +46,7 @@ jobs:
             --max-retries 2
             --timeout 20
             --exclude 'https?://(www\.)?(linkedin\.com|x\.com|twitter\.com|instagram\.com|facebook\.com|play\.google\.com)/.*'
+            --exclude 'https?://.*/cdn-cgi/.*'
             'https://bo.hartwell-labs.pl/'
           format: json
           output: /tmp/lychee-report.json
