@@ -1,0 +1,1 @@
+A free AI chat that costs me nothing: every user brings their own Cloudflare Workers AI token, the operator pays $0. The hard part isn't the auth — it's stripping your own directives out of a live token stream. #Cloudflare #Rust
