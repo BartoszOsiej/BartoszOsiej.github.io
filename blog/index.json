@@ -1,7 +1,52 @@
 {
-  "generated": "2026-09-16",
+  "generated": "2026-10-13",
   "note": "regenerate with: python3 scripts/gen-index.py",
   "posts": [
+    {
+      "slug": "byok-workers-ai-chat",
+      "title": "A free AI chat that costs me nothing: BYOK on Cloudflare Workers AI",
+      "tldr": "Every user brings their own Workers AI token. The operator pays nothing, the quota is theirs, and the hard part isn't the auth — it's stripping your own directives out of a live token stream.",
+      "date": "2026-10-13",
+      "tags": [
+        "cloudflare",
+        "workers-ai",
+        "byok",
+        "security",
+        "javascript",
+        "architecture"
+      ],
+      "words": 805,
+      "source": "content/byok-workers-ai-chat.md"
+    },
+    {
+      "slug": "open-source-solo-monetization",
+      "title": "I ship open-source security tools solo — here's the full stack, the pricing, and the (zero) revenue so far",
+      "tldr": "A solo dev's transparent monetization setup: MIT-licensed security tooling, two paid products ($50 Talus Enterprise pack, $29 Externum Pro Pack), and the honest zero-revenue-so-far report.",
+      "date": "2026-09-21",
+      "tags": [
+        "rust",
+        "security",
+        "opensource",
+        "ebpf"
+      ],
+      "words": 656,
+      "source": "content/open-source-solo-monetization.md"
+    },
+    {
+      "slug": "externum-language-design",
+      "title": "Externum: a typed language that transpiles to Python and Bash — and its own benchmark caught two real bugs",
+      "tldr": "One typed source, three backends: readable Python, standalone Bash, and a .exbc artifact that runs without source. Honest design trade-offs, a hyperfine benchmark, and the two bytecode-VM bugs the benchmark itself caught — fixed same day.",
+      "date": "2026-09-19",
+      "tags": [
+        "compilers",
+        "python",
+        "bash",
+        "programming-languages",
+        "buildinpublic"
+      ],
+      "words": 1029,
+      "source": "content/externum-language-design.md"
+    },
     {
       "slug": "ebpf-ransomware-everything",
       "title": "Detecting ransomware with eBPF in Rust",
