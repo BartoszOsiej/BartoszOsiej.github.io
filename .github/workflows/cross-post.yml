@@ -278,7 +278,10 @@ jobs:
                   if len(first) > 200:
                       first = first[:197] + "..."
                   hook = f"\n▸ {clean(first)}\n"
-              hashtags = " ".join("#" + t.replace("-", "_") for t in tags)
+              # Telegram legacy Markdown treats "_" as an italic/bold delimiter, so a raw
+              # underscore inside a hashtag 400s with "can't find end of the entity".
+              # Hashtags therefore drop separators entirely instead of mapping "-" -> "_".
+              hashtags = " ".join("#" + re.sub(r"[^0-9A-Za-z]", "", t) for t in tags)
               card = (f"{sec}\n\n*{clean(title)}*\n\n{clean(desc)}\n"
                       f"{hook}\n→ [Read the full breakdown](https://bo.hartwell-labs.pl/content/{slug})\n"
                       + (f"\n{hashtags}\n" if hashtags else ""))
