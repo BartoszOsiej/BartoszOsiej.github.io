@@ -289,8 +289,37 @@ jobs:
               out.write_text(card, encoding="utf-8")
               print(f"[telegram] auto-generated card for {slug} ({len(card)} chars)")
 
+          def gen_bluesky_card(slug):
+              # Bluesky caps a post at 300 graphemes. Without this the loop
+              # below skips every slug that has no hand-written rewrite file,
+              # so a new post silently never reaches Bluesky.
+              out = pathlib.Path(f"bluesky/{slug}.txt")
+              if out.exists():
+                  return
+              raw = pathlib.Path(f"content/{slug}.md").read_text(encoding="utf-8")[:2500]
+              m = re.match(r"^---\n(.*?)\n---", raw, re.S)
+              fm = {}
+              if m:
+                  for line in m.group(1).splitlines():
+                      kv = re.match(r"^(title|description|tags|tldr):\s*(.+)$", line)
+                      if kv:
+                          fm[kv.group(1)] = kv.group(2).strip().strip('"')
+              tags = [t.strip() for t in fm.get("tags", "").strip("[]").split(",") if t.strip()][:3]
+              hashtags = " ".join("#" + re.sub(r"[^0-9A-Za-z]", "", t) for t in tags)
+              # Prefer the TL;DR's first sentence; fall back to the description.
+              hook = re.split(r"(?<=[.!?])\s+", fm.get("tldr") or fm.get("description", ""), maxsplit=1)[0]
+              hook = hook.replace("\n", " ").strip()
+              # Leave room for " " + hashtags and stay well under the 300 cap.
+              if len(hook) + len(hashtags) + 1 > 290:
+                  hook = hook[:290 - len(hashtags) - 4].rsplit(" ", 1)[0].rstrip(",;:. ") + "…"
+              text = (hook + (" " + hashtags if hashtags else "")).strip()
+              out.parent.mkdir(exist_ok=True)
+              out.write_text(text, encoding="utf-8")
+              print(f"[bluesky] auto-generated card for {slug} ({len(text)} chars)")
+
           for slug in slugs:
               gen_telegram_card(slug)
+              gen_bluesky_card(slug)
 
           # 2) bluesky + telegram — per-article rewrite text (both are
           # short-form/limited-markdown: raw article body breaks them —
