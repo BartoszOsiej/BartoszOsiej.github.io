@@ -13,4 +13,15 @@
   <url><loc>https://bo.hartwell-labs.pl/content/trustnode-validator-lessons</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bo.hartwell-labs.pl/content/open-source-solo-monetization</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bo.hartwell-labs.pl/content/bip-calendar</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+
+  <url><loc>https://bo.hartwell-labs.pl/catalog/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/slimbook/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/writing/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/trustnode/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/photoscrub/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/cyberforge/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/scryer/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/thethreadcalls/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/Portfolio/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/content/byok-workers-ai-chat</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
