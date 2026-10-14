@@ -1,7 +1,24 @@
 {
-  "generated": "2026-10-13",
+  "generated": "2026-10-14",
   "note": "regenerate with: python3 scripts/gen-index.py",
   "posts": [
+    {
+      "slug": "devto-comment-layer-audit",
+      "title": "I measured dev.to's engagement layer. 92% of posts get zero reactions, and the good comments aren't people.",
+      "tldr": "Two independent audits and a 460-post sample show that dev.to's engagement layer is largely machine-shaped. The practical consequence for anyone publishing there: stop optimising for reactions, because the number is farmable.",
+      "date": "2026-10-14",
+      "tags": [
+        "security",
+        "forensics",
+        "data-analysis",
+        "python",
+        "devto",
+        "content-strategy",
+        "measurements"
+      ],
+      "words": 1196,
+      "source": "content/devto-comment-layer-audit.md"
+    },
     {
       "slug": "byok-workers-ai-chat",
       "title": "A free AI chat that costs me nothing: BYOK on Cloudflare Workers AI",
