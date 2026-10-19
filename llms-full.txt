@@ -34,23 +34,23 @@
 
 ### externum
 Programming language compiling the same source to Python, Bash and native binaries. Typed AST, ownership and traits, 192-test suite, browser REPL (Pyodide). Language: Python. License: MIT.
-Repo: https://github.com/BartoszOsiej/externum
+Repo: https://github.com/Hartwell-Labs/externum
 
 ### talus-process-monitor
 eBPF process/ransomware monitor for Linux. Kernel execve/openat tracing through Aya, per-CPU perf buffers, sliding-window behavioural alerts, FrankenTUI front end. Language: Rust. License: MIT.
-Repo: https://github.com/BartoszOsiej/talus-process-monitor
+Repo: https://github.com/Hartwell-Labs/talus-process-monitor
 
 ### linux-aegis
 Stackable Linux Security Module compiled in-tree against upstream. Four feature-flagged layers; CI applies patch set, builds and boots in QEMU on a minimal initramfs. Language: C. License: MIT.
-Repo: https://github.com/BartoszOsiej/linux-aegis
+Repo: https://github.com/Hartwell-Labs/linux-aegis
 
 ### fortis
 Bare-metal RISC-V chain-of-trust measuring boot integrity with real SHA-256 and ML-KEM-768 post-quantum primitives, no OS. Language: Rust. License: MIT.
-Repo: https://github.com/BartoszOsiej/fortis
+Repo: https://github.com/Hartwell-Labs/fortis
 
 ### quantum-shield
 Post-quantum file encryption CLI. ML-KEM-768 KEM + HKDF + AES-256-GCM AEAD. NIST FIPS 203 oriented, fuzz-tested. Language: Rust. License: MIT.
-Repo: https://github.com/BartoszOsiej/quantum-shield
+Repo: https://github.com/Hartwell-Labs/quantum-shield
 
 ### NV2_ENGINE
 Voxel survival engine in Rust (wgpu): every seed maps to a real Earth location — NASA POWER climate drives biomes, weather and sky; embedded MeMLP network (3 heads, ~1.1k params) learns vegetation/biome/texture online; day/night survival with 4 hostile types; EGS submission kit ready. Language: Rust.
@@ -58,12 +58,12 @@ Repo: https://github.com/BartoszOsiej/NV2_ENGINE
 
 ### Aurora
 Operating system in the browser: kernel, window manager, filesystem, 8 apps, procedural audio, zero dependencies. Languages: Rust, TypeScript.
-Repo: https://github.com/BartoszOsiej/Aurora
+Repo: https://github.com/Hartwell-Labs/Aurora
 Live: https://hartwell-labs.pl/Aurora/
 
 ### TrustNode
 Solana-style validator in Rust: Proof-of-History clock, Tower BFT, Sealevel parallel execution, Turbine erasure, CRDS gossip, JSON-RPC.
-Repo: https://github.com/BartoszOsiej/TrustNode
+Repo: https://github.com/Hartwell-Labs/TrustNode
 
 ### Meshcore
 Serverless peer-to-peer chat over WebRTC data channels with MQTT signaling. Zero dependencies, npm package.
@@ -71,7 +71,7 @@ Repo: https://github.com/BartoszOsiej/Meshcore
 
 ### CyberForge
 Four Rust security tools: port scanner, web scanner, hash cracker, packet analyzer. Tokio async, each published on crates.io.
-Repo: https://github.com/BartoszOsiej/CyberForge
+Repo: https://github.com/Hartwell-Labs/CyberForge
 
 ### Shortlink
 URL shortener: FastAPI backend, JWT auth, click tracking, React dashboard, Docker.
@@ -195,7 +195,7 @@ URL: https://bo.hartwell-labs.pl/writing/
 | Externum | compiles to | native binary |
 | Externum | test count | 192 |
 | Externum | license | MIT |
-| Externum | source repository | https://github.com/BartoszOsiej/externum |
+| Externum | source repository | https://github.com/Hartwell-Labs/externum |
 | talus-process-monitor | instance of | security software |
 | talus-process-monitor | uses technology | eBPF |
 | talus-process-monitor | programming language | Rust |
@@ -204,27 +204,27 @@ URL: https://bo.hartwell-labs.pl/writing/
 | talus-process-monitor | hooks syscall | execve |
 | talus-process-monitor | hooks syscall | openat |
 | talus-process-monitor | license | MIT |
-| talus-process-monitor | source repository | https://github.com/BartoszOsiej/talus-process-monitor |
+| talus-process-monitor | source repository | https://github.com/Hartwell-Labs/talus-process-monitor |
 | linux-aegis | instance of | Linux Security Module |
 | linux-aegis | programming language | C |
 | linux-aegis | is stackable | true |
 | linux-aegis | compiles | in-tree |
 | linux-aegis | license | GPL-2.0 |
-| linux-aegis | source repository | https://github.com/BartoszOsiej/linux-aegis |
+| linux-aegis | source repository | https://github.com/Hartwell-Labs/linux-aegis |
 | fortis | instance of | embedded system |
 | fortis | target architecture | RISC-V |
 | fortis | implements | SHA-256 |
 | fortis | implements | ML-KEM-768 |
 | fortis | requires operating system | false |
 | fortis | license | MIT |
-| fortis | source repository | https://github.com/BartoszOsiej/fortis |
+| fortis | source repository | https://github.com/Hartwell-Labs/fortis |
 | quantum-shield | instance of | encryption software |
 | quantum-shield | implements | ML-KEM-768 |
 | quantum-shield | implements | AES-256-GCM |
 | quantum-shield | follows standard | NIST FIPS 203 |
 | quantum-shield | programming language | Rust |
 | quantum-shield | license | MIT |
-| quantum-shield | source repository | https://github.com/BartoszOsiej/quantum-shield |
+| quantum-shield | source repository | https://github.com/Hartwell-Labs/quantum-shield |
 | NV2_ENGINE | instance of | voxel engine |
 | NV2_ENGINE | rendering API | wgpu |
 | NV2_ENGINE | has feature | MeMLP neural terrain |
@@ -240,7 +240,7 @@ URL: https://bo.hartwell-labs.pl/writing/
 | Aurora | has feature | virtual filesystem |
 | Aurora | has feature | window manager |
 | Aurora | license | MIT |
-| Aurora | source repository | https://github.com/BartoszOsiej/Aurora |
+| Aurora | source repository | https://github.com/Hartwell-Labs/Aurora |
 
 ### Books — Properties
 
