@@ -1,8 +1,15 @@
-// bo-now-playing — single JSON endpoint for the bo.hartwell-labs.pl widget.
-// Merges: Spotify currently-playing → Last.fm scrobbles → Spotify top/recent.
-// Replaces the refresh-spotify.yml GH workflow (no more bot commits).
+// bo-now-playing — Last.fm-only JSON endpoint for the bo.hartwell-labs.pl widget.
+// No Spotify credentials needed: reads PUBLIC Last.fm data with the public API key
+// (the same key already embedded in the page source). Nothing to hand over.
+//
+// Priority:
+//   1) recent scrobble with nowplaying="true"          → NOW PLAYING
+//   2) recent scrobble younger than 5 min              → NOW PLAYING (grace window)
+//   3) top tracks, last 7 days                         → ON ROTATION (mode: top_tracks)
+//   4) nothing                                          → idle { playing: false }
 const LASTFM_USER = "thelightgalaxy";
 const LASTFM_KEY = "8a0fd44970b496e5199772f6bfe2ad9c";
+const RECENT_WINDOW_MS = 5 * 60 * 1000;
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -15,7 +22,7 @@ export default {
     const url = new URL(req.url);
     if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
     if (url.pathname !== "/now-playing") {
-      return json({ service: "bo-now-playing", ok: true, endpoints: ["/now-playing"] });
+      return json({ service: "bo-now-playing", ok: true, source: "last.fm", endpoints: ["/now-playing"] });
     }
 
     const cache = caches.default;
@@ -25,9 +32,9 @@ export default {
 
     let state;
     try {
-      state = await buildState(env);
+      state = await buildState();
     } catch (e) {
-      state = { playing: false, error: String(e && e.message || e).slice(0, 160), fetched_at: new Date().toISOString() };
+      state = { playing: false, error: String((e && e.message) || e).slice(0, 160), fetched_at: new Date().toISOString() };
     }
 
     const res = json(state, 200, { "Cache-Control": "public, max-age=45" });
@@ -43,98 +50,67 @@ function json(obj, status = 200, extra = {}) {
   });
 }
 
-async function buildState(env) {
-  const now = new Date().toISOString();
-  const cid = env.SPOTIFY_CLIENT_ID, csec = env.SPOTIFY_CLIENT_SECRET;
-  const rtok = (env.NP_KV && (await env.NP_KV.get("refresh_token"))) || env.SPOTIFY_REFRESH_TOKEN;
-
-  let access = null;
-  if (cid && csec && rtok) {
-    try {
-      const r = await fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Authorization": "Basic " + btoa(cid + ":" + csec),
-        },
-        body: new URLSearchParams({ grant_type: "refresh_token", refresh_token: rtok, client_id: cid }),
-      });
-      if (r.ok) {
-        const t = await r.json();
-        access = t.access_token || null;
-        if (t.refresh_token && env.NP_KV) await env.NP_KV.put("refresh_token", t.refresh_token);
-      }
-    } catch {}
-  }
-
-  // 1) Spotify — right now (scope: user-read-currently-playing)
-  if (access) {
-    const cur = await spotifyGet(access, "https://api.spotify.com/v1/me/player/currently-playing?additional_types=track");
-    const item = cur && cur.item;
-    if (cur && cur.is_playing && item) {
-      return track({
-        playing: true,
-        title: item.name,
-        artist: (item.artists || []).map(a => a.name).join(", "),
-        album: item.album && item.album.name,
-        artwork: art(item.album),
-        url: item.external_urls && item.external_urls.spotify,
-      }, now);
-    }
-
-    // 2) top tracks — "ON ROTATION" (scope: user-top-read; 403 → skip silently)
-    const top = await spotifyGet(access, "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5");
-    if (top && Array.isArray(top.items) && top.items.length) {
-      return {
-        mode: "top_tracks",
-        tracks: top.items.map(t => ({
-          title: t.name,
-          artist: (t.artists || []).map(a => a.name).join(", "),
-          artwork: art(t.album),
-          url: t.external_urls && t.external_urls.spotify,
-        })),
-        fetched_at: now,
-      };
-    }
-  }
-
-  // 3) Last.fm now-playing (public API key; works with zero Spotify tokens)
+async function lastfm(method, params = {}) {
   try {
-    const lf = await fetch("https://ws.audioscrobbler.com/2.0/?" + new URLSearchParams({
-      method: "user.getrecenttracks", user: LASTFM_USER, api_key: LASTFM_KEY, format: "json", limit: "1",
-    }));
-    if (lf.ok) {
-      const data = await lf.json();
-      let t = (data.recenttracks || {}).track || [];
-      t = Array.isArray(t) ? t[0] : t;
-      if (t && t["@attr"] && t["@attr"].nowplaying === "true") {
-        const img = (t.image || []).slice(-1)[0];
-        return track({
-          playing: true,
-          title: t.name,
-          artist: t.artist && t.artist["#text"],
-          artwork: img && img["#text"],
-          url: t.url || "",
-        }, now);
-      }
-    }
-  } catch {}
-
-  return { playing: false, fetched_at: now };
-}
-
-async function spotifyGet(access, u) {
-  try {
-    const r = await fetch(u, { headers: { Authorization: "Bearer " + access } });
-    if (r.status === 200) return await r.json();
+    const qs = new URLSearchParams({ method, user: LASTFM_USER, api_key: LASTFM_KEY, format: "json", ...params });
+    const r = await fetch("https://ws.audioscrobbler.com/2.0/?" + qs);
+    if (r.ok) return await r.json();
   } catch {}
   return null;
 }
 
-function art(album) {
-  return album && album.images && album.images.length ? album.images[album.images.length - 1].url : "";
+async function buildState() {
+  const now = Date.now();
+
+  // 1) latest scrobble
+  const recent = await lastfm("user.getrecenttracks", { limit: "2" });
+  let t = (recent && recent.recenttracks && recent.recenttracks.track) || [];
+  t = Array.isArray(t) ? t[0] : t;
+
+  if (t && t.name) {
+    const isLive = t["@attr"] && t["@attr"].nowplaying === "true";
+    const uts = t.date && t.date.uts ? Number(t.date.uts) * 1000 : 0;
+    if (isLive || (uts && now - uts < RECENT_WINDOW_MS)) {
+      return {
+        playing: true,
+        title: t.name,
+        artist: artistOf(t.artist),
+        artwork: imgOf(t.image),
+        url: t.url || "",
+        source: "last.fm",
+        fetched_at: new Date(now).toISOString(),
+      };
+    }
+  }
+
+  // 2) on rotation — top tracks of the week
+  const top = await lastfm("user.gettoptracks", { limit: "5", period: "7day" });
+  let items = (top && top.toptracks && top.toptracks.track) || [];
+  items = Array.isArray(items) ? items : [items];
+  if (items.length) {
+    return {
+      mode: "top_tracks",
+      tracks: items.map(x => ({
+        title: x.name,
+        artist: artistOf(x.artist),
+        artwork: imgOf(x.image),
+        url: x.url || "",
+      })),
+      source: "last.fm",
+      fetched_at: new Date(now).toISOString(),
+    };
+  }
+
+  return { playing: false, source: "last.fm", fetched_at: new Date(now).toISOString() };
 }
 
-function track(o, now) {
-  return Object.assign({ playing: false }, o, { fetched_at: now });
+function artistOf(a) {
+  if (!a) return "";
+  if (typeof a === "string") return a;
+  return a["#text"] || a.name || "";
+}
+
+function imgOf(images) {
+  const last = (images || []).slice(-1)[0];
+  return (last && last["#text"]) || "";
 }
