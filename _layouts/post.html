@@ -5,7 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{% if page.seo_title %}{{ page.seo_title }} — Bartosz Osiej{% else %}{{ page.title }} — Bartosz Osiej{% endif %}</title>
 {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
+<meta name="robots" content="index, follow">
 {% if page.canonical_url %}<link rel="canonical" href="{{ page.canonical_url }}">{% endif %}
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Bartosz Osiej">
+<meta property="og:title" content="{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}">
+{% if page.description %}<meta property="og:description" content="{{ page.description }}">{% endif %}
+<meta property="og:url" content="{{ page.canonical_url | default: site.url | append: page.url }}">
+<meta property="og:image" content="{{ site.url }}/img/bartosz-osiej.jpg">
+{% if page.date %}<meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">{% endif %}
+{% if page.tags %}{% for t in page.tags %}<meta property="article:tag" content="{{ t }}">{% endfor %}{% endif %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}">
+{% if page.description %}<meta name="twitter:description" content="{{ page.description }}">{% endif %}
+<meta name="twitter:image" content="{{ site.url }}/img/bartosz-osiej.jpg">
 <link rel="icon" type="image/png" href="/img/bartosz-osiej.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
