@@ -25,4 +25,9 @@
   <url><loc>https://bo.hartwell-labs.pl/Portfolio/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bo.hartwell-labs.pl/content/byok-workers-ai-chat</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority>
   <url><loc>https://bo.hartwell-labs.pl/content/devto-comment-layer-audit</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url></url>
+  <url><loc>https://bo.hartwell-labs.pl/content/best-ebpf-monitoring-tools-2026/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/content/detect-ransomware-linux-ebpf/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/content/linux-process-monitoring-proc-to-ebpf/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/content/ebpf-vs-traditional-monitoring/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://bo.hartwell-labs.pl/content/fleet-monitoring-linux-without-kubernetes/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>

@@ -112,6 +112,18 @@ footer a:hover{color:var(--blood)}
   <article>
     {{ content }}
   </article>
+  <hr style="border:0;height:1px;margin:36px 0;background:linear-gradient(90deg,transparent,rgba(241,90,36,.5),transparent)">
+  <section id="newsletter" style="margin:40px 0">
+    <h3 style="color:var(--rust);margin-bottom:8px">eBPF &amp; Linux security insights</h3>
+    <p style="color:#8b93a3;margin-bottom:12px">Monthly. One-click unsubscribe. Built by the Talus team.</p>
+    <form action="mailto:metaforicmail@proton.me?subject=Newsletter%20subscribe" method="post" enctype="text/plain"
+      style="display:flex;gap:8px;flex-wrap:wrap">
+      <input type="email" name="email" placeholder="you@example.com" required
+        style="flex:1 1 240px;background:#0d0d12;border:1px solid #22222a;border-radius:8px;padding:9px 11px;font:inherit;font-size:14px;color:var(--bone)">
+      <button type="submit"
+        style="background:var(--rust);color:#050505;border:0;padding:9px 16px;border-radius:8px;font-weight:700;cursor:pointer">Subscribe</button>
+    </form>
+  </section>
 
   <section class="disc" id="disc" data-disc-slug="{{ slug }}" hidden>
     <div class="disc-h">
