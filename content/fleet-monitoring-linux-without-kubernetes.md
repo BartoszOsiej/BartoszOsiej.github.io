@@ -1,8 +1,9 @@
 ---
 layout: post
+permalink: /content/fleet-monitoring-linux-without-kubernetes/
 title: "Fleet Monitoring for Linux: Managing 100+ Servers Without Kubernetes"
 description: "How to run eBPF-based process monitoring across 100+ Linux servers without Kubernetes. Per-machine licensing, fleet dashboard, and SIGKILL response with Talus."
-canonical_url: https://bo.hartwell-labs.pl/content/fleet-monitoring-linux-without-kubernetes
+canonical_url: https://bo.hartwell-labs.pl/content/fleet-monitoring-linux-without-kubernetes/
 tags: [linux, ebpf, fleet, monitoring, talus]
 date: 2026-10-20
 tldr: "You do not need Kubernetes to run fleet monitoring. A one-binary eBPF agent per host, a shared Kafka/ClickHouse sink, per-node licensing, and one dashboard. Here is how Talus runs 100+ hosts that way."

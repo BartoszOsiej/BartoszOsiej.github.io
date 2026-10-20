@@ -1,8 +1,9 @@
 ---
 layout: post
+permalink: /content/ebpf-vs-traditional-monitoring/
 title: "eBPF vs Traditional Monitoring: Why Kernel-Level Wins"
 description: "eBPF vs traditional monitoring — kernel-attached events beat polling and log parsing for accuracy, overhead, and response time on Linux."
-canonical_url: https://bo.hartwell-labs.pl/content/ebpf-vs-traditional-monitoring
+canonical_url: https://bo.hartwell-labs.pl/content/ebpf-vs-traditional-monitoring/
 tags: [ebpf, monitoring, linux, performance, talus]
 date: 2026-10-20
 tldr: "Traditional monitoring polls /proc or parses logs — both are lossy under load. eBPF attaches in-kernel and never blocks the traced task, so you see the ransomware before it finishes."

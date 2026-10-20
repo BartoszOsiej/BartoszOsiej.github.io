@@ -1,8 +1,9 @@
 ---
 layout: post
+permalink: /content/detect-ransomware-linux-ebpf/
 title: "How to Detect Ransomware Activity on Linux with eBPF"
 description: "Guide to detecting ransomware on Linux using eBPF: mass-open scoring, canary reads, SIGKILL response, and fleet-wide correlation with Talus."
-canonical_url: https://bo.hartwell-labs.pl/content/detect-ransomware-linux-ebpf
+canonical_url: https://bo.hartwell-labs.pl/content/detect-ransomware-linux-ebpf/
 tags: [ebpf, security, linux, ransomware, rust, talus]
 date: 2026-10-20
 tldr: "Ransomware encrypts after it opens many files. Score per-process open rates with eBPF in 1-second windows, canary-read a canary file, and SIGKILL the encryptor before it finishes. Talus does this in one static binary."

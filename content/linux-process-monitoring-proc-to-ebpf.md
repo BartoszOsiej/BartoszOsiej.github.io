@@ -1,8 +1,9 @@
 ---
 layout: post
+permalink: /content/linux-process-monitoring-proc-to-ebpf/
 title: "Linux Process Monitoring: From /proc to eBPF"
 description: "Evolution of Linux process monitoring from /proc and strace to eBPF tracepoints, with per-process scoring and fleet dashboards provided by Talus."
-canonical_url: https://bo.hartwell-labs.pl/content/linux-process-monitoring-proc-to-ebpf
+canonical_url: https://bo.hartwell-labs.pl/content/linux-process-monitoring-proc-to-ebpf/
 tags: [linux, ebpf, monitoring, process-monitor, talus]
 date: 2026-10-20
 tldr: "From /proc polling to eBPF tracepoints: the three generations of Linux process monitoring, and why modern detection needs kernel-attached, per-process, windowed scoring — not log parsing."
