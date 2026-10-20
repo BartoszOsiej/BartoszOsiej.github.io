@@ -52,8 +52,8 @@
 <!-- TYPE: STRICT MONO (non-blocking — hero paints with system mono, swaps when woff2 lands) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"></noscript>
 
 <!-- CRITICAL CSS: inlined, zero render-blocking requests -->
 <style>
@@ -77,7 +77,7 @@ body {
   margin: 0;
   background: var(--void);
   color: var(--bone);
-  font-family: "Space Mono", "JetBrains Mono", ui-monospace, monospace;
+  font-family: "Space Grotesk", "Space Mono", "JetBrains Mono", ui-monospace, monospace;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -283,7 +283,7 @@ a { color: inherit; text-decoration: none; }
 <style>
 /* ─── BRUTAL CORE ─── */
 html{scroll-behavior:smooth}
-body{background:#050505;color:#E8E6E3;font-family:'Space Mono','JetBrains Mono',monospace;
+body{background:#050505;color:#E8E6E3;font-family:'Space Grotesk','Space Mono','JetBrains Mono',monospace;
   -webkit-font-smoothing:antialiased;overflow-x:hidden}
 ::selection{background:#E04855;color:#050505}
 a{color:inherit}
@@ -399,7 +399,10 @@ a{color:inherit}
   .mnav-sub{display:flex;flex-direction:column;gap:.75rem;padding-left:1.25rem;margin-top:.5rem}
   .mnav-sub a:hover{color:#E8E6E3}
 
-/* mobile nav (hamburger) */
+  /* terminal chrome stays mono */
+  nav.hidden, #mobile-nav, .nav-drop-menu, .mnav-sub { font-family: "Space Mono", "JetBrains Mono", ui-monospace, monospace; }
+
+  /* mobile nav (hamburger) */
 .mobile-nav{display:none;flex-direction:column;gap:1rem}
 .mobile-nav.open{display:flex}
 @media (min-width:640px){.mobile-nav{display:none!important}}
@@ -499,10 +502,8 @@ a{color:inherit}
       <a href="#subpages" class="hover:text-bone transition-colors">[04]_SUBPAGES</a>
       <a href="#proof" class="hover:text-bone transition-colors">[05]_PROOF</a>
       <a href="/blog/" class="hover:text-bone transition-colors">[06]_BLOG</a>
-      <a href="/writing/" class="hover:text-bone transition-colors">[07]_WRITING</a>
-    <a href="/catalog/" class="hover:text-bone transition-colors">[08]_CATALOG</a>
     <div class="nav-drop">
-      <button type="button" class="nav-drop-btn" aria-expanded="false" aria-haspopup="true">[09]_PRODUCTS ▾</button>
+      <button type="button" class="nav-drop-btn" aria-expanded="false" aria-haspopup="true">[07]_PRODUCTS ▾</button>
       <div class="nav-drop-menu" role="menu">
         <a href="/trustnode/" role="menuitem">TRUSTNODE<span>solana-style validator in rust</span></a>
         <a href="/scryer/" role="menuitem">SCRYER<span>deterministic intelligence etl</span></a>
@@ -525,10 +526,8 @@ a{color:inherit}
     <a href="#subpages" class="hover:text-bone transition-colors">[04]_SUBPAGES</a>
     <a href="#proof" class="hover:text-bone transition-colors">[05]_PROOF</a>
     <a href="/blog/" class="hover:text-bone transition-colors">[06]_BLOG</a>
-    <a href="/writing/" class="hover:text-bone transition-colors">[07]_WRITING</a>
-    <a href="/catalog/" class="hover:text-bone transition-colors">[08]_CATALOG</a>
     <details class="mnav-drop">
-      <summary>[09]_PRODUCTS ▾</summary>
+      <summary>[07]_PRODUCTS ▾</summary>
       <div class="mnav-sub">
         <a href="/trustnode/">TRUSTNODE</a>
         <a href="/scryer/">SCRYER</a>
@@ -580,7 +579,7 @@ a{color:inherit}
 
   <!-- ─────── BIOGRAPHY / FACTS ─────── -->
   <section id="biography" class="py-12 border-b border-[#1c1c24]" aria-label="biography">
-    <h2 class="eyebrow text-[12px] tracking-widest text-rust uppercase">/ Biography</h2>
+    <h2 class="eyebrow text-[12px] tracking-widest text-rust uppercase reveal">/ Biography</h2>
     <p class="mt-4 max-w-4xl text-[13px] leading-relaxed text-slate2">I build systems software in Rust and C — security modules that boot in QEMU, eBPF monitors that trace the kernel live, a voxel game with a neural terrain generator. At night I write crime horror: The Stitcher Trilogy, three novels published on Amazon Kindle. Both tracks come from the same instinct — take something apart, find where it breaks, and put it back stronger.</p>
     <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-6 sm:gap-x-12 gap-y-6 max-w-4xl">
       <div>
@@ -642,7 +641,7 @@ a{color:inherit}
     <div class="flex items-end justify-between flex-wrap gap-4 reveal">
       <div>
         <p class="eyebrow text-[12px]"><span class="pin">[01]</span> // SYSTEMS</p>
-        <h2 class="text-3xl md:text-5xl font-bold tracking-tight mt-3">INFRASTRUCTURE,<br><span class="text-rust">BUILT_TO_SHIP.</span></h2>
+        <h2 class="text-3xl md:text-5xl font-bold tracking-tight mt-3 reveal" data-decode>INFRASTRUCTURE,<br><span class="text-rust">BUILT_TO_SHIP.</span></h2>
       </div>
       <a href="https://github.com/BartoszOsiej" class="text-[12px] tracking-widest text-slate2 hover:text-rust transition-colors inline-flex items-center gap-2">
         ALL_REPOSITORIES <svg class="w-[10px] h-[10px]" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg>
@@ -780,7 +779,7 @@ a{color:inherit}
     <div class="flex items-end justify-between flex-wrap gap-4 reveal">
       <div>
         <p class="eyebrow text-[12px]"><span class="pin" style="color:#E04855">[02]</span> // FICTION</p>
-        <h2 class="text-3xl md:text-5xl font-bold tracking-tight mt-3"><span class="text-blood">THE_STITCHER</span><br>TRILOGY.</h2>
+        <h2 class="text-3xl md:text-5xl font-bold tracking-tight mt-3 reveal" data-decode><span class="text-blood">THE_STITCHER</span><br>TRILOGY.</h2>
       </div>
       <a href="https://bo.hartwell-labs.pl/thethreadcalls/" class="text-[12px] tracking-widest text-slate2 hover:text-blood transition-colors inline-flex items-center gap-2">
         BOOK_SITE <svg class="w-[10px] h-[10px]" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-ext"/></svg>
@@ -838,7 +837,7 @@ a{color:inherit}
   <!-- ─────── HUB ─────── -->
   <section id="hub" class="py-16">
     <p class="eyebrow text-[12px] reveal"><span class="pin">[03]</span> // HUB</p>
-    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 mb-10 reveal">FIND_ME_<br><span class="text-rust">AROUND_THE_WEB.</span></h2>
+    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 mb-10 reveal" data-decode>FIND_ME_<br><span class="text-rust">AROUND_THE_WEB.</span></h2>
 
     <div class="border border-[#22222a]">
       <a href="https://github.com/BartoszOsiej" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
@@ -946,7 +945,7 @@ a{color:inherit}
 
   <section id="subpages" class="py-16 border-t border-[#1c1c24]">
     <p class="eyebrow text-[12px] reveal"><span class="pin">[04]</span> // SUBPAGES</p>
-    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 mb-10 reveal">DEPLOYED_ON_<br><span class="text-rust">GH_PAGES.</span></h2>
+    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 mb-10 reveal" data-decode>DEPLOYED_ON_<br><span class="text-rust">GH_PAGES.</span></h2>
 
     <div class="border border-[#22222a]">
       <a href="https://hartwell-labs.pl/docs/" class="hub flex items-center justify-between px-5 py-4 sm:px-6 reveal">
@@ -1044,7 +1043,7 @@ a{color:inherit}
 
   <section id="proof" class="py-16 border-t border-[#1c1c24]">
     <p class="eyebrow text-[12px] reveal"><span class="pin">[05]</span> // PROOF // SHIPPED_AND_RUNNING</p>
-    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 mb-10 reveal">PROOF_<span class="text-rust">OF_WORK.</span></h2>
+    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 mb-10 reveal" data-decode>PROOF_<span class="text-rust">OF_WORK.</span></h2>
     <p class="max-w-2xl text-[12px] leading-relaxed text-slate2 reveal">Every capture below comes from running the real tool on this machine — live eBPF tracing, actual key generation, real packet capture, a booted browser OS. No mockups.</p>
 
     <div class="proof-grid mt-10">
@@ -1129,6 +1128,32 @@ a{color:inherit}
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   },{threshold:.12, rootMargin:'0px 0px -40px 0px'});
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  // terminal decode — markup-safe scramble per text node (single pass per h2)
+  if(!reduce){
+    var dch='\u2593\u2592\u2591<>_/[]\\\u2014\u00b7';
+    var dio=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        dio.unobserve(e.target);
+        var tn=[]; (function walk(n){ Array.prototype.forEach.call(n.childNodes,function(c){ if(c.nodeType===3){ tn.push({n:c,o:c.data}); } else walk(c); }); })(e.target);
+        var t0=performance.now(), dur=800;
+        (function fr(now){
+          var p=Math.min(((now||performance.now())-t0)/dur,1);
+          Array.prototype.forEach.call(tn,function(t){
+            var src=t.o,out='',k=Math.floor(p*src.length);
+            for(var i=0;i<src.length;i++){
+              var ch=src.charAt(i);
+              out+= (i<k||ch===' ') ? ch : dch.charAt((Math.random()*dch.length)|0);
+            }
+            t.n.data=out;
+          });
+          if(p<1){ requestAnimationFrame(fr); } else { tn.forEach(function(t){ t.n.data=t.o; }); }
+        })();
+      });
+    },{threshold:.35});
+    document.querySelectorAll('h2[data-decode]').forEach(function(el){ dio.observe(el); });
+  }
 
   // chronometer / count-up
   if(!reduce){
