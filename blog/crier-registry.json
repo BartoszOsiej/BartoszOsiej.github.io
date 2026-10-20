@@ -582,5 +582,205 @@
     "platform_id": "44",
     "title": "I ship open-source security tools solo \u2014 here's the full stack, the pricing, and the (zero) revenue so far",
     "source_file": "content/i-ship-open-source-security-tools-solo-here-s-the-full-stack-the-pricing-and-the-2.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/best-ebpf-monitoring-tools-2026",
+    "platform": "devto",
+    "url": "https://dev.to/bartoszosiej/best-ebpf-monitoring-tools-in-2026-a-practical-comparison-16ll",
+    "platform_id": "4884255",
+    "title": "Best eBPF Monitoring Tools in 2026: A Practical Comparison",
+    "source_file": "content/best-ebpf-monitoring-tools-in-2026-a-practical-comparison.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/best-ebpf-monitoring-tools-2026",
+    "platform": "mastodon",
+    "url": "https://mastodon.social/@bartoszosiej/117474040971612104",
+    "platform_id": "117474040971612104",
+    "title": "Best eBPF Monitoring Tools in 2026: A Practical Comparison",
+    "source_file": "content/best-ebpf-monitoring-tools-in-2026-a-practical-comparison.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/best-ebpf-monitoring-tools-2026",
+    "platform": "discord",
+    "url": null,
+    "platform_id": "1562131665386606814",
+    "title": "Best eBPF Monitoring Tools in 2026: A Practical Comparison",
+    "source_file": "content/best-ebpf-monitoring-tools-in-2026-a-practical-comparison.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/detect-ransomware-linux-ebpf",
+    "platform": "devto",
+    "url": "https://dev.to/bartoszosiej/how-to-detect-ransomware-activity-on-linux-with-ebpf-3j7p",
+    "platform_id": "4884256",
+    "title": "How to Detect Ransomware Activity on Linux with eBPF",
+    "source_file": "content/how-to-detect-ransomware-activity-on-linux-with-ebpf.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/detect-ransomware-linux-ebpf",
+    "platform": "mastodon",
+    "url": "https://mastodon.social/@bartoszosiej/117474041080783241",
+    "platform_id": "117474041080783241",
+    "title": "How to Detect Ransomware Activity on Linux with eBPF",
+    "source_file": "content/how-to-detect-ransomware-activity-on-linux-with-ebpf.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/detect-ransomware-linux-ebpf",
+    "platform": "discord",
+    "url": null,
+    "platform_id": "1562131671434789036",
+    "title": "How to Detect Ransomware Activity on Linux with eBPF",
+    "source_file": "content/how-to-detect-ransomware-activity-on-linux-with-ebpf.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-vs-traditional-monitoring",
+    "platform": "devto",
+    "url": "https://dev.to/bartoszosiej/ebpf-vs-traditional-monitoring-why-kernel-level-wins-41j8",
+    "platform_id": "4884260",
+    "title": "eBPF vs Traditional Monitoring: Why Kernel-Level Wins",
+    "source_file": "content/ebpf-vs-traditional-monitoring-why-kernel-level-wins.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-vs-traditional-monitoring",
+    "platform": "mastodon",
+    "url": "https://mastodon.social/@bartoszosiej/117474043129404263",
+    "platform_id": "117474043129404263",
+    "title": "eBPF vs Traditional Monitoring: Why Kernel-Level Wins",
+    "source_file": "content/ebpf-vs-traditional-monitoring-why-kernel-level-wins.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-vs-traditional-monitoring",
+    "platform": "discord",
+    "url": null,
+    "platform_id": "1562131802645078058",
+    "title": "eBPF vs Traditional Monitoring: Why Kernel-Level Wins",
+    "source_file": "content/ebpf-vs-traditional-monitoring-why-kernel-level-wins.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/fleet-monitoring-linux-without-kubernetes",
+    "platform": "devto",
+    "url": "https://dev.to/bartoszosiej/fleet-monitoring-for-linux-managing-100-servers-without-kubernetes-p05",
+    "platform_id": "4884261",
+    "title": "Fleet Monitoring for Linux: Managing 100+ Servers Without Kubernetes",
+    "source_file": "content/fleet-monitoring-for-linux-managing-100-servers-without-kubernetes.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/fleet-monitoring-linux-without-kubernetes",
+    "platform": "mastodon",
+    "url": "https://mastodon.social/@bartoszosiej/117474043215282415",
+    "platform_id": "117474043215282415",
+    "title": "Fleet Monitoring for Linux: Managing 100+ Servers Without Kubernetes",
+    "source_file": "content/fleet-monitoring-for-linux-managing-100-servers-without-kubernetes.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/fleet-monitoring-linux-without-kubernetes",
+    "platform": "discord",
+    "url": null,
+    "platform_id": "1562131808030691362",
+    "title": "Fleet Monitoring for Linux: Managing 100+ Servers Without Kubernetes",
+    "source_file": "content/fleet-monitoring-for-linux-managing-100-servers-without-kubernetes.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/linux-process-monitoring-proc-to-ebpf",
+    "platform": "devto",
+    "url": "https://dev.to/bartoszosiej/linux-process-monitoring-from-proc-to-ebpf-20ag",
+    "platform_id": "4884262",
+    "title": "Linux Process Monitoring: From /proc to eBPF",
+    "source_file": "content/linux-process-monitoring-from-proc-to-ebpf.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/linux-process-monitoring-proc-to-ebpf",
+    "platform": "mastodon",
+    "url": "https://mastodon.social/@bartoszosiej/117474045368912754",
+    "platform_id": "117474045368912754",
+    "title": "Linux Process Monitoring: From /proc to eBPF",
+    "source_file": "content/linux-process-monitoring-from-proc-to-ebpf.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/linux-process-monitoring-proc-to-ebpf",
+    "platform": "discord",
+    "url": null,
+    "platform_id": "1562131946841186315",
+    "title": "Linux Process Monitoring: From /proc to eBPF",
+    "source_file": "content/linux-process-monitoring-from-proc-to-ebpf.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/best-ebpf-monitoring-tools-2026",
+    "platform": "bluesky",
+    "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mycymyxhxq2m",
+    "platform_id": "at://did:plc:ii7walqcqw36y2eccgfimf7y/app.bsky.feed.post/3mycymyxhxq2m",
+    "title": "Best eBPF Monitoring Tools in 2026: A Practical Comparison",
+    "source_file": "content/best-ebpf-monitoring-tools-in-2026-a-practical-comparison.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/detect-ransomware-linux-ebpf",
+    "platform": "bluesky",
+    "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mycymzoi6u2p",
+    "platform_id": "at://did:plc:ii7walqcqw36y2eccgfimf7y/app.bsky.feed.post/3mycymzoi6u2p",
+    "title": "How to Detect Ransomware Activity on Linux with eBPF",
+    "source_file": "content/how-to-detect-ransomware-activity-on-linux-with-ebpf.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-vs-traditional-monitoring",
+    "platform": "bluesky",
+    "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mycyn2ague2r",
+    "platform_id": "at://did:plc:ii7walqcqw36y2eccgfimf7y/app.bsky.feed.post/3mycyn2ague2r",
+    "title": "eBPF vs Traditional Monitoring: Why Kernel-Level Wins",
+    "source_file": "content/ebpf-vs-traditional-monitoring-why-kernel-level-wins.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/fleet-monitoring-linux-without-kubernetes",
+    "platform": "bluesky",
+    "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mycyn2rxtf2o",
+    "platform_id": "at://did:plc:ii7walqcqw36y2eccgfimf7y/app.bsky.feed.post/3mycyn2rxtf2o",
+    "title": "Fleet Monitoring for Linux: Managing 100+ Servers Without Kubernetes",
+    "source_file": "content/fleet-monitoring-for-linux-managing-100-servers-without-kubernetes.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/linux-process-monitoring-proc-to-ebpf",
+    "platform": "bluesky",
+    "url": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mycyn3daxn2z",
+    "platform_id": "at://did:plc:ii7walqcqw36y2eccgfimf7y/app.bsky.feed.post/3mycyn3daxn2z",
+    "title": "Linux Process Monitoring: From /proc to eBPF",
+    "source_file": "content/linux-process-monitoring-from-proc-to-ebpf.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/best-ebpf-monitoring-tools-2026",
+    "platform": "telegram",
+    "url": "https://t.me/hartwell_info/45",
+    "platform_id": "45",
+    "title": "Best eBPF Monitoring Tools in 2026: A Practical Comparison",
+    "source_file": "content/best-ebpf-monitoring-tools-in-2026-a-practical-comparison.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/detect-ransomware-linux-ebpf",
+    "platform": "telegram",
+    "url": "https://t.me/hartwell_info/46",
+    "platform_id": "46",
+    "title": "How to Detect Ransomware Activity on Linux with eBPF",
+    "source_file": "content/how-to-detect-ransomware-activity-on-linux-with-ebpf.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/ebpf-vs-traditional-monitoring",
+    "platform": "telegram",
+    "url": "https://t.me/hartwell_info/47",
+    "platform_id": "47",
+    "title": "eBPF vs Traditional Monitoring: Why Kernel-Level Wins",
+    "source_file": "content/ebpf-vs-traditional-monitoring-why-kernel-level-wins.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/fleet-monitoring-linux-without-kubernetes",
+    "platform": "telegram",
+    "url": "https://t.me/hartwell_info/48",
+    "platform_id": "48",
+    "title": "Fleet Monitoring for Linux: Managing 100+ Servers Without Kubernetes",
+    "source_file": "content/fleet-monitoring-for-linux-managing-100-servers-without-kubernetes.md"
+  },
+  {
+    "canonical_url": "https://bo.hartwell-labs.pl/content/linux-process-monitoring-proc-to-ebpf",
+    "platform": "telegram",
+    "url": "https://t.me/hartwell_info/49",
+    "platform_id": "49",
+    "title": "Linux Process Monitoring: From /proc to eBPF",
+    "source_file": "content/linux-process-monitoring-from-proc-to-ebpf.md"
   }
 ]

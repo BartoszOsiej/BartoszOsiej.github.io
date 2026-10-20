@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-20T14:35:04Z",
+  "updated": "2026-10-20T15:54:46Z",
   "posts": {
     "ai-crawler-seo-playbook": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117275794169403963",
@@ -21,12 +21,32 @@
       "linkedin": null,
       "threads": null
     },
+    "best-ebpf-monitoring-tools-2026": {
+      "devto": "https://dev.to/bartoszosiej/best-ebpf-monitoring-tools-in-2026-a-practical-comparison-16ll",
+      "mastodon": "https://mastodon.social/@bartoszosiej/117474040971612104",
+      "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1562131665386606814",
+      "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mycymyxhxq2m",
+      "telegram": "https://t.me/hartwell_info/45",
+      "hashnode": null,
+      "linkedin": null,
+      "threads": null
+    },
     "byok-workers-ai-chat": {
       "devto": "https://dev.to/bartoszosiej/a-free-ai-chat-that-costs-me-nothing-byok-on-cloudflare-workers-ai-5878",
       "mastodon": "https://mastodon.social/@bartoszosiej/117434640654401738",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1559610046856298669",
       "telegram": "https://t.me/hartwell_info/41",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mxrjnclpta2g",
+      "hashnode": null,
+      "linkedin": null,
+      "threads": null
+    },
+    "detect-ransomware-linux-ebpf": {
+      "devto": "https://dev.to/bartoszosiej/how-to-detect-ransomware-activity-on-linux-with-ebpf-3j7p",
+      "mastodon": "https://mastodon.social/@bartoszosiej/117474041080783241",
+      "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1562131671434789036",
+      "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mycymzoi6u2p",
+      "telegram": "https://t.me/hartwell_info/46",
       "hashnode": null,
       "linkedin": null,
       "threads": null
@@ -71,12 +91,42 @@
       "linkedin": null,
       "threads": null
     },
+    "ebpf-vs-traditional-monitoring": {
+      "devto": "https://dev.to/bartoszosiej/ebpf-vs-traditional-monitoring-why-kernel-level-wins-41j8",
+      "mastodon": "https://mastodon.social/@bartoszosiej/117474043129404263",
+      "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1562131802645078058",
+      "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mycyn2ague2r",
+      "telegram": "https://t.me/hartwell_info/47",
+      "hashnode": null,
+      "linkedin": null,
+      "threads": null
+    },
     "externum-language-design": {
       "devto": "https://dev.to/bartoszosiej/externum-a-typed-language-that-transpiles-to-python-and-bash-and-its-own-benchmark-caught-two-2n25",
       "mastodon": "https://mastodon.social/@bartoszosiej/117438863527784564",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1559880310328393839",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvvaayd4rb2w",
       "telegram": "https://t.me/hartwell_info/14",
+      "hashnode": null,
+      "linkedin": null,
+      "threads": null
+    },
+    "fleet-monitoring-linux-without-kubernetes": {
+      "devto": "https://dev.to/bartoszosiej/fleet-monitoring-for-linux-managing-100-servers-without-kubernetes-p05",
+      "mastodon": "https://mastodon.social/@bartoszosiej/117474043215282415",
+      "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1562131808030691362",
+      "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mycyn2rxtf2o",
+      "telegram": "https://t.me/hartwell_info/48",
+      "hashnode": null,
+      "linkedin": null,
+      "threads": null
+    },
+    "linux-process-monitoring-proc-to-ebpf": {
+      "devto": "https://dev.to/bartoszosiej/linux-process-monitoring-from-proc-to-ebpf-20ag",
+      "mastodon": "https://mastodon.social/@bartoszosiej/117474045368912754",
+      "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1562131946841186315",
+      "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mycyn3daxn2z",
+      "telegram": "https://t.me/hartwell_info/49",
       "hashnode": null,
       "linkedin": null,
       "threads": null
