@@ -56,6 +56,8 @@
   let container = null;
   let lastTitle = null;
   let lastPollState = 'idle'; // 'playing' | 'idle' | 'error'
+  let rotationTimer = null;   // ON ROTATION (top_tracks) cycler
+  let rotationIdx = 0;        // persists across polls so the cycle never resets
 
   // ─── DOM Creation ───────────────────────────────────────────
   function createContainer() {
@@ -375,7 +377,7 @@
       // "last scrobbled" — freeze the equalizer for the latter (honest UI).
       if (track.live === false) {
         container.classList.add('np-paused');
-        label.textContent = '[ AUDIO // LAST_SCROBBLED ]';
+        label.textContent = track.badge || '[ AUDIO // LAST_SCROBBLED ]';
       } else {
         container.classList.remove('np-paused');
       }
@@ -515,6 +517,7 @@
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       if (data && data.playing && data.title) {
+        stopRotation();
         updateUI({
           title: data.title,
           artist: data.artist || '',
@@ -522,7 +525,11 @@
           artwork: data.artwork || null,
           url: data.url || null,
         });
+      } else if (data && data.mode === 'top_tracks' && Array.isArray(data.tracks) && data.tracks.length) {
+        // Nothing playing right now → rotate through the weekly rotation.
+        startRotation(data.tracks);
       } else {
+        stopRotation();
         showFallback();
       }
     } catch (err) {
@@ -541,6 +548,7 @@
       clearTimeout(jsonTimer);
       jsonTimer = null;
     }
+    stopRotation();
   }
 
   // ─── MODE B: Lanyard REST (initial fetch) ───────────────────
