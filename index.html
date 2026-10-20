@@ -10,14 +10,10 @@
 <meta name="author" content="Bartosz Osiej">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#050505">
-<!-- Spotify Now Playing — ACTIVE MODE: Last.fm (free Spotify accounts work!).
-     1) Create API account: https://www.last.fm/api/account/create (instant, free)
-        → copy the api_key and paste it into SPOTIFY_LASTFM_KEY below.
-     2) Set SPOTIFY_LASTFM_USER to your last.fm username.
-     3) Connect scrobbling: open Spotify → Settings → turn ON "Scrobble to Last.fm",
-        log in with your last.fm account. That's the whole integration.
-     Optional real-time Lanyard mode: set SPOTIFY_DISCORD_ID and join discord.gg/lanyard. -->
-<script>window.SPOTIFY_LASTFM_USER = "thelightgalaxy"; window.SPOTIFY_LASTFM_KEY = "8a0fd44970b496e5199772f6bfe2ad9c";</script>
+<!-- Spotify Now Playing — ACTIVE MODE: JSON (Cloudflare Worker bo-now-playing).
+     Worker merges Spotify + Last.fm server-side and serves one JSON endpoint
+     with CORS. Secrets live in the worker (SPOTIFY_*), no GH bot commits. -->
+<script>window.SPOTIFY_JSON_URL = "https://bo-now-playing.metaforicmail.workers.dev/now-playing";</script>
 <link rel="canonical" href="https://bo.hartwell-labs.pl/">
 <link rel="me" href="https://github.com/BartoszOsiej">
 <link rel="me" href="https://dev.to/bartoszosiej">
@@ -1226,7 +1222,7 @@ a{color:inherit}
 })();
 </script>
 <!-- Spotify Now Playing — lazy, deferred, 0 layout shift -->
-<script src="js/spotify-now-playing.js?v=20260914e" defer></script>
+<script src="js/spotify-now-playing.js?v=20261020a" defer></script>
 
 <script>
 (function(){

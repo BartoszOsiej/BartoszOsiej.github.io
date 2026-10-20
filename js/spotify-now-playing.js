@@ -33,7 +33,7 @@
     // Mode B — Discord user ID (Lanyard). Empty = skip.
     discordId: (typeof window !== 'undefined' && window.SPOTIFY_DISCORD_ID) || '',
     // Mode C — static JSON published by refresh-spotify.yml
-    jsonUrl: 'now-playing.json',
+    jsonUrl: (typeof window !== 'undefined' && window.SPOTIFY_JSON_URL) || 'now-playing.json',
     jsonPollMs: 60000,
     // Mode B — Lanyard endpoints
     restUrl: 'https://api.lanyard.rest/v1/users/',
