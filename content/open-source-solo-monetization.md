@@ -57,3 +57,10 @@ So: **distribution is the bottleneck, not the product, and not the price.** The 
 - Build log: [t.me/hartwell_info](https://t.me/hartwell_info)
 
 Next milestone I'll report on: first sale, or the first piece of evidence that this pricing model is wrong. Both are useful data.
+
+---
+
+<span style="color:#F15A24;letter-spacing:.15em;font-size:10px;display:block;margin-bottom:6px">FROM THE AUTHOR — TALUS, THE NEXT SUBJECT</span>
+The next experiment in this pricing series is Talus: core detection is MIT and public, while the paid tier is a per-machine annual license with Ed25519-signed keys, server-side seat enforcement and instant activation. If you are responsible for Linux servers in production, this is monitoring that answers ransomware with SIGKILL — and it is priced the way I just described: cheap per machine, cheaper in fleets.
+
+<a href="https://hartwell-labs.pl/talus-process-monitor/" style="color:#F15A24;text-decoration:underline;text-underline-offset:3px;font-weight:700">TALUS_PROCESS_MONITOR →</a> <span style="color:#8B93A3">single server $50/yr · fleet from $30/yr per machine · MIT core</span>

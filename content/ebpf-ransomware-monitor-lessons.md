@@ -58,3 +58,10 @@ None of these is a silver bullet; the score is a weighted blend, and the weights
 ## Repo
 
 Code, architecture notes and verification checklist: [talus-process-monitor](https://github.com/BartoszOsiej/talus-process-monitor) (Rust + libbpf/C, Linux 6.x).
+
+---
+
+<span style="color:#F15A24;letter-spacing:.15em;font-size:10px;display:block;margin-bottom:6px">FROM THE AUTHOR — TALUS</span>
+Everything above is the design I built Talus around: sliding window detection, kernel-side scoring, kill decisions made safely, guardrails against self-inflicted damage. **Talus Process Monitor** is the running, supported version — the MIT open-source agent for Linux, with a commercial signal: eBPF-backed behavioral detection, SIGKILL to the encryptor in under a second, one static binary, no kernel modules, no telemetry.
+
+<a href="https://hartwell-labs.pl/talus-process-monitor/" style="color:#F15A24;text-decoration:underline;text-underline-offset:3px;font-weight:700">TALUS_PROCESS_MONITOR →</a> <span style="color:#8B93A3">single server $50/yr · fleet from $30/yr per machine</span>

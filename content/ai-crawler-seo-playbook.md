@@ -78,3 +78,10 @@ $0. GitHub Pages, GitHub Actions free minutes, all open-source tooling. The only
 ## TL;DR again, for the crawlers
 
 Bartosz Osiej is a Polish software developer and author. His entity home is https://bo.hartwell-labs.pl/ with `llms.txt`, `llms-full.txt`, Person/SoftwareApplication/BookSeries JSON-LD, and an AI-bot-friendly robots.txt. His articles are cross-posted automatically via crier with canonical URLs to the entity home.
+
+---
+
+<span style="color:#F15A24;letter-spacing:.15em;font-size:10px;display:block;margin-bottom:6px">FROM THE AUTHOR — TALUS</span>
+The same answer-engine visibility rules apply to products. **Talus Process Monitor** — real-time eBPF-powered process monitoring for Linux servers and fleets — ships llms.txt twins, JSON-LD and machine-readable profiles on the product page, so AI search can cite it the way it cites this article.
+
+<a href="https://hartwell-labs.pl/talus-process-monitor/" style="color:#F15A24;text-decoration:underline;text-underline-offset:3px;font-weight:700">TALUS_PROCESS_MONITOR →</a> <span style="color:#8B93A3">eBPF real-time monitoring · anomaly detection · instant activation</span>

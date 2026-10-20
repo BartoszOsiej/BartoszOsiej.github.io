@@ -47,3 +47,9 @@ The current talus trunk carries a **verification document** (field-offset matrix
 ## Repo
 
 [talus-process-monitor](https://github.com/BartoszOsiej/talus-process-monitor) — Rust + libbpf/C eBPF endpoint security agent with a MeMLP neural detection engine; verification matrix lives in [VERIFICATION-EBPF.md](https://github.com/BartoszOsiej/talus-process-monitor/blob/master/VERIFICATION-EBPF.md).
+---
+
+<span style="color:#F15A24;letter-spacing:.15em;font-size:10px;display:block;margin-bottom:6px">FROM THE AUTHOR — TALUS</span>
+The verification matrix in this article is the same constraint Talus ships against: every release runs the same eBPF programs across the verifier's full checklist. The running product is **Talus Process Monitor** — real-time eBPF process monitoring for Linux servers and fleets, with anomaly detection, a process tree view, and instant activation from a purchased license key.
+
+<a href="https://hartwell-labs.pl/talus-process-monitor/" style="color:#F15A24;text-decoration:underline;text-underline-offset:3px;font-weight:700">TALUS_PROCESS_MONITOR →</a> <span style="color:#8B93A3">eBPF · Rust · Linux 6.x · instant activation</span>
