@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-20T15:54:46Z",
+  "updated": "2026-10-20T16:00:39Z",
   "posts": {
     "ai-crawler-seo-playbook": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117275794169403963",
-      "devto": "https://dev.to/bartoszosiej/i-made-my-portfolio-readable-to-ai-crawlers-llmstxt-json-ld-and-a-40-method-distribution-stack-144p",
+      "devto": "https://dev.to/bartoszosiej/i-made-my-portfolio-readable-to-ai-crawlers-llmstxt-json-ld-and-a-40-method-distribution-stack-4e2k",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1559880280632852585",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7z7c4pg2z",
       "telegram": "https://t.me/hartwell_info/15",
@@ -13,7 +13,7 @@
     },
     "aurora-postmortem": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117275794202336983",
-      "devto": "https://dev.to/bartoszosiej/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-were-404s-and-1p3",
+      "devto": "https://dev.to/bartoszosiej/a-web-os-that-never-booted-the-two-bugs-that-looked-like-kernel-failures-but-were-404s-and-akj",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1559880288341983233",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7z7rnio2k",
       "telegram": "https://t.me/hartwell_info/20",
@@ -73,7 +73,7 @@
     },
     "ebpf-ransomware-monitor-lessons": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117275794248410289",
-      "devto": "https://dev.to/bartoszosiej/catching-ransomware-with-ebpf-what-execveopenat-tracing-taught-me-about-false-positives-4676",
+      "devto": "https://dev.to/bartoszosiej/catching-ransomware-with-ebpf-what-execveopenat-tracing-taught-me-about-false-positives-4a6e",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1559880298710171730",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zaem7t2f",
       "telegram": "https://t.me/hartwell_info/17",
@@ -83,7 +83,7 @@
     },
     "ebpf-verifier-design-constraint": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117275794279724840",
-      "devto": "https://dev.to/bartoszosiej/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounded-loops-taught-me-1akc",
+      "devto": "https://dev.to/bartoszosiej/ebpf-verifier-limits-are-a-design-constraint-what-co-re-field-offsets-and-bounded-loops-taught-me-1ngm",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1559880303114190910",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zaviay2i",
       "telegram": "https://t.me/hartwell_info/18",
@@ -143,7 +143,7 @@
     },
     "trustnode-validator-lessons": {
       "mastodon": "https://mastodon.social/@bartoszosiej/117275794424736157",
-      "devto": "https://dev.to/bartoszosiej/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actually-force-you-to-14h9",
+      "devto": "https://dev.to/bartoszosiej/building-a-solana-like-validator-in-rust-what-poh-tower-bft-and-sealevel-actually-force-you-to-3o67",
       "discord": "https://discord.com/channels/1549465017290727534/1549465017290727534/1559880320348856431",
       "bluesky": "https://bsky.app/profile/bartoszosiej.bsky.social/post/3mvv7zc4r642c",
       "telegram": "https://t.me/hartwell_info/19",
