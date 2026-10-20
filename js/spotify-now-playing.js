@@ -543,6 +543,33 @@
     jsonTimer = setInterval(pollJson, CONFIG.jsonPollMs);
   }
 
+  // ─── ON ROTATION: cycle the weekly top tracks (honest "not live" UI) ──
+  function startRotation(tracks) {
+    stopRotation();
+    const render = () => {
+      const t = tracks[rotationIdx % tracks.length];
+      updateUI({
+        title: t.title,
+        artist: t.artist || '',
+        album: 'ON ROTATION',
+        artwork: t.artwork || null,
+        url: t.url || null,
+        live: false,
+        badge: '[ AUDIO // ON_ROTATION ]',
+      });
+      rotationIdx += 1;
+    };
+    render();
+    rotationTimer = setInterval(render, 8000);
+  }
+
+  function stopRotation() {
+    if (rotationTimer) {
+      clearInterval(rotationTimer);
+      rotationTimer = null;
+    }
+  }
+
   function stopJsonPolling() {
     if (jsonTimer) {
       clearTimeout(jsonTimer);
