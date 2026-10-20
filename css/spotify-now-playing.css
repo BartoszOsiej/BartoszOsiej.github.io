@@ -41,6 +41,7 @@
   width: 320px;
   max-width: calc(100vw - 32px);
   z-index: 9999;
+  opacity: 0.8;
   background: rgba(5, 5, 5, 0.95);
   border: 1px solid var(--np-slate);
   box-shadow: 6px 6px 0 rgba(34, 34, 42, 0.9);
@@ -188,9 +189,6 @@
   animation: none;
   height: 6px;
   opacity: 0.5;
-}
-.np-playing.np-paused {
-  background: none;
 }
 
 /* Equalizer bounce keyframes — two-wave motion so bars never look
