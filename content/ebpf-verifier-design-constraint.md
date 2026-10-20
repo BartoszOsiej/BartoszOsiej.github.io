@@ -1,4 +1,6 @@
 ---
+seo_title: "eBPF verifier limits as a design constraint"
+permalink: /content/ebpf-verifier-design-constraint/
 title: "eBPF verifier limits are a design constraint: what CO-RE field offsets and bounded loops taught me"
 description: "Writing kernel eBPF programs in a portable way — CO-RE relocation, verifier-friendly loops, amortized map design — from the trenches of talus-process-monitor and its CI verification chain."
 tags: [ebpf, rust, kernel, linux, verification]

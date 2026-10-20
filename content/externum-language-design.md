@@ -1,4 +1,6 @@
 ---
+seo_title: "Externum: a typed language transpiling to Python and Bash"
+permalink: /content/externum-language-design/
 title: "Externum: a typed language that transpiles to Python and Bash — and its own benchmark caught two real bugs"
 description: "How Externum compiles the same program to readable Python, standalone Bash, and a source-less bytecode artifact — what the design costs, what the benchmark proved, and the two VM bugs it exposed."
 tags: [compilers, python, bash, programming-languages, buildinpublic]

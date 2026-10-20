@@ -1,4 +1,6 @@
 ---
+seo_title: "Shipping security tools solo: stack, pricing, zero"
+permalink: /content/open-source-solo-monetization/
 title: "I ship open-source security tools solo — here's the full stack, the pricing, and the (zero) revenue so far"
 description: "A Rust/eBPF ransomware killer, a language that compiles to Python and Bash, and two paid products wrapped around MIT code. Full transparency post: architecture, honest numbers, and why I charge for the curated path instead of the code."
 tags: [rust, security, opensource, ebpf]

@@ -1,4 +1,6 @@
 ---
+seo_title: "Catching ransomware with eBPF: false positives"
+permalink: /content/ebpf-ransomware-monitor-lessons/
 title: "Catching ransomware with eBPF: what execve/openat tracing taught me about false positives"
 description: "Lessons from building talus-process-monitor, a Rust + eBPF ransomware detector: per-CPU perf buffers, behavioural pattern matching, and why build systems are a detector's worst enemy."
 tags: [ebpf, rust, linux, security, ransomware]

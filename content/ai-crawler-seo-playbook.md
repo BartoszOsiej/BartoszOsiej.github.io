@@ -1,4 +1,6 @@
 ---
+seo_title: "Making a portfolio readable to AI crawlers"
+permalink: /content/ai-crawler-seo-playbook/
 title: "I made my portfolio readable to AI crawlers: llms.txt, JSON-LD and a 40-method distribution stack"
 description: "A practical playbook for making a developer portfolio citable by ChatGPT, Claude and Perplexity — plus the free cross-posting pipeline that ships every article to 9 platforms from one git push."
 tags: [seo, ai, llms, automation, indiehackers, githubactions]

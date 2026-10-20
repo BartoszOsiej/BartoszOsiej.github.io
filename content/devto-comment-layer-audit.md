@@ -1,4 +1,6 @@
 ---
+seo_title: "dev.to's engagement layer, measured"
+permalink: /content/devto-comment-layer-audit/
 title: "I measured dev.to's engagement layer. 92% of posts get zero reactions, and the good comments aren't people."
 description: "An evidence-based audit of synthetic engagement on dev.to: 460 posts sampled through the public API, 1,366 comments across 346 accounts, and why comment volume is the one metric you should never treat as signal."
 tags: [security, forensics, data-analysis, python, devto, content-strategy, measurements]

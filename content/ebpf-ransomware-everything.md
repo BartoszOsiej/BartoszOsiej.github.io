@@ -1,4 +1,5 @@
 ---
+permalink: /content/ebpf-ransomware-everything/
 title: "Detecting ransomware with eBPF in Rust"
 description: "A hands-on tutorial: hook execve/openat tracepoints with Aya, stream events through per-CPU perf buffers, and build a 1-second sliding-window detector that can kill ransomware processes on Linux."
 tags: [ebpf, rust, linux, security, ransomware, tutorial]

@@ -1,4 +1,6 @@
 ---
+seo_title: "A free BYOK AI chat on Cloudflare Workers"
+permalink: /content/byok-workers-ai-chat/
 title: "A free AI chat that costs me nothing: BYOK on Cloudflare Workers AI"
 description: "How to run a public AI chat where every user pays from their own Cloudflare quota: token verification, account discovery, a streaming proxy, and the prompt-leak bug nobody warns you about."
 tags: [cloudflare, workers-ai, byok, security, javascript, architecture]

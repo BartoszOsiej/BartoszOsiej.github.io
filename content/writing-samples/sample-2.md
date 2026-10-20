@@ -1,4 +1,5 @@
 ---
+permalink: /writing/sample-2/
 layout: writing-sample
 title: "Detecting ransomware with eBPF in Rust"
 client: "Original tutorial — published 2026-09-16"

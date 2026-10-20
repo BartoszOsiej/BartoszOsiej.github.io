@@ -1,3 +1,11 @@
+---
+title: "Build in public: the 30-day prompt calendar"
+seo_title: "Build in public: the 30-day prompt calendar"
+permalink: /content/bip-calendar/
+layout: post
+description: "Source for bip-draft.yml — 30 daily prompt sections, one per day, auto-enriched with yesterday's commits."
+---
+
 # Build-in-public: 30-day prompt calendar
 
 Source for `bip-draft.yml` — the workflow picks `Day N = (day-of-year mod 30)`.

@@ -1,4 +1,5 @@
 ---
+permalink: /writing/sample-1/
 layout: writing-sample
 title: "Catching ransomware with eBPF: what execve/openat tracing taught me about false positives"
 client: "Original article — published 2026-09-13"

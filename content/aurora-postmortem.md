@@ -1,4 +1,6 @@
 ---
+seo_title: "Aurora post-mortem: two boring bugs"
+permalink: /content/aurora-postmortem/
 title: "A web OS that 'never booted': the two bugs that looked like kernel failures but were 404s and z-index"
 description: "Aurora (a browser-based OS) stuck on 'Initializing kernel…' for days. The kernel was fine — the bundles were 404ing from GitHub Pages, and then desktop icons refused clicks because of one CSS line. Post-mortem."
 tags: [web, typescript, debugging, deploy, github-pages]
